@@ -1,6 +1,6 @@
 import Navbar from '../../components/navbar'
 import Footer from '../../components/Footer'
-import icons2 from '../../assets/icons/Icons'
+import PP from '../../assets/hero_banner.jpg'
 
 const Home = () => {
    return (
@@ -32,63 +32,19 @@ const Home = () => {
                <p className='font-semibold text-black'>Training Offline / Private</p>
             </div>
          </div>
-         <div className='py-[50px]'>
+         <div className='py-[50px] bg-white'>
             <h2 className='text-center font-semibold text-blue text-3xl'>Kelas Dibuka</h2>
             <div className='flex justify-center mt-[20px]'>
                <div className='h-[2px] bg-blue w-[600px]'></div>
             </div>
             <div className='container mx-auto mt-[30px] flex flex-wrap gap-[10px] justify-center'>
                {/* item */}
-               <div className='border'>
-                  <div className='p-[10px] w-[240px]'>
-                     <img src={icons2} id='imageClass' className='w-[100px]' />
-                     <div className='mt-[15px] flex flex-col gap-[5px]'>
-                        <h3 className='font-semibold text-[18px] line-clamp-2'>Learn Manufacturing</h3>
-                        <p className='line-clamp-2'>Optimalkan Produksi Tanpa Boros</p>
-                        <h3 className='font-semibold text-[15px]'>25 Nov - 10 Des 2024</h3>
-                     </div>
-                  </div>
-                  <div className='bg-blue'>
-                     <a href="#" className='flex justify-center text-[14px] py-[10px] text-white font-semibold tracking-[1px]'>Daftar Sekarang</a>
-                  </div>
-               </div>
-               <div className='border'>
-                  <div className='p-[10px] w-[240px]'>
-                     <img src={icons2} id='imageClass' className='w-[100px]' />
-                     <div className='mt-[15px] flex flex-col gap-[5px]'>
-                        <h3 className='font-semibold text-[18px] line-clamp-2'>Learn Manufacturing</h3>
-                        <p className='line-clamp-2'>Optimalkan Produksi Tanpa Boros</p>
-                        <h3 className='font-semibold text-[15px]'>25 Nov - 10 Des 2024</h3>
-                     </div>
-                  </div>
-                  <div className='bg-blue'>
-                     <a href="#" className='flex justify-center text-[14px] py-[10px] text-white font-semibold tracking-[1px]'>Daftar Sekarang</a>
-                  </div>
-               </div>
-               <div className='border'>
-                  <div className='p-[10px] w-[240px]'>
-                     <img src={icons2} id='imageClass' className='w-[100px]' />
-                     <div className='mt-[15px] flex flex-col gap-[5px]'>
-                        <h3 className='font-semibold text-[18px] line-clamp-2'>Learn Manufacturing</h3>
-                        <p className='line-clamp-2'>Optimalkan Produksi Tanpa Boros</p>
-                        <h3 className='font-semibold text-[15px]'>25 Nov - 10 Des 2024</h3>
-                     </div>
-                  </div>
-                  <div className='bg-blue'>
-                     <a href="#" className='flex justify-center text-[14px] py-[10px] text-white font-semibold tracking-[1px]'>Daftar Sekarang</a>
-                  </div>
-               </div>
-               <div className='border'>
-                  <div className='p-[10px] w-[240px]'>
-                     <img src={icons2} id='imageClass' className='w-[100px]' />
-                     <div className='mt-[15px] flex flex-col gap-[5px]'>
-                        <h3 className='font-semibold text-[18px] line-clamp-2'>Learn Manufacturing</h3>
-                        <p className='line-clamp-2'>Optimalkan Produksi Tanpa Boros</p>
-                        <h3 className='font-semibold text-[15px]'>25 Nov - 10 Des 2024</h3>
-                     </div>
-                  </div>
-                  <div className='bg-blue'>
-                     <a href="#" className='flex justify-center text-[14px] py-[10px] text-white font-semibold tracking-[1px]'>Daftar Sekarang</a>
+               <div className='bg-white text-black max-w-[272px]'>
+                  <img src={PP} id='course-photo' />
+                  <div className='mt-[10px]'>
+                     <p className='text-[13px] text-light-grey'>20 - 30 December 2024</p>
+                     <p className='font-semibold text-[17px]'>Career Meetup with Design & Development</p>
+                     <a href="#" className='text-[12px] text-blue font-semibold'>More Details</a>
                   </div>
                </div>
             </div>

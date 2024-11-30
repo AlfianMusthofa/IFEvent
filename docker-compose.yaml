@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  IFEvent:
+    container_name: alfnz89/IFEvent
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./src:/app/src
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
