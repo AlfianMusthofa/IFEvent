@@ -1,6 +1,6 @@
 import Navbar from '../../components/navbar'
 import Footer from '../../components/Footer'
-import PP from '../../assets/hero_banner.jpg'
+import PP from '../../assets/raw.png'
 
 const Home = () => {
    return (
@@ -37,13 +37,53 @@ const Home = () => {
             <div className='flex justify-center mt-[20px]'>
                <div className='h-[2px] bg-blue w-[600px]'></div>
             </div>
-            <div className='container mx-auto mt-[30px] flex flex-wrap gap-[10px] justify-center'>
+            <div className='container mx-auto mt-[30px] flex flex-wrap gap-[13px] justify-center'>
                {/* item */}
                <div className='bg-white text-black max-w-[272px]'>
                   <img src={PP} id='course-photo' />
                   <div className='mt-[10px]'>
                      <p className='text-[13px] text-light-grey'>20 - 30 December 2024</p>
-                     <p className='font-semibold text-[17px]'>Career Meetup with Design & Development</p>
+                     <p className='font-semibold text-[17px] leading-[24px] line-clamp-2'>Career Meetup with Design & Development</p>
+                     <a href='/detail' className='text-[12px] text-blue font-semibold'>More Details</a>
+                  </div>
+               </div>
+               <div className='bg-white text-black max-w-[272px]'>
+                  <img src={PP} id='course-photo' />
+                  <div className='mt-[10px]'>
+                     <p className='text-[13px] text-light-grey'>20 - 30 December 2024</p>
+                     <p className='font-semibold text-[17px] leading-[24px] line-clamp-2'>Career Meetup with Design & Development</p>
+                     <a href="#" className='text-[12px] text-blue font-semibold'>More Details</a>
+                  </div>
+               </div>
+               <div className='bg-white text-black max-w-[272px]'>
+                  <img src={PP} id='course-photo' />
+                  <div className='mt-[10px]'>
+                     <p className='text-[13px] text-light-grey'>20 - 30 December 2024</p>
+                     <p className='font-semibold text-[17px] leading-[24px] line-clamp-2'>Career Meetup with Design & Development</p>
+                     <a href="#" className='text-[12px] text-blue font-semibold'>More Details</a>
+                  </div>
+               </div>
+               <div className='bg-white text-black max-w-[272px]'>
+                  <img src={PP} id='course-photo' />
+                  <div className='mt-[10px]'>
+                     <p className='text-[13px] text-light-grey'>20 - 30 December 2024</p>
+                     <p className='font-semibold text-[17px] leading-[24px] line-clamp-2'>Career Meetup with Design & Development</p>
+                     <a href="#" className='text-[12px] text-blue font-semibold'>More Details</a>
+                  </div>
+               </div>
+               <div className='bg-white text-black max-w-[272px]'>
+                  <img src={PP} id='course-photo' />
+                  <div className='mt-[10px]'>
+                     <p className='text-[13px] text-light-grey'>20 - 30 December 2024</p>
+                     <p className='font-semibold text-[17px] leading-[24px] line-clamp-2'>Career Meetup with Design & Development</p>
+                     <a href="#" className='text-[12px] text-blue font-semibold'>More Details</a>
+                  </div>
+               </div>
+               <div className='bg-white text-black max-w-[272px]'>
+                  <img src={PP} id='course-photo' />
+                  <div className='mt-[10px]'>
+                     <p className='text-[13px] text-light-grey'>20 - 30 December 2024</p>
+                     <p className='font-semibold text-[17px] leading-[24px] line-clamp-2'>Career Meetup with Design & Development</p>
                      <a href="#" className='text-[12px] text-blue font-semibold'>More Details</a>
                   </div>
                </div>
