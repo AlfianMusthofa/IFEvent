@@ -9,9 +9,16 @@ export default {
          colors: {
             'black': '#2d2d2d',
             'blue': '#004aad',
+            'light-grey': '#9E9E9E',
+            'lighter-grey': '#F2F4FB'
          }
       },
    },
-   plugins: [],
+   plugins: [
+      require('daisyui'),
+   ],
+   daisyui: {
+      themes: []
+   }
 }
 

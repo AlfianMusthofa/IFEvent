@@ -61,7 +61,7 @@ const Footer = () => {
             </div>
          </div>
          <div className='bg-[#00377f]'>
-            <div className='container text-[13px] mx-auto text-white py-[20px] flex justify-center gap-[40px]'>
+            <div className='container text-[13px] mx-auto text-white py-[15px] flex justify-center gap-[40px]'>
                <p>2024 - Informatika UIN Bandung</p>
                <a href="#" className='hover:underline'>Validasi Sertifikat</a>
                <a href="#" className='hover:underline'>Kebijakan Privasi</a>
