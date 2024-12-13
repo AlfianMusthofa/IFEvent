@@ -6,6 +6,7 @@
 
 * {
    font-family: 'Roboto', sans-serif;
+   transition: all 0.3s ease-in-out;
 }
 
 .hero {
@@ -28,4 +29,8 @@
    height: 154px;
    background-position: center;
    background-size: cover;
+}
+
+.box-price {
+   border: 2px solid blue;
 }
