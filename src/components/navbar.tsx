@@ -15,7 +15,7 @@ const Navbar = () => {
                   <a href="/history" className="hover:underline">History</a>
                   <a href="#" className="hover:underline">Tentang</a>
                   <a href="#" className="hover:underline">Mitra</a>
-                  <a href="#" className="hover:underline">Login Akun</a>
+                  <a href="/login" className="hover:underline">Login Akun</a>
                </div>
             </div>
          </div>

@@ -6,6 +6,9 @@ import EventDetail from './pages/Main/EventDetail'
 import ClassList from './pages/Main/ClassList'
 import History from './pages/History/History'
 import HistoryDetail from './pages/History/HistoryDetail'
+import Login from './pages/Auth/Login'
+import Register from './pages/Auth/Register'
+import AdminLogin from './pages/Auth/AdminLogin'
 
 const App = () => {
    return (
@@ -17,6 +20,9 @@ const App = () => {
             <Route path='/classlist' element={<ClassList />} />
             <Route path='/history' element={<History />} />
             <Route path='/history-detail' element={<HistoryDetail />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/register' element={<Register />} />
+            <Route path='/admin-login' element={<AdminLogin />} />
          </Routes>
       </BrowserRouter>
    )
