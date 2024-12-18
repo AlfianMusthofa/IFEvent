@@ -10,8 +10,8 @@
 }
 
 .hero {
-   background-image: url('./assets/hero_banner.jpg');
-   height: 400px;
+   background-image: url('./assets/bg.jpg');
+   height: 455px;
    background-position: center;
    background-size: cover;
    background-repeat: no-repeat;
@@ -20,17 +20,29 @@
    padding-left: 40px;
 }
 
-.heroContent {
-   background-color: rgba(255, 255, 255, 0.8);
-}
+/* .heroContent {
+   background-color: rgba(255, 255, 255, 0.2);
+} */
 
 #course-photo {
    width: 272px;
    height: 154px;
    background-position: center;
    background-size: cover;
+   border-radius: 0;
 }
 
 .box-price {
    border: 2px solid blue;
+}
+
+#history-category {
+   font-size: 11px;
+   border: 1px solid black;
+   padding: 3px 6px;
+   border-radius: 50px;
+}
+
+#history-more {
+   border: 1px solid #ffd801;
 }

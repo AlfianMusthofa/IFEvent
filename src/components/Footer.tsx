@@ -9,7 +9,7 @@ import tiktok from '../assets/icons/tiktok.png'
 const Footer = () => {
    return (
       <>
-         <div className="bg-blue">
+         <div className="bg-yellow-primer">
             <div className="container mx-auto text-white py-[30px] flex justify-between">
                <div className="col">
                   <h3 className="text-3xl font-semibold tracking-wide">IFEVENT</h3>
@@ -60,7 +60,7 @@ const Footer = () => {
                </div>
             </div>
          </div>
-         <div className='bg-[#00377f]'>
+         <div className='bg-yellow-secondary'>
             <div className='container text-[13px] mx-auto text-white py-[15px] flex justify-center gap-[40px]'>
                <p>2024 - Informatika UIN Bandung</p>
                <a href="#" className='hover:underline'>Validasi Sertifikat</a>
