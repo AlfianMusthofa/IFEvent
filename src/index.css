@@ -50,3 +50,7 @@
 .border-yellow {
    border: 1px solid #ffd801;
 }
+
+.border-table-top-css {
+   border-top: 1px solid rgb(112, 112, 112);
+}

@@ -8,14 +8,13 @@ const Navbar = () => {
                <div>
                   <a href="/"><img src={Logo} className='w-[60px]' /></a>
                </div>
-               <div className="flex items-center gap-[14px] text-[15px]">
-                  <a href="#" className="hover:underline">Beranda</a>
-                  <a href="#" className="hover:underline">Kelas</a>
-                  <a href="#" className="hover:underline">Corporate</a>
+               <div className="flex items-center gap-[14px] text-[15px] text-black font-medium">
+                  <a href="#" className="hover:underline">Home</a>
+                  <a href="#" className="hover:underline">Events</a>
                   <a href="/history" className="hover:underline">History</a>
-                  <a href="#" className="hover:underline">Tentang</a>
-                  <a href="#" className="hover:underline">Mitra</a>
-                  <a href="/login" className="hover:underline">Login Akun</a>
+                  <a href="#" className="hover:underline">About</a>
+                  <a href="#" className="hover:underline">Partner</a>
+                  <a href="/login" className="hover:underline">Login</a>
                </div>
             </div>
          </div>

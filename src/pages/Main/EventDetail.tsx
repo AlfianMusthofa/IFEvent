@@ -75,7 +75,7 @@ const EventDetail = () => {
             </div>
          </div>
          {/* Syllabus */}
-         <div className="div bg-lighter-grey mt-[20px] py-[30px]">
+         <div className="div  mt-[20px] py-[30px]">
             <div className="container mx-auto flex gap-[20px]">
                <Syllabus />
                <div className="w-full flex flex-col gap-[20px]">

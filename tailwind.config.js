@@ -12,7 +12,8 @@ export default {
             'light-grey': '#9E9E9E',
             'lighter-grey': '#F2F4FB',
             'yellow-primer': '#ffd801',
-            'yellow-secondary': '#f7b603'
+            'yellow-secondary': '#f7b603',
+            'yellow-light': '#fffcde'
          }
       },
    },
