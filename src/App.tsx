@@ -12,6 +12,7 @@ import AdminLogin from './pages/Auth/AdminLogin'
 import Events from './pages/Admin/Events/Events'
 import Posts from './pages/Admin/Posts/Posts'
 import Form from './pages/Admin/Events/Form'
+import About from './pages/About/About'
 
 const App = () => {
    return (
@@ -29,6 +30,7 @@ const App = () => {
             <Route path='/dashboard' element={<Events />} />
             <Route path='/dashboard/posts' element={<Posts />} />
             <Route path='/dashboard/event/add' element={<Form />} />
+            <Route path='/about' element={<About />} />
          </Routes>
       </BrowserRouter>
    )

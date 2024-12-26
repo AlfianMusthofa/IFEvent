@@ -1,5 +1,5 @@
 import React from 'react'
-import PP from '../../assets/raw.png'
+import RAW from '../../assets/raw-bg.jpg'
 
 interface CardProps {
    title: string,
@@ -8,13 +8,13 @@ interface CardProps {
 const Card: React.FC<CardProps> = ({ title }) => {
    return (
       <>
-         <div className='bg-white text-black max-w-[240px]'>
-            <img src={PP} id='course-photo' />
-            <div className='mt-[10px]'>
-               <p className='text-[13px] text-light-grey'>20 - 30 December 2024</p>
-               <p className='font-semibold text-[17px] leading-[24px] line-clamp-2'>{title}</p>
-               {/* <a href='/detail' className='text-[12px] text-yellow-primer font-semibold'>More Details</a> */}
-               <a href='/detail' className='text-[12px] text-white font-medium bg-yellow-primer flex justify-center py-[9px] mt-[6px]'>More Details</a>
+         <div className='p-[10px] rounded-[5px] max-w-[235px] shadow-md border'>
+            <img src={RAW} className='w-full h-[125px] object-cover rounded-[5px]' />
+            <div className="content pt-[10px]">
+               <p className='line-clamp-1 text-[15px] font-medium'>{title}</p>
+               <p className='text-[11px] text-lighter-grey-grey'>24 December 2024</p>
+               <p className='line-clamp-2 text-[12px] mt-[7px] text-light-grey'>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione libero ab laboriosam totam quia voluptatum sed officiis commodi numquam incidunt?</p>
+               <a href="#" className='bg-yellow-primer rounded-[5px] text-[12px] flex justify-center py-[7px] mt-[7px]'>More Details</a>
             </div>
          </div>
       </>

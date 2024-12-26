@@ -44,7 +44,6 @@ const Home = () => {
             </div>
          </div>
          <div className='flex justify-center items-center bg-yellow-light gap-[40px] py-[50px]'>
-
             <div className='flex flex-col items-center text-center'>
                <h3 className='text-3xl font-semibold text-black'>350+</h3>
                <p className='font-semibold text-black'>Event Participants</p>
@@ -69,7 +68,7 @@ const Home = () => {
                ))}
             </div>
             <div className='flex justify-center mt-[40px]'>
-               <a href="/classlist" className='text-[14px] px-[30px] py-[10px] rounded-full bg-yellow-primer text-black tracking-wide font-medium'>Lihat Semua Kelas</a>
+               <a href="/classlist" className='text-[14px] px-[30px] py-[10px] rounded-full bg-yellow-primer text-black tracking-wide font-medium'>See All Events</a>
             </div>
          </div>
          <Sponsors />
