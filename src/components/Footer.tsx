@@ -13,9 +13,9 @@ const Footer = () => {
             <div className="container mx-auto text-black py-[30px] flex justify-between">
                <div className="col">
                   <h3 className="text-3xl font-semibold tracking-wide">SAKTIEvent</h3>
-                  <div className="my-[20px]">
-                     <p>IFEvent adalah solusi belajar online yang fleksibel.</p>
-                     <p>Tersedia berbagai kelas skill praktis untuk memenuhi kebutuhan karir dan bisnis anda.</p>
+                  <div className="my-[20px] w-[570px]">
+                     <p>SAKTIEvent is an inspirational educational event organizer platform</p>
+                     <p>We offer practical seminars and trainings to support your career development, skills and technology insights.</p>
                   </div>
                   <p className="text-[18px] font-semibold tracking-wide">Informatika UIN Sunan Gunung Djati Bandung</p>
                   <div className='my-[20px] flex flex-col gap-[15px]'>

@@ -84,14 +84,14 @@ const About = () => {
             </div>
             <div className="container mx-auto py-5">
                <Marquee gradient={true} pauseOnHover={true}>
-                  <Lecturer name="Dian Sa'adillah Maylawati, S.Kom., MT., Ph.D" email="diansm@uinsgd.ac.id" image={dosen} scholar="https://scholar.google.com/citations?hl=en&user=0yCYlb4AAAAJ" />
-                  <Lecturer name="Cepy Slamet, Ph.D" email="cepy_lucky@uinsgd.ac.id" image={dosen2} scholar="https://scholar.google.com/citations?hl=en&user=0yCYlb4AAAAJ" />
-                  <Lecturer name="Wisnu Uriawan, Ph.D" email="wisnu_u@uinsgd.ac.id" image={dosen3} scholar="https://scholar.google.com/citations?hl=en&user=0yCYlb4AAAAJ" />
-                  <Lecturer name="Mohamad Irfan, Ph.D" email="irfan.bahaf@uinsgd.ac.id" image={dosen4} scholar="https://scholar.google.com/citations?hl=en&user=0yCYlb4AAAAJ" />
-                  <Lecturer name="Gitarja Sandi, S.T, M.T" email="sandi@uinsgd.ac.id" image={dosen5} scholar="https://scholar.google.com/citations?hl=en&user=0yCYlb4AAAAJ" />
-                  <Lecturer name="Agung Wahana, MT" email="wahana.agung@uinsgd.ac.id" image={dosen6} scholar="https://scholar.google.com/citations?hl=en&user=0yCYlb4AAAAJ" />
-                  <Lecturer name="Diena Rauda Ramdania" email="diena.rauda@uinsgd.ac.id" image={dosen7} scholar="https://scholar.google.com/citations?hl=en&user=0yCYlb4AAAAJ" />
-                  <Lecturer name="Yana Aditia Gerhana" email="yanagerhana@uinsgsd.ac.id" image={dosen8} scholar="https://scholar.google.com/citations?hl=en&user=0yCYlb4AAAAJ" />
+                  <Lecturer name="Dian Sa'adillah Maylawati, S.Kom., MT., Ph.D" email="diansm@uinsgd.ac.id" image={dosen} scholar="" />
+                  <Lecturer name="Cepy Slamet, Ph.D" email="cepy_lucky@uinsgd.ac.id" image={dosen2} scholar="" />
+                  <Lecturer name="Wisnu Uriawan, Ph.D" email="wisnu_u@uinsgd.ac.id" image={dosen3} scholar="" />
+                  <Lecturer name="Mohamad Irfan, Ph.D" email="irfan.bahaf@uinsgd.ac.id" image={dosen4} scholar="" />
+                  <Lecturer name="Gitarja Sandi, S.T, M.T" email="sandi@uinsgd.ac.id" image={dosen5} scholar="" />
+                  <Lecturer name="Agung Wahana, MT" email="wahana.agung@uinsgd.ac.id" image={dosen6} scholar="" />
+                  <Lecturer name="Diena Rauda Ramdania" email="diena.rauda@uinsgd.ac.id" image={dosen7} scholar="" />
+                  <Lecturer name="Yana Aditia Gerhana" email="yanagerhana@uinsgsd.ac.id" image={dosen8} scholar="" />
                </Marquee>
                <div className="my-3"></div>
                <Marquee direction="right" gradient={true} pauseOnHover={true}>
@@ -102,7 +102,9 @@ const About = () => {
                   <Lecturer name="Cecep Nurul Alam, M.T" email="cenura@uinsgd.ac.id" image={dosen13} scholar="" />
                   <Lecturer name="Ichsan Budiman, M.T" email="ichsanbudiman@uinsgd.ac.id" image={dosen14} scholar="" />
                   <Lecturer name="Muhammad Insan Al-Amin, S.T., M.T." email="muhammad.insanalamin@uinsgd.ac.id" image={dosen15} scholar="" />
-                  <Lecturer name="Aldy Rialdy Atmadja, MT." email="aldyrialdy@uinsgd.ac.id" image={dosen16} scholar="" />
+                  <Lecturer name="Muhammad Deden Firdaus, ST, M.Kom" email="deden@uinsgd.ac.id" image={dosen16} scholar="" />
+                  <Lecturer name="Eva Nurlatifah, S.T, M.Sc" email="evanurlatifah@uinsgd.ac.id" image={dosen17} scholar="" />
+                  <Lecturer name="Aldy Rialdy Atmadja, MT." email="aldyrialdy@uinsgd.ac.id" image={dosen18} scholar="" />
                </Marquee>
             </div>
             <Footer />

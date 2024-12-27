@@ -13,7 +13,7 @@ const Navbar = () => {
                   <a href="#" className="hover:underline">Events</a>
                   <a href="/history" className="hover:underline">History</a>
                   <a href="/about" className="hover:underline">About</a>
-                  <a href="#" className="hover:underline">Partner</a>
+                  <a href="/partners" className="hover:underline">Partner</a>
                   <a href="/login" className="hover:underline">Login</a>
                </div>
             </div>
