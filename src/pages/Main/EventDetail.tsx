@@ -1,7 +1,7 @@
 import Navbar from "../../components/navbar"
 import PP from '../../assets/raw.png'
 import Person from '../../assets/person.jpg'
-import CardPayment from "../../components/EventDetail/CardPayment"
+// import CardPayment from "../../components/EventDetail/CardPayment"
 import Syllabus from "../../components/Home/Syllabus"
 import Footer from "../../components/Footer"
 
@@ -10,7 +10,7 @@ const EventDetail = () => {
       <>
          <Navbar />
          {/* Judul */}
-         <div className="bg-[#F2F4FB]">
+         <div className="bg-yellow-light">
             <div className="container mx-auto py-[30px]">
                <div className="flex items-center justify-between">
                   <div className="col max-w-[550px]">
@@ -57,7 +57,7 @@ const EventDetail = () => {
             </div>
          </div>
          {/* Mentor */}
-         <div className="bg-lighter-grey flex justify-center py-[30px] gap-[50px] items-center">
+         <div className="bg-yellow-light flex justify-center py-[30px] gap-[50px] items-center">
             <img src={Person} className="w-[140px] rounded-full" />
             <div className="max-w-[600px] flex flex-col gap-[3px]">
                <h3 className="text-[19px] font-medium text-black">Angela Hadid</h3>
@@ -66,16 +66,16 @@ const EventDetail = () => {
             </div>
          </div>
          {/* Pricing */}
-         <div className="container mx-auto py-[30px]">
+         {/* <div className="container mx-auto py-[30px]">
             <h3 className="text-center text-[25px] font-semibold text-black">Saatnya Investasi Ilmu</h3>
             <div className="row flex gap-2 justify-center mt-[30px]">
                <CardPayment />
                <CardPayment />
                <CardPayment />
             </div>
-         </div>
+         </div> */}
          {/* Syllabus */}
-         <div className="div bg-lighter-grey mt-[20px] py-[30px]">
+         <div className="div  mt-[20px] py-[30px]">
             <div className="container mx-auto flex gap-[20px]">
                <Syllabus />
                <div className="w-full flex flex-col gap-[20px]">
