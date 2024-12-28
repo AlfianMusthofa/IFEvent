@@ -28,11 +28,11 @@ const EventDetail = () => {
          {/* Alasan */}
          <div className="container mx-auto flex justify-between gap-[20px] py-[30px]">
             <div className="col w-[700px]">
-               <h3 className="text-black font-semibold text-[20px]">Kenapa kamu harus ikut kelas ini ?</h3>
+               <h3 className="text-black font-semibold text-[20px]">Why should you take part in this event?</h3>
                <p className="text-[14px] mt-[10px]">Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae ratione necessitatibus voluptatem veniam labore quisquam quis eveniet itaque laudantium aliquam. Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet modi recusandae quas explicabo temporibus necessitatibus numquam corporis perferendis illum velit.</p>
             </div>
             <div className="col w-[600px]">
-               <h3 className="text-black font-semibold text-[20px]">Belajar apa saja dikelas ini ?</h3>
+               <h3 className="text-black font-semibold text-[20px]">what's going on at this event?</h3>
                <div className="collapse collapse-arrow bg-base-200">
                   <input type="radio" name="my-accordion-2" defaultChecked />
                   <div className="collapse-title text-[17px] font-medium">Click to open this one and close others</div>
@@ -80,7 +80,7 @@ const EventDetail = () => {
                <Syllabus />
                <div className="w-full flex flex-col gap-[20px]">
                   <div className="col">
-                     <p className="text-[15px] font-medium mb-[5px]">Perlengkapan yang Diperlukan</p>
+                     <p className="text-[15px] font-medium mb-[5px]">necessary equipment</p>
                      <ul className="list-disc text-[14px] ml-[40px] flex flex-col gap-[3px]">
                         <li>Internet Connection</li>
                         <li>Zoom</li>

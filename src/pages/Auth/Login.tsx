@@ -13,7 +13,7 @@ const Login = () => {
                   <p className='font-semibold text-[18px]'>Welcome Back</p>
                   <p className='text-[13px] mt-[3px]'>Dont have an account? <a href="/register" className='font-medium'>Sign Up</a></p>
                </div>
-               <form action="" method="post" className='mt-[20px] flex flex-col gap-[13px]'>
+               <form action="" method="get" className='mt-[20px] flex flex-col gap-[13px]'>
                   <div className='border flex w-[310px] gap-2 p-[7px] rounded-[5px] border-yellow'>
                      <img src={Person} className='w-[25px]' />
                      <input type="text" name="username" id="username" className='w-full text-[15px] outline-none' placeholder='Username' />

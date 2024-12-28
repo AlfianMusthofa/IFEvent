@@ -14,6 +14,7 @@ import Posts from './pages/Admin/Posts/Posts'
 import Form from './pages/Admin/Events/Form'
 import About from './pages/About/About'
 import Partners from './pages/Partners/Partners'
+import UserDashboard from './pages/UserDashboard/UserDashboard'
 
 const App = () => {
    return (
@@ -33,6 +34,7 @@ const App = () => {
             <Route path='/dashboard/event/add' element={<Form />} />
             <Route path='/about' element={<About />} />
             <Route path='/partners' element={<Partners />} />
+            <Route path='/user/dashboard' element={<UserDashboard />} />
          </Routes>
       </BrowserRouter>
    )

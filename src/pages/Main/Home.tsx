@@ -50,7 +50,7 @@ const Home = () => {
             </div>
             <div className='flex flex-col items-center text-center'>
                <h3 className='text-3xl font-semibold text-black'>50+</h3>
-               <p className='font-semibold text-black'>Trainee</p>
+               <p className='font-semibold text-black'>Lecturers</p>
             </div>
             <div className='flex flex-col items-center text-center'>
                <h3 className='text-3xl font-semibold text-black'>10+</h3>
