@@ -2,8 +2,30 @@ import Logo from '../../assets/icons/logo.png'
 import Person from '../../assets/icons/profile.png'
 import Lock from '../../assets/icons/padlock.png'
 import Phone from '../../assets/icons/smartphone-call.png'
+import { useState } from 'react'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 const Register = () => {
+
+   const [name, setUsername] = useState('');
+   const [password, setPassword] = useState('');
+   const [email, setEmail] = useState('');
+   const [phone, setPhone] = useState('');
+   const navigate = useNavigate();
+
+   const onSubmit = async (e) => {
+      e.preventDefault();
+      const response = await axios.post(`http://localhost:3000/api/v1/users`, {
+         name,
+         password,
+         email,
+         phone
+      })
+      console.log(response.data)
+      navigate('/login')
+   }
+
    return (
       <>
          <div className="w-full h-[100vh] flex justify-center items-center">
@@ -13,18 +35,22 @@ const Register = () => {
                   <p className='font-semibold text-[18px]'>Hello</p>
                   <p className='text-[13px] mt-[3px]'>Have an account? <a href="/login" className='font-medium'>Log In</a></p>
                </div>
-               <form action="" method="post" className='mt-[20px] flex flex-col gap-[13px]'>
+               <form className='mt-[20px] flex flex-col gap-[13px]' onSubmit={onSubmit}>
                   <div className='border flex w-[310px] gap-2 p-[7px] rounded-[5px] border-yellow'>
                      <img src={Person} className='w-[25px]' />
-                     <input type="text" name="username" id="username" className='w-full text-[15px] outline-none' placeholder='Username' />
+                     <input type="text" className='w-full text-[15px] outline-none' placeholder='Username' value={name} onChange={(e) => setUsername(e.target.value)} />
                   </div>
                   <div className='border flex w-[310px] gap-2 p-[7px] rounded-[5px] border-yellow'>
                      <img src={Lock} className='w-[22px]' />
-                     <input type="password" name="password" id="password" className='w-full text-[15px] outline-none' placeholder='Password' />
+                     <input type="password" className='w-full text-[15px] outline-none' placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} />
                   </div>
                   <div className='border flex w-[310px] gap-2 p-[7px] rounded-[5px] border-yellow'>
                      <img src={Phone} className='w-[22px]' />
-                     <input type="number" name="phone" id="phone" className='w-full text-[15px] outline-none' placeholder='Phone Number' />
+                     <input type="text" className='w-full text-[15px] outline-none' placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} />
+                  </div>
+                  <div className='border flex w-[310px] gap-2 p-[7px] rounded-[5px] border-yellow'>
+                     <img src={Phone} className='w-[22px]' />
+                     <input type="number" className='w-full text-[15px] outline-none' placeholder='Phone Number' value={phone} onChange={(e) => setPhone(e.target.value)} />
                   </div>
                   <button type="submit" className='bg-yellow-primer text-[14px] text-white py-[8px] rounded-[5px]'>Register</button>
                </form>

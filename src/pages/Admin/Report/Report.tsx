@@ -8,14 +8,30 @@ import Exitlogo from '../../../assets/icons/exit.png'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 
-const Events = () => {
+interface ReportDataType {
+   title: string
+   date: string
+   author: string
+   id: number
+}
 
+const Report = () => {
+
+   const [reports, setReports] = useState<ReportDataType[]>([]);
    const [dataAdmin, setDataAdmin] = useState({ id: null, username: "", email: "" })
 
    useEffect(() => {
       const storedAdminData = localStorage.getItem('admin');
       if (!storedAdminData) window.location.href = ('/login')
       setDataAdmin(JSON.parse(storedAdminData as string))
+   }, [])
+
+   useEffect(() => {
+      const getReports = async () => {
+         const response = await axios.get('http://localhost:3000/api/v1/reports')
+         setReports(response.data.result)
+      }
+      getReports()
    }, [])
 
    const logout = async () => {
@@ -29,6 +45,14 @@ const Events = () => {
       }
    }
 
+   const deleteReport = async (id) => {
+      try {
+         await axios.delete(`http://localhost:3000/api/v1/reports/${id}`)
+         window.location.reload()
+      } catch (error) {
+         console.log(error)
+      }
+   }
 
    return (
       <>
@@ -39,7 +63,7 @@ const Events = () => {
                   <h3>SAKTIEvent</h3>
                </div>
                <div className="menu mt-[30px] flex flex-col gap-3">
-                  <a href='/dashboard' className='flex items-center gap-2 p-2 rounded-[6px] bg-yellow-primer'>
+                  <a href='/dashboard' className='flex items-center gap-2 p-2 rounded-[6px] '>
                      <img src={Eventlogo} className='w-[25px]' />
                      <p>Events</p>
                   </a>
@@ -47,7 +71,7 @@ const Events = () => {
                      <img src={Userlogo} className='w-[22px]' />
                      <p>Users</p>
                   </a>
-                  <a href='/dashboard/report' className='flex items-center gap-2 p-2 rounded-[6px]'>
+                  <a href='/dashboard/report' className='flex items-center gap-2 p-2 rounded-[6px] bg-yellow-primer'>
                      <img src={Bloglogo} className='w-[22px]' />
                      <p>Reports</p>
                   </a>
@@ -71,12 +95,11 @@ const Events = () => {
                      </div>
                   </div>
                </div>
-
                <div className='my-[23px] flex items-center justify-between'>
-                  <h3 className='text-[25px] font-semibold tracking-wider'>Events</h3>
-                  <a href="/dashboard/events/form">
+                  <h3 className='text-[25px] font-semibold tracking-wider'>Reports</h3>
+                  <a href="/dashboard/history/form">
                      <div className='px-4 py-2 rounded-[5px] bg-yellow-primer shadow-md'>
-                        <p className='text-[14px]'>+ Add New Event</p>
+                        <p className='text-[14px]'>+ Add New Report</p>
                      </div>
                   </a>
                </div>
@@ -85,24 +108,26 @@ const Events = () => {
                   <table className='w-full'>
                      <thead>
                         <tr className='text-left  border-b text-[14px]'>
-                           <th className='pb-[7px] text-center'>No</th>
-                           <th className='pb-[7px] px-2'>Event Name</th>
-                           <th className='pb-[7px]'>Event Date</th>
-                           <th className='pb-[7px]'>Event Status</th>
+                           <th className='pb-[7px]'>No</th>
+                           <th className='pb-[7px] w-[300px]'>Title</th>
+                           <th className='pb-[7px]'>Date</th>
+                           <th className='pb-[7px]'>Author</th>
                            <th className='pb-[7px]'>Action</th>
                         </tr>
                      </thead>
                      <tbody>
-                        <tr className='border-b'>
-                           <td className='py-[8px] text-center'>1</td>
-                           <td className='py-[8px] text-[15px] px-2'>Machine Learning for beginner</td>
-                           <td className='py-[8px] text-[15px]'>20 December 2024</td>
-                           <td className='py-[8px] text-[15px]'>Active</td>
-                           <td className='py-[8px] text-[15px] flex gap-1 items-center text-white'>
-                              <a href="#" className='px-[15px] py-[2px] bg-green-500 rounded-[3px]'>Edit</a>
-                              <a href="#" className='px-[10px] py-[2px] bg-red-500 rounded-[3px]'>Delete</a>
-                           </td>
-                        </tr>
+                        {reports.map((item, index) => (
+                           <tr className='border-b' key={item.id}>
+                              <td className='py-[8px]'>{index + 1}</td>
+                              <td className='py-[8px] text-[15px] line-clamp-2'>{item.title}</td>
+                              <td className='py-[8px] text-[15px]'>20 December 2024</td>
+                              <td className='py-[8px] text-[15px]'>{item.author}</td>
+                              <td className='py-[8px] text-[15px] flex gap-1 items-center text-white'>
+                                 <a href="#" className='px-[15px] py-[2px] bg-green-500 rounded-[3px]'>Edit</a>
+                                 <button className='px-[10px] py-[2px] bg-red-500 rounded-[3px]' onClick={() => deleteReport(item.id)}>Delete</button>
+                              </td>
+                           </tr>
+                        ))}
                      </tbody>
                   </table>
                   {/* Pagination */}
@@ -122,4 +147,4 @@ const Events = () => {
    )
 }
 
-export default Events
+export default Report

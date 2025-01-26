@@ -11,10 +11,11 @@ const Navbar = () => {
                <div className="flex items-center gap-[14px] text-[15px] text-black font-medium">
                   <a href="/" className="hover:underline">Home</a>
                   <a href="/classlist" className="hover:underline">Events</a>
-                  <a href="/history" className="hover:underline">History</a>
+                  <a href="/report" className="hover:underline">Reports</a>
                   <a href="/about" className="hover:underline">About</a>
                   <a href="/partners" className="hover:underline">Partner</a>
                   <a href="/login" className="hover:underline">Login</a>
+                  <a href="/user/dashboard" className="hover:underline">Dashboard</a>
                </div>
             </div>
          </div>

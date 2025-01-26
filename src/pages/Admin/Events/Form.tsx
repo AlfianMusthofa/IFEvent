@@ -1,46 +1,337 @@
-const Form = () => {
+import React, { useState } from "react"
+import UploadLogo from '../../../assets/icons/cloud-computing.png'
+import ReactQuill from "react-quill"
+import 'react-quill/dist/quill.snow.css';
+
+const Form: React.FC = () => {
+
+   const [name, setName] = useState('');
+   const [place, setPlace] = useState('Online Meet');
+   const [link, setLink] = useState('');
+   const [description, setDescription] = useState('');
+   const [reasons, setReasons] = useState('');
+   const [notes, setNotes] = useState('');
+   const [date, setDate] = useState('');
+   const [status, setStatus] = useState('active');
+   const [image, setEventImage] = useState<string | null>(null);
+
+   const [speakerImage, setMentorImage] = useState<string | null>(null);
+   const [speakerBiography, setSpeakerBiography] = useState('');
+   const [speakerName, setSpeakerName] = useState('');
+   const [speakerPosition, setSpeakerPosition] = useState('');
+
+   const handelEventImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      if (file) {
+         const reader = new FileReader();
+         reader.onload = () => {
+            setEventImage(reader.result as string);
+         };
+         reader.readAsDataURL(file);
+      }
+   }
+
+   // MENTOR INFORMATION
+   const handleMentorImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      if (file) {
+         const reader = new FileReader();
+         reader.onload = () => {
+            setMentorImage(reader.result as string);
+         };
+         reader.readAsDataURL(file);
+      }
+   }
+
+   const onSubmit = (e) => {
+      e.preventDefault();
+      console.log([
+         {
+            name,
+            place,
+            link,
+            description,
+            reasons,
+            notes,
+            date,
+            status,
+            image,
+            speakerName
+         }
+      ])
+   }
+
+
+
    return (
       <>
-         <div className="w-full h-[100vh] flex justify-center items-center">
-            <div className="container mx-auto flex border p-[15px]">
-               <div className="col flex flex-col gap-[10px] w-[430px]">
-                  <div className="border flex flex-col gap-[8px]">
-                     <label className="text-[14px]" htmlFor="eventName">Event Name</label>
-                     <input type="text" name="eventName" id="eventName" className="border text-[14px] p-[5px]" />
+         <div className="container mx-auto mt-[30px]">
+            <form onSubmit={onSubmit}>
+               {/* EVENT INFORMATION */}
+               <div className="border p-3 mb-3 shadow-md font-medium text-[17px] text-black">
+                  <h3>Event Information</h3>
+               </div>
+               <div className="border shadow-md p-3">
+                  <div className="row flex items-center border-b pb-[20px]">
+                     <div className="col max-w-[290px]">
+                        <p className="text-black font-medium text-[15px]">Event Name</p>
+                        <p className="text-[12px] text-light-grey mt-1">Please fill in the description section under Event Name with brief information about your event.</p>
+                     </div>
+                     <div className="col w-full">
+                        <input type="text" className="w-[320px] border rounded-[3px] outline-none bg-lighter-grey text-[13px] p-2 ml-[90px]" value={name} onChange={(e) => setName(e.target.value)} />
+                     </div>
                   </div>
-                  <div className="border flex flex-col gap-[8px]">
-                     <label className="text-[14px]" htmlFor="eventDate">Event Date</label>
-                     <input type="date" name="eventDate" id="eventDate" className="border text-[14px] p-[5px]" />
-                  </div>
-                  <div className="border flex flex-col gap-[8px]">
-                     <label className="text-[14px]" htmlFor="reason">Reasons to Join This Class</label>
-                     <textarea name="reason" id="reason" className="border"></textarea>
-                  </div>
-                  <div className="border flex flex-col gap-[8px]">
-                     <label className="text-[14px]" htmlFor="reason">What Will You Learn in This Class</label>
-                     <div className="flex flex-col gap-[5px]">
-                        <div className="flex flex-col">
-                           <label className="text-[13px]" htmlFor="">Topic 1</label>
-                           <input type="text" name="title-topic-1" id="" className="border p-[5px] mb-[4px]" />
-                           <textarea name="topic" id="topic" className="border p-[5px] text-[14px]"></textarea>
+                  <div className="row flex items-center border-b py-[20px]">
+                     <div className="col max-w-[290px]">
+                        <p className="text-black font-medium text-[15px]">Event Place</p>
+                        <p className="text-[12px] text-light-grey mt-1">Select Event Place: 'Offline' for a physical location, or 'YouTube/Zoom' for an online event.</p>
+                     </div>
+                     <div className="col w-full">
+                        <div className="ml-[90px]">
+                           <select className="w-[320px] border rounded-[3px]  p-2 bg-lighter-grey outline-none text-[13px]" onChange={(e) => setPlace(e.target.value)}>
+                              <option value="Online Meet">Online Meet</option>
+                              <option value="Offline">Offline</option>
+                           </select>
+                           <input type="text" className="w-[320px] border rounded-[3px] outline-none bg-lighter-grey text-[13px] p-2 mt-2" placeholder="Detail" value={link} onChange={(e) => setLink(e.target.value)} />
                         </div>
-                        <div className="flex flex-col">
-                           <label className="text-[13px]" htmlFor="">Topic 2</label>
-                           <input type="text" name="title-topic-2" id="" className="border p-[5px] mb-[4px]" />
-                           <textarea name="topic" id="topic" className="border p-[5px] text-[14px]"></textarea>
+                     </div>
+                  </div>
+                  <div className="row flex items-center border-b pb-[65px] pt-[25px]">
+                     <div className="col max-w-[290px]">
+                        <p className="text-black font-medium text-[15px]">Why should you take part in this event?  </p>
+                        <p className="text-[12px] text-light-grey mt-1">Explain the main reasons why participants need to take part in this event. Emphasize the benefit, goal, or valuable experience they will gain.</p>
+                     </div>
+                     <div className="col w-full">
+                        <ReactQuill theme="snow" className="ml-[90px] h-[100px]" value={reasons} onChange={setReasons} />
+                     </div>
+                  </div>
+                  <div className="row flex items-center border-b pb-[65px] pt-[25px]">
+                     <div className="col max-w-[290px]">
+                        <p className="text-black font-medium text-[15px]">What's going on at this event??</p>
+                        <p className="text-[12px] text-light-grey mt-1">Explain briefly and clearly what will happen during this event, including the main activities or agenda that will interest participants.</p>
+                     </div>
+                     <div className="col w-full">
+                        <ReactQuill theme="snow" className="ml-[90px] h-[100px]" value={description} onChange={setDescription} />
+                     </div>
+                  </div>
+                  <div className="row flex border-b items-center py-[20px]">
+                     <div className="col max-w-[290px]">
+                        <p className="text-black font-medium text-[15px]">Event Image</p>
+                        <p className="text-[12px] text-light-grey mt-1">Upload relevant images for the event. Make sure the image has a high resolution and is a supported file format (JPG, PNG).</p>
+                     </div>
+                     <div className="col w-full">
+                        <div className="h-[120px] w-[190px] border-2 border-dashed flex flex-col gap-1 justify-center items-center ml-[90px] object-cover cursor-pointer" onClick={() => document.getElementById("image-upload-input")?.click()}>
+
+                           {image ? (
+                              <img src={image} alt="Preview" className="h-[120px] w-[190px] object-cover" />
+                           ) : (
+                              <>
+                                 <img src={UploadLogo} className="w-[25px]" alt="Upload Icon" />
+                                 <p className="text-[11px]">Upload Here</p>
+                              </>
+                           )}
+                           <input
+                              id="image-upload-input"
+                              type="file"
+                              accept="image/*"
+                              onChange={handelEventImage}
+                              className="hidden"
+                           />
+
                         </div>
-                        <div className="flex flex-col">
-                           <label className="text-[13px]" htmlFor="">Topic 3</label>
-                           <input type="text" name="title-topic-3" id="" className="border p-[5px] mb-[4px]" />
-                           <textarea name="topic" id="topic" className="border p-[5px] text-[14px]"></textarea>
+                     </div>
+                  </div>
+                  <div className="row flex items-center border-b py-[20px]">
+                     <div className="col max-w-[290px]">
+                        <p className="text-black font-medium text-[15px]">Event Status</p>
+                        <p className="text-[12px] text-light-grey mt-1">Determine Event Status: Select 'Active' if the event is in progress or 'Completed' if it finished.</p>
+                     </div>
+                     <div className="col w-full">
+                        <select className="w-[320px] border rounded-[3px] ml-[90px] p-2 bg-lighter-grey outline-none text-[13px]" onChange={(e) => setStatus(e.target.value)}>
+                           <option value="Active">Active</option>
+                           <option value="Pending">Pending</option>
+                           <option value="Completed">Completed</option>
+                        </select>
+                     </div>
+                  </div>
+               </div>
+
+               {/* MENTOR INFORMATION */}
+               <div className="border p-3 my-3 shadow-md font-medium text-[17px] text-black">
+                  <h3>Mentor Information</h3>
+               </div>
+
+               <div>
+
+                  <div className="mentor-information border shadow-md p-3">
+                     <div className="row flex border-b items-center py-[20px]">
+                        <div className="col max-w-[290px]">
+                           <p className="text-black font-medium text-[15px]">Mentor Image</p>
+                           <p className="text-[12px] text-light-grey mt-1">Upload a mentor photo with good quality, proportional size, and JPG or PNG file format.</p>
+                        </div>
+                        <div className="col w-full">
+                           <p>lah</p>
+                        </div>
+                     </div>
+
+                     <div className="row flex border-b items-center py-[20px]">
+                        <div className="col max-w-[290px]">
+                           <p className="text-black font-medium text-[15px]">Mentor Name</p>
+                           <p className="text-[12px] text-light-grey mt-1">Enter the full name of the mentor who will lead or contribute to this event. if there is no write manualy.</p>
+                        </div>
+
+                        <div className="col w-full">
+
+                           <select className="w-[320px] border rounded-[3px] ml-[90px] p-2 bg-lighter-grey outline-none text-[13px]" onChange={(e) => setSpeakerName(e.target.value)}>
+                              <option value="" disabled selected>Select</option>
+                              <option value="Dian Sa'adillah Maylawati, S.Kom., MT., Ph.D">Dian Sa'adillah Maylawati, S.Kom., MT., Ph.D</option>
+                              <option value="Cepy Slamet, Ph.D">Cepy Slamet, Ph.D</option>
+                              <option value="Wisnu Uriawan, Ph.D">Wisnu Uriawan, Ph.D</option>
+                              <option value="Mohamad Irfan, Ph.D">Mohamad Irfan, Ph.D</option>
+                              <option value="Gitarja Sandi, S.T, M.T">Gitarja Sandi, S.T, M.T</option>
+                              <option value="Agung Wahana, MT">Agung Wahana, MT</option>
+                              <option value="Diena Rauda Ramdania">Diena Rauda Ramdania</option>
+                              <option value="Yana Aditia Gerhana">Yana Aditia Gerhana</option>
+                              <option value="Nur Lukman, ST., M.Kom.">Nur Lukman, ST., M.Kom.</option>
+                              <option value="Ichsan Taufik, MT.">Ichsan Taufik, MT.</option>
+                              <option value="Undang Syaripudin, M.Kom">Undang Syaripudin, M.Kom</option>
+                              <option value="Jumadi, ST., MCS.">Jumadi, ST., MCS.</option>
+                              <option value="Ichsan Budiman, M.T">Ichsan Budiman, M.T</option>
+                              <option value="Muhammad Insan Al-Amin, S.T., M.T.">Muhammad Insan Al-Amin, S.T., M.T.</option>
+                              <option value="Muhammad Deden Firdaus, ST, M.Kom">Muhammad Deden Firdaus, ST, M.Kom</option>
+                              <option value="Eva Nurlatifah, S.T, M.Sc">Eva Nurlatifah, S.T, M.Sc</option>
+                              <option value="Aldy Rialdy Atmadja, MT.">Aldy Rialdy Atmadja, MT.</option>
+                              <option value="Cecep Nurul Alam, M.T">Cecep Nurul Alam, M.T</option>
+                           </select>
+
+                           <div className="ml-[90px] mt-2">
+
+                              <input type="text" className="w-[320px] border rounded-[3px] outline-none bg-lighter-grey text-[13px] p-2" />
+                              <p className="text-[12px] mt-[5px] text-light-grey">If the mentor is not on the list</p>
+
+                           </div>
+
+                        </div>
+                     </div>
+
+                     {/* MENTOR  POSITION */}
+                     <div className="row flex border-b items-center py-[20px]">
+                        <div className="col max-w-[290px]">
+                           <p className="text-black font-medium text-[15px]">Mentor Position</p>
+                           <p className="text-[12px] text-light-grey mt-1">Enter the Mentor's Position: Specify the role or title the mentor holds in relation to the event or organization.</p>
+                        </div>
+                        <div className="col w-full">
+
+                           <div className="ml-[90px]">
+
+                              <select className="w-[320px] border rounded-[3px]  p-2 bg-lighter-grey outline-none text-[13px]" onChange={(e) => setSpeakerPosition(e.target.value)}>
+                                 <option value="" disabled selected>Select</option>
+                                 <option value="Speaker">Speaker</option>
+                              </select>
+
+                              <div className="mt-2">
+                                 <input type="text" className="w-[320px] border rounded-[3px] outline-none bg-lighter-grey text-[13px] p-2" />
+                                 <p className="text-[12px] mt-[5px] text-light-grey">If the position is not on the list</p>
+                              </div>
+
+                           </div>
+
+                        </div>
+                     </div>
+
+                     {/* MENTOR BIOGRAPHY */}
+                     <div className="row flex items-center border-b pb-[65px] pt-[25px]">
+
+                        <div className="col max-w-[290px]">
+                           <p className="text-black font-medium text-[15px]">Mentor Biography</p>
+                           <p className="text-[12px] text-light-grey mt-1">Provide a brief biography of the mentor, highlighting their expertise, achievements, and relevance to the event.</p>
+                        </div>
+
+                        <div className="col w-full">
+                           <ReactQuill theme="snow" className="ml-[90px] h-[100px]" value={speakerBiography} onChange={setSpeakerBiography} />
+                        </div>
+
+                     </div>
+                  </div>
+
+               </div>
+
+               {/* RUNDOWN */}
+               <div className="border p-3 my-3 shadow-md font-medium text-[17px] text-black">
+                  <h3>Agenda</h3>
+               </div>
+               <div className="border shadow-md p-3">
+                  <div className="flex flex-col gap-2">
+                     <div className="row flex items-center border-b py-[20px]">
+                        <div className="col max-w-[290px]">
+                           <p className="text-black font-medium text-[15px]">Event Date Start</p>
+                           <p className="text-[12px] text-light-grey mt-1">Enter the starting date of the event in the provided field. Ensure the format is correct (e.g., MM/DD/YYYY).</p>
+                        </div>
+                        <div className="col w-full">
+                           <input type="date" className="w-[320px] border rounded-[3px] outline-none bg-lighter-grey text-[13px] p-2 ml-[90px]" value={date} onChange={(e) => setDate(e.target.value)} />
+                        </div>
+                     </div>
+                     <div className="row flex items-center border-b pb-[20px] pt-[20px]">
+                        <div className="col max-w-[290px]">
+                           <p className="text-black font-medium text-[15px]">Time</p>
+                           <p className="text-[12px] text-light-grey mt-1">Enter the event time in the format HH:MM, and ensure it's accurate for participants.</p>
+                        </div>
+                        <div className="col w-full">
+                           <input type="text" name="" id="" className="w-[320px] border rounded-[3px] outline-none bg-lighter-grey text-[13px] p-2 ml-[90px]" />
+                        </div>
+                     </div>
+                     <div className="row flex items-center border-b pb-[65px] pt-[25px]">
+                        <div className="col max-w-[290px]">
+                           <p className="text-black font-medium text-[15px]">Details</p>
+                           <p className="text-[12px] text-light-grey mt-1">Provide specific details about the event, such as agenda, key activities, or any important information attendees need to know.</p>
+                        </div>
+                        <div className="col w-full">
+                           <ReactQuill theme="snow" className="ml-[90px] h-[100px]" value={notes} onChange={setNotes} />
                         </div>
                      </div>
                   </div>
                </div>
-            </div>
+
+               {/* NOTES */}
+               <div className="border p-3 my-3 shadow-md font-medium text-[17px] text-black">
+                  <h3>Note's</h3>
+               </div>
+               <div className="row flex items-center border-b pb-[65px] pt-[25px] border shadow-md p-3">
+                  <div className="col max-w-[290px]">
+                     <p className="text-black font-medium text-[15px]">Note's for audience</p>
+                     <p className="text-[12px] text-light-grey mt-1">Provide clear and concise details about the task, including specific steps, deadlines, and any resources required.</p>
+                  </div>
+                  <div className="col w-full">
+                     <ReactQuill theme="snow" className="ml-[90px] h-[100px]" />
+                  </div>
+               </div>
+
+               {/* CERTIFICATE and PLACE */}
+               <div className="border p-3 my-3 shadow-md font-medium text-[17px] text-black">
+                  <h3>Certificate</h3>
+               </div>
+               <div className="border shadow-md p-3">
+                  <div className="row flex items-center border-b pb-[20px]">
+                     <div className="col max-w-[290px]">
+                        <p className="text-black font-medium text-[15px]">Audience Certificate</p>
+                        <p className="text-[12px] text-light-grey mt-1">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis vero eaque distinctio perspiciatis quas. Voluptate.</p>
+                     </div>
+                     <div className="col w-full">
+                        <input type="file" name="" id="" className="ml-[90px] text-[13px]" />
+                     </div>
+                  </div>
+               </div>
+
+               <div className="my-3 flex gap-2 items-center justify-end">
+                  <a href="/dashboard" className="bg-yellow-primer px-5 py-[8px] rounded-[4px]">Cancel</a>
+                  <button type="submit" className="bg-green-600 text-white px-7 py-2 rounded-[4px]">Save</button>
+               </div>
+            </form>
          </div>
       </>
    )
 }
+
+{/*  */ }
 
 export default Form

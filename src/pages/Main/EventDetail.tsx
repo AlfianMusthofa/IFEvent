@@ -33,27 +33,7 @@ const EventDetail = () => {
             </div>
             <div className="col w-[600px]">
                <h3 className="text-black font-semibold text-[20px]">what's going on at this event?</h3>
-               <div className="collapse collapse-arrow bg-base-200">
-                  <input type="radio" name="my-accordion-2" defaultChecked />
-                  <div className="collapse-title text-[17px] font-medium">Click to open this one and close others</div>
-                  <div className="collapse-content">
-                     <p className="text-[14px]">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nulla hic ad repudiandae explicabo asperiores ut nobis aperiam soluta. Nemo, ipsam!</p>
-                  </div>
-               </div>
-               <div className="collapse collapse-arrow bg-base-200">
-                  <input type="radio" name="my-accordion-2" />
-                  <div className="collapse-title text-[17px] font-medium">Click to open this one and close others</div>
-                  <div className="collapse-content">
-                     <p className="text-[14px]">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor porro doloremque ipsum molestias consectetur. Quasi eos omnis ab natus fugit.</p>
-                  </div>
-               </div>
-               <div className="collapse collapse-arrow bg-base-200">
-                  <input type="radio" name="my-accordion-2" />
-                  <div className="collapse-title text-[17px] font-medium">Click to open this one and close others</div>
-                  <div className="collapse-content">
-                     <p className="text-[14px]">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid omnis atque at suscipit facilis fuga placeat. Molestiae praesentium beatae impedit.</p>
-                  </div>
-               </div>
+               <p className="text-[14px]">Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt doloremque veritatis, corporis cumque in, sint facilis illum maxime voluptates libero quia ipsam placeat nulla officia aliquam fuga iure, exercitationem quos! Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi, cupiditate!</p>
             </div>
          </div>
          {/* Mentor */}

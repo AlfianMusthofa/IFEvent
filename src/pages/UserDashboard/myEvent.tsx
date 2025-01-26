@@ -1,0 +1,30 @@
+import Footer from "../../components/Footer"
+import Navbar from "../../components/navbar"
+
+const UserDashboard = () => {
+   return (
+      <>
+         <Navbar />
+         <div className="bg-yellow-light py-[25px]">
+            <div className="container mx-auto text-[27px] font-medium">
+               <h2>My Events</h2>
+            </div>
+         </div>
+         <div className="container mx-auto my-9 flex gap-3">
+            <div className="col w-[240px] border-t border-b py-5">
+               <div className="flex flex-col gap-2">
+                  <a href="/user/dashboard" className="bg-yellow-primer p-2 rounded-[5px]">My Events</a>
+                  <a href="/user/myprofile" className="p-2 rounded-[5px]">My Profile</a>
+                  <a href="#" className="p-2 rounded-[5px]">Log Out</a>
+               </div>
+            </div>
+            <div className="col w-full border-t border-b py-1">
+               <h3 className="font-medium text-[24px]">Events</h3>
+            </div>
+         </div>
+         <Footer />
+      </>
+   )
+}
+
+export default UserDashboard

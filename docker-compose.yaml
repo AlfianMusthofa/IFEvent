@@ -1,8 +1,9 @@
 version: '3.8'
 
 services:
-  IFEvent:
-    container_name: alfnz89/SAKTIEvent
+  ifevent:
+    container_name: alfnz89/saktievent
+    image: alfnz89/saktievent
     build:
       context: .
       dockerfile: Dockerfile

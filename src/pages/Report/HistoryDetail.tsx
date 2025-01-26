@@ -1,6 +1,6 @@
 import Navbar from "../../components/navbar"
 import Bg from '../../assets/raw-bg.jpg'
-import CardSimpleHistory from "../../components/History/CardSimpleHistory"
+import CardSimpleHistory from "../../components/Report/CardSimpleHistory"
 import Footer from "../../components/Footer"
 
 const HistoryDetail = () => {
