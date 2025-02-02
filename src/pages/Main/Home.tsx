@@ -25,6 +25,11 @@ const Home = () => {
       getAllEvents()
    }, []);
 
+   const formatDate = (dateString: string) => {
+      const options = { day: 'numeric', month: 'long', year: 'numeric' };
+      return new Date(dateString).toLocaleDateString('en-GB', options);
+   };
+
    return (
       <>
          <Navbar />
@@ -62,7 +67,7 @@ const Home = () => {
             </div>
             <div className='container mx-auto mt-[30px] flex flex-wrap gap-[13px] justify-center'>
                {events.map((item) => (
-                  <Card key={item.id} title={item.eventName} image={item.url} description={item.descriptions} id={item.id} />
+                  <Card key={item.id} title={item.eventName} image={item.url} description={item.descriptions} id={item.id} date={formatDate(item.date)} />
                ))}
             </div>
             <div className='flex justify-center mt-[40px]'>

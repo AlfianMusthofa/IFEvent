@@ -60,6 +60,20 @@ const Report = () => {
       }
    }
 
+   const formatDate = (dateString: string | undefined) => {
+      if (!dateString) return "Invalid Date"; // Cegah error jika undefined/null
+
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) return "Invalid Date"; // Cek apakah valid
+
+      return new Intl.DateTimeFormat("en-GB", {
+         day: "2-digit",
+         month: "long",
+         year: "numeric",
+      }).format(date);
+   };
+
+
    return (
       <>
          <div className='flex h-[100vh]'>

@@ -1,10 +1,10 @@
 import Navbar from "../../components/navbar"
-import Person from '../../assets/person.jpg'
-import Syllabus from "../../components/Home/Syllabus"
+// import Person from '../../assets/person.jpg'
 import Footer from "../../components/Footer"
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import axios from "axios"
+import EventAgenda from "../../components/EventDetail/EventAgenda"
 
 const EventDetail = () => {
 
@@ -27,13 +27,17 @@ const EventDetail = () => {
       const getThisEvent = async () => {
          const response = await axios.get(`http://localhost:3000/api/v1/public/events/${id}`)
          setEvent(response.data)
-         console.log(response.data.Speaker[0].speakerName)
       }
 
       getThisEvent();
       getCurrentUser();
 
    }, [id])
+
+   const formatDate = (dateString: string) => {
+      const options = { day: 'numeric', month: 'long', year: 'numeric' };
+      return new Date(dateString).toLocaleDateString('en-GB', options);
+   };
 
    return (
       <>
@@ -45,7 +49,8 @@ const EventDetail = () => {
                   <div className="col max-w-[550px]">
                      <h3 className="text-[29px] leading-[35px] font-medium text-black">{event.eventName}</h3>
                      <div className="mt-[8px] text-light-grey text-[14px] flex flex-col gap-[4px]">
-                        <p>26 - 27 December 2024</p>
+                        {/* <p>26 - 27 December 2024</p> */}
+                        <p>{formatDate(event.date)}</p>
                         <p>{event.place}</p>
                      </div>
                      <button className="text-sm mt-3 px-5 py-2 rounded-[4px] bg-yellow-primer shadow-md">Register</button>
@@ -78,8 +83,11 @@ const EventDetail = () => {
          {/* Syllabus */}
          <div className="div  mt-[20px] py-[30px]">
             <div className="container mx-auto flex gap-[20px]">
-               <Syllabus />
-               <div className="w-full flex flex-col gap-[20px]">
+               <div className="w-[1300px]">
+                  <EventAgenda date={formatDate(event.date)} details={event.details} time={event.time} />
+               </div>
+               <div className="w-full flex flex-col gap-1">
+                  <h1 className="text-2xl font-medium">Note's for audience</h1>
                   <p className="text-sm">{event.notes}</p>
                </div>
             </div>

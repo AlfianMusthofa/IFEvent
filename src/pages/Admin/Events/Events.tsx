@@ -40,6 +40,11 @@ const Events = () => {
       }
    }
 
+   const formatDate = (dateString: string) => {
+      const options = { day: 'numeric', month: 'long', year: 'numeric' };
+      return new Date(dateString).toLocaleDateString('en-GB', options);
+   };
+
 
    return (
       <>
@@ -97,7 +102,7 @@ const Events = () => {
                      <thead>
                         <tr className='text-left  border-b text-[14px]'>
                            <th className='pb-[7px] text-center'>No</th>
-                           <th className='pb-[7px] px-2'>Event Name</th>
+                           <th className='pb-[7px] pl-[30px]  w-[340px]'>Event Name</th>
                            <th className='pb-[7px]'>Event Date</th>
                            <th className='pb-[7px]'>Event Status</th>
                            <th className='pb-[7px]'>Action</th>
@@ -107,8 +112,8 @@ const Events = () => {
                         {events.map((item, index) => (
                            <tr className='border-b' key={item.id}>
                               <td className='py-[8px] text-center'>{index + 1}</td>
-                              <td className='py-[8px] text-[15px] px-2 w-[350px] line-clamp-2'>{item.eventName}</td>
-                              <td className='py-[8px] text-[15px]'>20 December 2024</td>
+                              <td className='py-[8px] text-[15px] pl-[30px] w-[320px] line-clamp-2'>{item.eventName}</td>
+                              <td className='py-[8px] text-[15px]'>{formatDate(item.date)}</td>
                               <td className='py-[8px] text-[15px]'>{item.status}</td>
                               <td className='py-[8px] text-[15px] flex gap-1 items-center text-white'>
                                  <a href={`/dashboard/event/edit/${item.id}`} className='px-[15px] py-[2px] bg-green-500 rounded-[3px]'>Edit</a>
