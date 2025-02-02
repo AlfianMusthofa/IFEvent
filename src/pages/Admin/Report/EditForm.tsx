@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import DOMPurify from "dompurify";
+import ReactQuill from "react-quill";
 import UploadLogo from '../../../assets/icons/cloud-computing.png'
-import ReactQuill from "react-quill"
-import 'react-quill/dist/quill.snow.css';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import DOMPurify from 'dompurify';
+import axios from "axios";
 
-const HistoryForm: React.FC = () => {
+const UpdateForm = () => {
 
    const [title, setTitle] = useState('');
    const [body, setBody] = useState('');
@@ -14,6 +13,7 @@ const HistoryForm: React.FC = () => {
    const [preview, setPreview] = useState('');
    const [dataAdmin, setDataAdmin] = useState({ id: null, username: "", email: "" })
    const navigate = useNavigate();
+   const { id } = useParams();
 
    useEffect(() => {
       const getUser = async () => {
@@ -22,6 +22,17 @@ const HistoryForm: React.FC = () => {
       }
 
       getUser()
+   }, [])
+
+   useEffect(() => {
+      const getReport = async () => {
+         const response = await axios.get(`http://localhost:3000/api/v1/reports/${id}`)
+         setTitle(response.data.title);
+         setBody(response.data.body);
+         setFile(response.data.image);
+         setPreview(response.data.url);
+      }
+      getReport();
    }, [])
 
    const loadImage = (e) => {
@@ -42,9 +53,8 @@ const HistoryForm: React.FC = () => {
       formData.append('file', file);
       formData.append('author', dataAdmin.username);
 
-
       try {
-         await axios.post('http://localhost:3000/api/v1/reports', formData, {
+         await axios.patch(`http://localhost:3000/api/v1/reports/${id}`, formData, {
             headers: {
                'Content-Type': 'multipart/form-data'
             },
@@ -55,6 +65,7 @@ const HistoryForm: React.FC = () => {
          console.log(error)
       }
    }
+
 
    return (
       <>
@@ -115,4 +126,4 @@ const HistoryForm: React.FC = () => {
    )
 }
 
-export default HistoryForm
+export default UpdateForm

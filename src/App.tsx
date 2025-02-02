@@ -5,7 +5,7 @@ import Admin from './pages/Admin/Events/Events'
 import EventDetail from './pages/Main/EventDetail'
 import ClassList from './pages/Main/ClassList'
 import Report from './pages/Report/Report'
-import HistoryDetail from './pages/Report/HistoryDetail'
+import ReportDetail from './pages/Report/ReportDetail'
 import Login from './pages/Auth/Login'
 import Register from './pages/Auth/Register'
 import AdminLogin from './pages/Auth/AdminLogin'
@@ -19,7 +19,9 @@ import ReportAdmin from './pages/Admin/Report/Report'
 import EventForm from './pages/Admin/Events/Form'
 import ReportForm from './pages/Admin/Report/Form'
 import MyProfile from './pages/UserDashboard/MyProfile'
-import ProtectedRoute from './components/ProtectedRoute'
+// import ProtectedRoute from './components/ProtectedRoute'
+import EditFormReport from './pages/Admin/Report/EditForm'
+import EditEvent from './pages/Admin/Events/EditEvent'
 
 const App = () => {
    return (
@@ -27,23 +29,27 @@ const App = () => {
          <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/admin' element={<Admin />} />
-            <Route path='/detail' element={<EventDetail />} />
+            <Route path='/detail/:id' element={<EventDetail />} />
             <Route path='/classlist' element={<ClassList />} />
             <Route path='/report' element={<Report />} />
-            <Route path='/history-detail' element={<HistoryDetail />} />
+            <Route path='/reportDetail/:id' element={<ReportDetail />} />
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
             <Route path='/admin-login' element={<AdminLogin />} />
-            <Route path='/dashboard' element={<ProtectedRoute> <Events /> </ProtectedRoute>} />
-            <Route path='/dashboard/event/add' element={<Form />} />
             <Route path='/about' element={<About />} />
             <Route path='/partners' element={<Partners />} />
-            <Route path='/user/dashboard' element={<UserDashboard />} />
+            <Route path='/user/dashboard/:id' element={<UserDashboard />} />
+            <Route path='/user/myprofile/:id' element={<MyProfile />} />
+
+            {/* Admin Routes */}
+            <Route path='/dashboard/event/add' element={<Form />} />
+            <Route path='/dashboard' element={<Events />} />
+            <Route path='/dashboard/history/form' element={<ReportForm />} />
+            <Route path='/dashboard/events/form' element={<EventForm />} />
             <Route path='/dashboard/users' element={<Users />} />
             <Route path='/dashboard/report' element={< ReportAdmin />} />
-            <Route path='/dashboard/events/form' element={<EventForm />} />
-            <Route path='/dashboard/history/form' element={<ReportForm />} />
-            <Route path='/user/myprofile' element={<MyProfile />} />
+            <Route path='/dashboard/report/update/:id' element={< EditFormReport />} />
+            <Route path='/dashboard/event/edit/:id' element={< EditEvent />} />
          </Routes>
       </BrowserRouter>
    )

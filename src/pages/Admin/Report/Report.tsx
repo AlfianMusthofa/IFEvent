@@ -7,10 +7,11 @@ import Bloglogo from '../../../assets/icons/blogging.png'
 import Exitlogo from '../../../assets/icons/exit.png'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import dayjs from 'dayjs'
 
 interface ReportDataType {
    title: string
-   date: string
+   createdAt: string
    author: string
    id: number
 }
@@ -21,15 +22,22 @@ const Report = () => {
    const [dataAdmin, setDataAdmin] = useState({ id: null, username: "", email: "" })
 
    useEffect(() => {
-      const storedAdminData = localStorage.getItem('admin');
-      if (!storedAdminData) window.location.href = ('/login')
-      setDataAdmin(JSON.parse(storedAdminData as string))
+      const getUser = async () => {
+         const response = await axios.get('http://localhost:3000/api/v1/currentUser', { withCredentials: true })
+         setDataAdmin(response.data)
+      }
+
+      getUser()
    }, [])
 
    useEffect(() => {
       const getReports = async () => {
-         const response = await axios.get('http://localhost:3000/api/v1/reports')
-         setReports(response.data.result)
+         const response = await axios.get('http://localhost:3000/api/v1/reports', { withCredentials: true })
+         const formattedReports = response.data.result.map((report) => ({
+            ...report,
+            createdAt: dayjs(report.createdAt).format('DD-MM-YYYY')
+         }))
+         setReports(formattedReports)
       }
       getReports()
    }, [])
@@ -37,8 +45,6 @@ const Report = () => {
    const logout = async () => {
       try {
          await axios.delete('http://localhost:3000/api/v1/logout', { withCredentials: true })
-         localStorage.removeItem('user');
-         console.log("Logout success...")
          window.location.href = ('/');
       } catch (error) {
          console.log(error);
@@ -47,7 +53,7 @@ const Report = () => {
 
    const deleteReport = async (id) => {
       try {
-         await axios.delete(`http://localhost:3000/api/v1/reports/${id}`)
+         await axios.delete(`http://localhost:3000/api/v1/reports/${id}`, { withCredentials: true })
          window.location.reload()
       } catch (error) {
          console.log(error)
@@ -109,8 +115,8 @@ const Report = () => {
                      <thead>
                         <tr className='text-left  border-b text-[14px]'>
                            <th className='pb-[7px]'>No</th>
-                           <th className='pb-[7px] w-[300px]'>Title</th>
-                           <th className='pb-[7px]'>Date</th>
+                           <th className='pb-[7px] w-[340px]'>Title</th>
+                           <th className='pb-[7px] px-[13px]'>Date</th>
                            <th className='pb-[7px]'>Author</th>
                            <th className='pb-[7px]'>Action</th>
                         </tr>
@@ -119,11 +125,11 @@ const Report = () => {
                         {reports.map((item, index) => (
                            <tr className='border-b' key={item.id}>
                               <td className='py-[8px]'>{index + 1}</td>
-                              <td className='py-[8px] text-[15px] line-clamp-2'>{item.title}</td>
-                              <td className='py-[8px] text-[15px]'>20 December 2024</td>
+                              <td className='py-[8px] text-[15px] line-clamp-2 overflow-hidden'>{item.title}</td>
+                              <td className='py-[8px] text-[15px] px-[13px]'>{item.createdAt}</td>
                               <td className='py-[8px] text-[15px]'>{item.author}</td>
                               <td className='py-[8px] text-[15px] flex gap-1 items-center text-white'>
-                                 <a href="#" className='px-[15px] py-[2px] bg-green-500 rounded-[3px]'>Edit</a>
+                                 <a href={`/dashboard/report/update/${item.id}`} className='px-[15px] py-[2px] bg-green-500 rounded-[3px]'>Edit</a>
                                  <button className='px-[10px] py-[2px] bg-red-500 rounded-[3px]' onClick={() => deleteReport(item.id)}>Delete</button>
                               </td>
                            </tr>

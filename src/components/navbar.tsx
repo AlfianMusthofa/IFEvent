@@ -1,6 +1,28 @@
+import { useEffect, useState } from 'react'
 import Logo from '../assets/icons/logo.png'
+import axios from 'axios'
+
+interface NavbarProps {
+   username: string;
+}
 
 const Navbar = () => {
+
+   const [user, setUser] = useState<NavbarProps>()
+
+   useEffect(() => {
+      const getCurrentUser = async () => {
+         try {
+            const response = await axios.get('http://localhost:3000/api/v1/currentUser', { withCredentials: true })
+            setUser(response.data)
+         } catch (error) {
+            console.log(error);
+         }
+
+      }
+      getCurrentUser();
+   }, [])
+
    return (
       <>
          <div className="bg-yellow-primer text-white">
@@ -14,8 +36,11 @@ const Navbar = () => {
                   <a href="/report" className="hover:underline">Reports</a>
                   <a href="/about" className="hover:underline">About</a>
                   <a href="/partners" className="hover:underline">Partner</a>
-                  <a href="/login" className="hover:underline">Login</a>
-                  <a href="/user/dashboard" className="hover:underline">Dashboard</a>
+                  {user ? (
+                     <a href={`/user/dashboard/${user.id}`} className="hover:underline">{user.username}</a>
+                  ) : (
+                     <a href="/login" className="hover:underline">Login</a>
+                  )}
                </div>
             </div>
          </div>

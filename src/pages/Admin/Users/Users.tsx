@@ -21,23 +21,26 @@ const Users = () => {
    const [dataAdmin, setDataAdmin] = useState({ id: null, username: "", email: "" })
 
    useEffect(() => {
-      const getUsers = async () => {
-         const response = await axios.get('http://localhost:3000/api/v1/users')
-         setUser(response.data.result)
+      const getUser = async () => {
+         const response = await axios.get('http://localhost:3000/api/v1/currentUser', { withCredentials: true })
+         setDataAdmin(response.data)
       }
 
-      const storedAdminData = localStorage.getItem('admin');
-      if (!storedAdminData) window.location.href = ('/login')
-      setDataAdmin(JSON.parse(storedAdminData as string))
+      getUser()
+   }, [])
 
-      getUsers()
+   useEffect(() => {
+      const getAllUsers = async () => {
+         const response = await axios.get('http://localhost:3000/api/v1/users', { withCredentials: true })
+         console.log(response.data.result)
+         setUser(response.data.result)
+      }
+      getAllUsers()
    }, [])
 
    const logout = async () => {
       try {
          await axios.delete('http://localhost:3000/api/v1/logout', { withCredentials: true })
-         localStorage.removeItem('user');
-         console.log("Logout success...")
          window.location.href = ('/');
       } catch (error) {
          console.log(error);

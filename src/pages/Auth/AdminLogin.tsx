@@ -7,24 +7,18 @@ import { useNavigate } from 'react-router-dom'
 
 const AdminLogin = () => {
 
-   const [name, setName] = useState('');
+   const [username, setName] = useState('');
    const [password, setPassword] = useState('');
+   const [error, setError] = useState("");
    const navigate = useNavigate();
 
    const onSubmit = async (e) => {
       e.preventDefault();
       try {
-         const response = await axios.post('http://localhost:3000/api/v1/login', { name, password }, { withCredentials: true })
-
-         localStorage.setItem('admin', JSON.stringify({
-            id: response.data.data.id,
-            username: response.data.data.username,
-            email: response.data.data.email,
-         }))
-
+         await axios.post('http://localhost:3000/api/v1/login', { username, password }, { withCredentials: true })
          navigate('/dashboard')
-      } catch (error) {
-         console.log({ msg: error })
+      } catch (err: any) {
+         setError(err.response?.data?.msg || "Login failed");
       }
    }
 
@@ -39,7 +33,7 @@ const AdminLogin = () => {
                <form onSubmit={onSubmit} className='mt-[20px] flex flex-col gap-[13px]'>
                   <div className='border flex w-[310px] gap-2 p-[7px] rounded-[5px] border-yellow'>
                      <img src={Person} className='w-[25px]' />
-                     <input type="text" className='w-full text-[15px] outline-none' placeholder='Username' value={name} onChange={(e) => setName(e.target.value)} />
+                     <input type="text" className='w-full text-[15px] outline-none' placeholder='Username' value={username} onChange={(e) => setName(e.target.value)} />
                   </div>
                   <div className='border flex w-[310px] gap-2 p-[7px] rounded-[5px] border-yellow'>
                      <img src={Lock} className='w-[22px]' />

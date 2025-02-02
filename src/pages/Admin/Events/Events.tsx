@@ -11,18 +11,29 @@ import axios from 'axios'
 const Events = () => {
 
    const [dataAdmin, setDataAdmin] = useState({ id: null, username: "", email: "" })
+   const [events, setEvents] = useState([])
 
    useEffect(() => {
-      const storedAdminData = localStorage.getItem('admin');
-      if (!storedAdminData) window.location.href = ('/login')
-      setDataAdmin(JSON.parse(storedAdminData as string))
+
+      const getUser = async () => {
+         const response = await axios.get('http://localhost:3000/api/v1/currentUser', { withCredentials: true })
+         setDataAdmin(response.data)
+      }
+      getUser()
+   }, [])
+
+   useEffect(() => {
+      const getReports = async () => {
+         const response = await axios.get('http://localhost:3000/api/v1/events', { withCredentials: true })
+         console.log(response.data.result)
+         setEvents(response.data.result)
+      }
+      getReports();
    }, [])
 
    const logout = async () => {
       try {
          await axios.delete('http://localhost:3000/api/v1/logout', { withCredentials: true })
-         localStorage.removeItem('user');
-         console.log("Logout success...")
          window.location.href = ('/');
       } catch (error) {
          console.log(error);
@@ -93,16 +104,18 @@ const Events = () => {
                         </tr>
                      </thead>
                      <tbody>
-                        <tr className='border-b'>
-                           <td className='py-[8px] text-center'>1</td>
-                           <td className='py-[8px] text-[15px] px-2'>Machine Learning for beginner</td>
-                           <td className='py-[8px] text-[15px]'>20 December 2024</td>
-                           <td className='py-[8px] text-[15px]'>Active</td>
-                           <td className='py-[8px] text-[15px] flex gap-1 items-center text-white'>
-                              <a href="#" className='px-[15px] py-[2px] bg-green-500 rounded-[3px]'>Edit</a>
-                              <a href="#" className='px-[10px] py-[2px] bg-red-500 rounded-[3px]'>Delete</a>
-                           </td>
-                        </tr>
+                        {events.map((item, index) => (
+                           <tr className='border-b' key={item.id}>
+                              <td className='py-[8px] text-center'>{index + 1}</td>
+                              <td className='py-[8px] text-[15px] px-2 w-[350px] line-clamp-2'>{item.eventName}</td>
+                              <td className='py-[8px] text-[15px]'>20 December 2024</td>
+                              <td className='py-[8px] text-[15px]'>{item.status}</td>
+                              <td className='py-[8px] text-[15px] flex gap-1 items-center text-white'>
+                                 <a href={`/dashboard/event/edit/${item.id}`} className='px-[15px] py-[2px] bg-green-500 rounded-[3px]'>Edit</a>
+                                 <a href="#" className='px-[10px] py-[2px] bg-red-500 rounded-[3px]'>Delete</a>
+                              </td>
+                           </tr>
+                        ))}
                      </tbody>
                   </table>
                   {/* Pagination */}

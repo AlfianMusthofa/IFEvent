@@ -1,7 +1,25 @@
+import { useEffect, useState } from "react"
 import Footer from "../../components/Footer"
 import Navbar from "../../components/navbar"
+import axios from "axios"
 
 const MyProfile = () => {
+
+   const [user, setUser] = useState([])
+
+   useEffect(() => {
+      const getCurrentUser = async () => {
+         try {
+            const response = await axios.get('http://localhost:3000/api/v1/currentUser', { withCredentials: true })
+            setUser(response.data)
+         } catch (error) {
+            console.log(error);
+         }
+
+      }
+      getCurrentUser();
+   }, [])
+
    return (
       <>
          <Navbar />
@@ -13,8 +31,8 @@ const MyProfile = () => {
          <div className="container mx-auto my-9 flex gap-3">
             <div className="col w-[240px] border-t border-b py-5">
                <div className="flex flex-col gap-2">
-                  <a href="/user/dashboard" className="p-2 rounded-[5px]">My Events</a>
-                  <a href="/user/myprofile" className="p-2 bg-yellow-primer rounded-[5px]">My Profile</a>
+                  <a href={`/user/dashboard/${user.id}`} className="p-2 rounded-[5px]">My Events</a>
+                  <a href={`/user/myprofile/${user.id}`} className="p-2 bg-yellow-primer rounded-[5px]">My Profile</a>
                   <a href="#" className="p-2 rounded-[5px]">Log Out</a>
                </div>
             </div>
@@ -23,15 +41,15 @@ const MyProfile = () => {
                <div className="my-3">
                   <div className="flex items-center gap-[100px] bg-yellow-light">
                      <p className="py-3 px-3">Name</p>
-                     <p className="py-3 px-3">Fulan</p>
+                     <p className="py-3 px-3">{user.username}</p>
                   </div>
                   <div className="flex items-center gap-[102px]">
                      <p className="py-3 px-3">Email</p>
-                     <p className="py-3 px-3">fulan@gmail.com</p>
+                     <p className="py-3 px-3">{user.email}</p>
                   </div>
                   <div className="flex items-center gap-[44px] bg-yellow-light">
                      <p className="py-3 px-3">Mobile Phone</p>
-                     <p className="py-3 px-3">0812412312312</p>
+                     <p className="py-3 px-3">{user.phone}</p>
                   </div>
                </div>
             </div>

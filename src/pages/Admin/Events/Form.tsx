@@ -2,66 +2,82 @@ import React, { useState } from "react"
 import UploadLogo from '../../../assets/icons/cloud-computing.png'
 import ReactQuill from "react-quill"
 import 'react-quill/dist/quill.snow.css';
+import DOMPurify from "dompurify";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Form: React.FC = () => {
 
    const [name, setName] = useState('');
    const [place, setPlace] = useState('Online Meet');
    const [link, setLink] = useState('');
+   const [status, setStatus] = useState('Active');
    const [description, setDescription] = useState('');
    const [reasons, setReasons] = useState('');
    const [notes, setNotes] = useState('');
    const [date, setDate] = useState('');
-   const [status, setStatus] = useState('active');
-   const [image, setEventImage] = useState<string | null>(null);
+   const [time, setTime] = useState('')
+   const [details, setAgendaDetail] = useState('')
+   const [file, setFile] = useState('')
+   const [previewImage, setPreviewImage] = useState('');
 
-   const [speakerImage, setMentorImage] = useState<string | null>(null);
+   const [speakerImage, setSpeakerImage] = useState('');
    const [speakerBiography, setSpeakerBiography] = useState('');
    const [speakerName, setSpeakerName] = useState('');
    const [speakerPosition, setSpeakerPosition] = useState('');
+   const [speakerImagePreview, setSpeakerImagePreview] = useState('');
 
-   const handelEventImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const file = e.target.files?.[0];
-      if (file) {
-         const reader = new FileReader();
-         reader.onload = () => {
-            setEventImage(reader.result as string);
-         };
-         reader.readAsDataURL(file);
-      }
+   const navigate = useNavigate();
+
+   const handelEventImage = (e) => {
+      const image = e.target.files[0]
+      setFile(image)
+      setPreviewImage(URL.createObjectURL(image))
    }
 
-   // MENTOR INFORMATION
-   const handleMentorImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const file = e.target.files?.[0];
-      if (file) {
-         const reader = new FileReader();
-         reader.onload = () => {
-            setMentorImage(reader.result as string);
-         };
-         reader.readAsDataURL(file);
-      }
+   const handelSpeakerImage = (e) => {
+      const SpeakerImage = e.target.files[0]
+      setSpeakerImage(SpeakerImage)
+      setSpeakerImagePreview(URL.createObjectURL(SpeakerImage))
    }
 
-   const onSubmit = (e) => {
+   const onSubmit = async (e) => {
       e.preventDefault();
-      console.log([
-         {
-            name,
-            place,
-            link,
-            description,
-            reasons,
-            notes,
-            date,
-            status,
-            image,
-            speakerName
-         }
-      ])
+
+      const descriptionPurify = DOMPurify.sanitize(description, { ALLOWED_TAGS: [] })
+      const reasonPurify = DOMPurify.sanitize(reasons, { ALLOWED_TAGS: [] })
+      const speakerBiographyPurify = DOMPurify.sanitize(speakerBiography, { ALLOWED_TAGS: [] })
+      const agendaDetailPurify = DOMPurify.sanitize(details, { ALLOWED_TAGS: [] })
+      const notesPurify = DOMPurify.sanitize(notes, { ALLOWED_TAGS: [] })
+
+      const formData = new FormData();
+
+      formData.append('name', name);
+      formData.append('place', place);
+      formData.append('link', link);
+      formData.append('descriptions', descriptionPurify);
+      formData.append('reasons', reasonPurify);
+      formData.append('notes', notesPurify);
+      formData.append('time', time);
+      formData.append('status', status);
+      formData.append('file', file);
+      formData.append('date', date);
+      formData.append('details', agendaDetailPurify);
+
+      // Speaker
+      formData.append('speakerBiography', speakerBiographyPurify);
+      formData.append('speakerName', speakerName);
+      formData.append('speakerPosition', speakerPosition);
+      formData.append('speakerImage', speakerImage);
+
+      try {
+         await axios.post('http://localhost:3000/api/v1/events', formData, { withCredentials: true })
+         navigate('/dashboard')
+      } catch (error) {
+         console.log(error)
+      }
+
    }
-
-
 
    return (
       <>
@@ -122,8 +138,8 @@ const Form: React.FC = () => {
                      <div className="col w-full">
                         <div className="h-[120px] w-[190px] border-2 border-dashed flex flex-col gap-1 justify-center items-center ml-[90px] object-cover cursor-pointer" onClick={() => document.getElementById("image-upload-input")?.click()}>
 
-                           {image ? (
-                              <img src={image} alt="Preview" className="h-[120px] w-[190px] object-cover" />
+                           {previewImage ? (
+                              <img src={previewImage} alt="Preview" className="h-[120px] w-[190px] object-cover" />
                            ) : (
                               <>
                                  <img src={UploadLogo} className="w-[25px]" alt="Upload Icon" />
@@ -170,7 +186,25 @@ const Form: React.FC = () => {
                            <p className="text-[12px] text-light-grey mt-1">Upload a mentor photo with good quality, proportional size, and JPG or PNG file format.</p>
                         </div>
                         <div className="col w-full">
-                           <p>lah</p>
+                           <div className="h-[120px] w-[190px] border-2 border-dashed flex flex-col gap-1 justify-center items-center ml-[90px] object-cover cursor-pointer" onClick={() => document.getElementById("speaker-image-upload-input")?.click()}>
+
+                              {speakerImagePreview ? (
+                                 <img src={speakerImagePreview} alt="Preview" className="h-[120px] w-[190px] object-cover" />
+                              ) : (
+                                 <>
+                                    <img src={UploadLogo} className="w-[25px]" alt="Upload Icon" />
+                                    <p className="text-[11px]">Upload Here</p>
+                                 </>
+                              )}
+                              <input
+                                 id="speaker-image-upload-input"
+                                 type="file"
+                                 accept="image/*"
+                                 onChange={handelSpeakerImage}
+                                 className="hidden"
+                              />
+
+                           </div>
                         </div>
                      </div>
 
@@ -256,7 +290,7 @@ const Form: React.FC = () => {
 
                </div>
 
-               {/* RUNDOWN */}
+               {/* AGENDA */}
                <div className="border p-3 my-3 shadow-md font-medium text-[17px] text-black">
                   <h3>Agenda</h3>
                </div>
@@ -277,7 +311,7 @@ const Form: React.FC = () => {
                            <p className="text-[12px] text-light-grey mt-1">Enter the event time in the format HH:MM, and ensure it's accurate for participants.</p>
                         </div>
                         <div className="col w-full">
-                           <input type="text" name="" id="" className="w-[320px] border rounded-[3px] outline-none bg-lighter-grey text-[13px] p-2 ml-[90px]" />
+                           <input type="text" value={time} onChange={(e) => setTime(e.target.value)} className="w-[320px] border rounded-[3px] outline-none bg-lighter-grey text-[13px] p-2 ml-[90px]" />
                         </div>
                      </div>
                      <div className="row flex items-center border-b pb-[65px] pt-[25px]">
@@ -286,7 +320,7 @@ const Form: React.FC = () => {
                            <p className="text-[12px] text-light-grey mt-1">Provide specific details about the event, such as agenda, key activities, or any important information attendees need to know.</p>
                         </div>
                         <div className="col w-full">
-                           <ReactQuill theme="snow" className="ml-[90px] h-[100px]" value={notes} onChange={setNotes} />
+                           <ReactQuill theme="snow" className="ml-[90px] h-[100px]" value={details} onChange={setAgendaDetail} />
                         </div>
                      </div>
                   </div>
@@ -302,23 +336,7 @@ const Form: React.FC = () => {
                      <p className="text-[12px] text-light-grey mt-1">Provide clear and concise details about the task, including specific steps, deadlines, and any resources required.</p>
                   </div>
                   <div className="col w-full">
-                     <ReactQuill theme="snow" className="ml-[90px] h-[100px]" />
-                  </div>
-               </div>
-
-               {/* CERTIFICATE and PLACE */}
-               <div className="border p-3 my-3 shadow-md font-medium text-[17px] text-black">
-                  <h3>Certificate</h3>
-               </div>
-               <div className="border shadow-md p-3">
-                  <div className="row flex items-center border-b pb-[20px]">
-                     <div className="col max-w-[290px]">
-                        <p className="text-black font-medium text-[15px]">Audience Certificate</p>
-                        <p className="text-[12px] text-light-grey mt-1">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis vero eaque distinctio perspiciatis quas. Voluptate.</p>
-                     </div>
-                     <div className="col w-full">
-                        <input type="file" name="" id="" className="ml-[90px] text-[13px]" />
-                     </div>
+                     <ReactQuill theme="snow" className="ml-[90px] h-[100px]" value={notes} onChange={setNotes} />
                   </div>
                </div>
 

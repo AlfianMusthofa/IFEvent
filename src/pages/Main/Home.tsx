@@ -4,27 +4,25 @@ import Card from '../../components/Home/Card'
 import { useEffect, useState } from 'react'
 import Sponsors from '../../components/Home/Sponsors'
 import { Typewriter } from 'react-simple-typewriter'
+import axios from 'axios'
 
-interface validatedPostsVariable {
-   title: string,
-   id: number
+interface HomeProps {
+   eventName: string;
+   id: number;
+   url: string;
+   descriptions: string;
 }
 
 const Home = () => {
 
-   const [data, setData] = useState<validatedPostsVariable[]>([]);
+   const [events, setEvents] = useState<HomeProps[]>([]);
 
    useEffect(() => {
-      const fetchData = async () => {
-         try {
-            const response = await fetch('https://jsonplaceholder.typicode.com/posts?userId=3')
-            const result = await response.json()
-            setData(result);
-         } catch (error) {
-            console.log(error);
-         }
+      const getAllEvents = async () => {
+         const response = await axios.get('http://localhost:3000/api/v1/public/events?limit=6');
+         setEvents(response.data.result)
       }
-      fetchData();
+      getAllEvents()
    }, []);
 
    return (
@@ -63,8 +61,8 @@ const Home = () => {
                <div className='h-[2px] bg-black w-[600px]'></div>
             </div>
             <div className='container mx-auto mt-[30px] flex flex-wrap gap-[13px] justify-center'>
-               {data.map((item) => (
-                  <Card key={item.id} title={item.title} />
+               {events.map((item) => (
+                  <Card key={item.id} title={item.eventName} image={item.url} description={item.descriptions} id={item.id} />
                ))}
             </div>
             <div className='flex justify-center mt-[40px]'>

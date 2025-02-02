@@ -2,8 +2,27 @@ import Logo from '../../assets/icons/logo.png'
 import Person from '../../assets/icons/profile.png'
 import Lock from '../../assets/icons/padlock.png'
 import InformationBtn from '../../assets/icons/information-button.png'
+import { useState } from 'react'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
+
+   const [username, setUsername] = useState('')
+   const [password, setPassword] = useState('')
+
+   const navigate = useNavigate()
+
+   const login = async (e) => {
+      e.preventDefault();
+      try {
+         await axios.post('http://localhost:3000/api/v1/login', { username, password }, { withCredentials: true })
+         navigate('/')
+      } catch (error) {
+         console.error(error)
+      }
+   }
+
    return (
       <>
          <div className="w-full h-[100vh] flex justify-center items-center">
@@ -13,14 +32,14 @@ const Login = () => {
                   <p className='font-semibold text-[18px]'>Welcome Back</p>
                   <p className='text-[13px] mt-[3px]'>Dont have an account? <a href="/register" className='font-medium'>Sign Up</a></p>
                </div>
-               <form action="" method="get" className='mt-[20px] flex flex-col gap-[13px]'>
+               <form onSubmit={login} className='mt-[20px] flex flex-col gap-[13px]'>
                   <div className='border flex w-[310px] gap-2 p-[7px] rounded-[5px] border-yellow'>
                      <img src={Person} className='w-[25px]' />
-                     <input type="text" name="username" id="username" className='w-full text-[15px] outline-none' placeholder='Username' />
+                     <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} className='w-full text-[15px] outline-none' placeholder='Username' />
                   </div>
                   <div className='border flex w-[310px] gap-2 p-[7px] rounded-[5px] border-yellow'>
                      <img src={Lock} className='w-[22px]' />
-                     <input type="password" name="password" id="password" className='w-full text-[15px] outline-none' placeholder='Password' />
+                     <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className='w-full text-[15px] outline-none' placeholder='Password' />
                   </div>
                   <button type="submit" className='bg-yellow-primer text-[14px] text-white py-[8px] rounded-[5px]'>Login</button>
                </form>
