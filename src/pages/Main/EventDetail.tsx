@@ -11,7 +11,8 @@ const EventDetail = () => {
    const { id } = useParams();
 
    const [event, setEvent] = useState({ Speaker: [] });
-   const [user, setUser] = useState([]);
+   const [user, setUser] = useState(null);
+   const [isRegister, setIsRegister] = useState(false)
 
    useEffect(() => {
 
@@ -34,10 +35,63 @@ const EventDetail = () => {
 
    }, [id])
 
+   useEffect(() => {
+      const checkUserRegistrationToThisEvent = async () => {
+
+         try {
+            const response = await axios.post(`http://localhost:3000/api/v1/events/checkRegistered/${user.id}/${id}`, {}, { withCredentials: true })
+
+            if (response.status === 200) {
+               setIsRegister(true)
+            } else {
+               setIsRegister(false)
+            }
+
+         } catch (error) {
+            console.log(error)
+         }
+
+      }
+
+      checkUserRegistrationToThisEvent()
+   }, [user, id])
+
+   const addUserToEvent = async () => {
+      try {
+         const response = await axios.post(`http://localhost:3000/api/v1/events/addUser/${user.id}/${id}`, {}, { withCredentials: true })
+         if (response.status === 200) {
+            setIsRegister(true)
+            console.log(response.data?.msg)
+         } else {
+            setIsRegister(false)
+         }
+      } catch (error) {
+         console.log(error)
+      }
+   }
+
    const formatDate = (dateString: string) => {
       const options = { day: 'numeric', month: 'long', year: 'numeric' };
       return new Date(dateString).toLocaleDateString('en-GB', options);
    };
+
+   const renderButton = () => {
+      if (!user) {
+         return (
+            <button className="text-sm mt-3 px-5 py-2 rounded-[4px] bg-yellow-primer shadow-md">Login</button>
+         )
+      }
+
+      if (isRegister) {
+         return (
+            <button className="text-sm mt-3 px-5 py-2 rounded-[4px] bg-light-grey shadow-md" disabled>Registered</button>
+         )
+      }
+
+      return (
+         <button className="text-sm mt-3 px-5 py-2 rounded-[4px] bg-yellow-primer shadow-md" onClick={addUserToEvent}>Register</button>
+      )
+   }
 
    return (
       <>
@@ -53,8 +107,7 @@ const EventDetail = () => {
                         <p>{formatDate(event.date)}</p>
                         <p>{event.place}</p>
                      </div>
-                     <button className="text-sm mt-3 px-5 py-2 rounded-[4px] bg-yellow-primer shadow-md">Register</button>
-
+                     {renderButton()}
                   </div>
                   <img src={event.url} className="w-[240px] object-cover" />
                </div>
