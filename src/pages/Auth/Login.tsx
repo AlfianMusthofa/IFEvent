@@ -33,9 +33,10 @@ const Login = () => {
                   <p className='text-[13px] mt-[3px]'>Dont have an account? <a href="/register" className='font-medium'>Sign Up</a></p>
                </div>
                <form onSubmit={login} className='mt-[20px] flex flex-col gap-[13px]'>
-                  <div className='border flex w-[310px] gap-2 p-[7px] rounded-[5px] border-yellow'>
+                  <div className='border flex w-[310px] gap-2 p-[7px] rounded-[5px] border-yellow items-center'>
                      <img src={Person} className='w-[25px]' />
                      <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} className='w-full text-[15px] outline-none' placeholder='Username' />
+                     {/* <input type="text" className='border outline-none' /> */}
                   </div>
                   <div className='border flex w-[310px] gap-2 p-[7px] rounded-[5px] border-yellow'>
                      <img src={Lock} className='w-[22px]' />

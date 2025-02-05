@@ -5,6 +5,7 @@ import Phone from '../../assets/icons/smartphone-call.png'
 import { useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify';
 
 const Register = () => {
 
@@ -16,18 +17,40 @@ const Register = () => {
 
    const onSubmit = async (e) => {
       e.preventDefault();
-      const response = await axios.post(`http://localhost:3000/api/v1/users`, {
-         name,
-         password,
-         email,
-         phone
-      })
-      console.log(response.data)
-      navigate('/login')
+
+      try {
+         await axios.post(`http://localhost:3000/api/v1/users`, {
+            name,
+            password,
+            email,
+            phone
+         })
+
+         await toast.promise(
+            new Promise((resolve) => setTimeout(resolve, 3000)), {
+            pending: "Registering...",
+            success: "Register success! redirecting...",
+            error: "Failed to register!"
+         }
+         )
+
+         navigate('/login')
+      } catch (error) {
+         toast.error('Failed to register!', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            theme: "light",
+         });
+         console.log(error)
+      }
+
    }
 
    return (
       <>
+         <ToastContainer />
          <div className="w-full h-[100vh] flex justify-center items-center">
             <div className='border p-[17px] flex flex-col items-center shadow-md'>
                <img src={Logo} className='w-[60px]' />

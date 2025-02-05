@@ -22,6 +22,8 @@ import MyProfile from './pages/UserDashboard/MyProfile'
 // import ProtectedRoute from './components/ProtectedRoute'
 import EditFormReport from './pages/Admin/Report/EditForm'
 import EditEvent from './pages/Admin/Events/EditEvent'
+import Audience from './pages/Admin/Events/Audience'
+import DashboardAdmin from './pages/Admin/Dashboard/DashboardAdmin'
 
 const App = () => {
    return (
@@ -42,14 +44,16 @@ const App = () => {
             <Route path='/user/myprofile/:id' element={<MyProfile />} />
 
             {/* Admin Routes */}
+            <Route path='/dashboard' element={<DashboardAdmin />} />
+            <Route path='/dashboard/event' element={<Events />} />
             <Route path='/dashboard/event/add' element={<Form />} />
-            <Route path='/dashboard' element={<Events />} />
             <Route path='/dashboard/history/form' element={<ReportForm />} />
             <Route path='/dashboard/events/form' element={<EventForm />} />
             <Route path='/dashboard/users' element={<Users />} />
             <Route path='/dashboard/report' element={< ReportAdmin />} />
             <Route path='/dashboard/report/update/:id' element={< EditFormReport />} />
             <Route path='/dashboard/event/edit/:id' element={< EditEvent />} />
+            <Route path='/dashboard/event-audience/:id' element={< Audience />} />
          </Routes>
       </BrowserRouter>
    )

@@ -1,10 +1,10 @@
 import Navbar from "../../components/navbar"
-// import Person from '../../assets/person.jpg'
 import Footer from "../../components/Footer"
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import EventAgenda from "../../components/EventDetail/EventAgenda"
+import { ToastContainer, toast } from 'react-toastify';
 
 const EventDetail = () => {
 
@@ -59,11 +59,30 @@ const EventDetail = () => {
    const addUserToEvent = async () => {
       try {
          const response = await axios.post(`http://localhost:3000/api/v1/events/addUser/${user.id}/${id}`, {}, { withCredentials: true })
-         if (response.status === 200) {
+
+         if (response.status === 201) {
+
             setIsRegister(true)
             console.log(response.data?.msg)
+
+            toast.success('Register Success!', {
+               position: "top-right",
+               autoClose: 5000,
+               hideProgressBar: false,
+               closeOnClick: false,
+               theme: "light",
+            });
+
          } else {
             setIsRegister(false)
+
+            toast.error('Something Wrong!', {
+               position: "top-right",
+               autoClose: 5000,
+               hideProgressBar: false,
+               closeOnClick: false,
+               theme: "light",
+            });
          }
       } catch (error) {
          console.log(error)
@@ -93,6 +112,8 @@ const EventDetail = () => {
       )
    }
 
+
+
    return (
       <>
          <Navbar />
@@ -108,6 +129,7 @@ const EventDetail = () => {
                         <p>{event.place}</p>
                      </div>
                      {renderButton()}
+                     <ToastContainer />
                   </div>
                   <img src={event.url} className="w-[240px] object-cover" />
                </div>
@@ -126,7 +148,7 @@ const EventDetail = () => {
          </div>
          {/* Mentor */}
          <div className="bg-yellow-light flex justify-center py-[30px] gap-[50px] items-center">
-            <img src={event.Speaker[0]?.urlimage} className="w-[140px] rounded-full" />
+            <img src={event.Speaker[0]?.urlimage} className="w-[140px] h-[140px] object-cover rounded-full" />
             <div className="max-w-[600px] flex flex-col gap-[3px]">
                <h3 className="text-[19px] font-medium text-black">{event.Speaker[0]?.speakerName}</h3>
                <p className="text-[14px] text-light-grey" >{event.Speaker[0]?.speakerPosition}</p>

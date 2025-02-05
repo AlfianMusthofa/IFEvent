@@ -19,7 +19,7 @@ const Home = () => {
 
    useEffect(() => {
       const getAllEvents = async () => {
-         const response = await axios.get('http://localhost:3000/api/v1/public/events?limit=6');
+         const response = await axios.get('http://localhost:3000/api/v1/public/events?limit=6&status=Active');
          setEvents(response.data.result)
       }
       getAllEvents()

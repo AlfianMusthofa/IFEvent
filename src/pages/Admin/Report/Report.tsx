@@ -3,11 +3,13 @@ import Person from '../../../assets/person.jpg'
 import Logo from '../../../assets/icons/logo.png'
 import Eventlogo from '../../../assets/icons/schedule.png'
 import Userlogo from '../../../assets/icons/user.png'
+import DashboardLogo from '../../../assets/icons/dashboard.png'
 import Bloglogo from '../../../assets/icons/blogging.png'
 import Exitlogo from '../../../assets/icons/exit.png'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import dayjs from 'dayjs'
+import Pagination from '../../../components/Pagination'
 
 interface ReportDataType {
    title: string
@@ -20,6 +22,10 @@ const Report = () => {
 
    const [reports, setReports] = useState<ReportDataType[]>([]);
    const [dataAdmin, setDataAdmin] = useState({ id: null, username: "", email: "" })
+   const [page, setPage] = useState(0)
+   const [pages, setPages] = useState(1)
+   const [keyword, setKeyword] = useState("")
+   const [query, setQuery] = useState("")
 
    useEffect(() => {
       const getUser = async () => {
@@ -31,16 +37,23 @@ const Report = () => {
    }, [])
 
    useEffect(() => {
-      const getReports = async () => {
-         const response = await axios.get('http://localhost:3000/api/v1/reports', { withCredentials: true })
+      fetchReports(page);
+   }, [page, keyword])
+
+   const fetchReports = async (page: number) => {
+      try {
+         const response = await axios.get(`http://localhost:3000/api/v1/reports?page=${page}&limit=5&search_query=${keyword}`, { withCredentials: true })
          const formattedReports = response.data.result.map((report) => ({
             ...report,
             createdAt: dayjs(report.createdAt).format('DD-MM-YYYY')
          }))
          setReports(formattedReports)
+         setPage(response.data.page)
+         setPages(response.data.totalPage)
+      } catch (error) {
+         console.log(error)
       }
-      getReports()
-   }, [])
+   }
 
    const logout = async () => {
       try {
@@ -60,19 +73,11 @@ const Report = () => {
       }
    }
 
-   const formatDate = (dateString: string | undefined) => {
-      if (!dateString) return "Invalid Date"; // Cegah error jika undefined/null
-
-      const date = new Date(dateString);
-      if (isNaN(date.getTime())) return "Invalid Date"; // Cek apakah valid
-
-      return new Intl.DateTimeFormat("en-GB", {
-         day: "2-digit",
-         month: "long",
-         year: "numeric",
-      }).format(date);
-   };
-
+   const searchData = (e) => {
+      e.preventDefault();
+      setPage(0);
+      setKeyword(query);
+   }
 
    return (
       <>
@@ -83,30 +88,36 @@ const Report = () => {
                   <h3>SAKTIEvent</h3>
                </div>
                <div className="menu mt-[30px] flex flex-col gap-3">
-                  <a href='/dashboard' className='flex items-center gap-2 p-2 rounded-[6px] '>
+                  <a href='/dashboard' className='flex items-center gap-2 p-2 rounded-[6px]'>
+                     <img src={DashboardLogo} className='w-[23px]' />
+                     <p className='text-sm'>Dashboard</p>
+                  </a>
+                  <a href='/dashboard/event' className='flex items-center gap-2 p-2 rounded-[6px] '>
                      <img src={Eventlogo} className='w-[25px]' />
-                     <p>Events</p>
+                     <p className='text-sm'>Events</p>
                   </a>
                   <a href='/dashboard/users' className='flex items-center gap-2 p-2 rounded-[6px]'>
                      <img src={Userlogo} className='w-[22px]' />
-                     <p>Users</p>
+                     <p className='text-sm'>Users</p>
                   </a>
                   <a href='/dashboard/report' className='flex items-center gap-2 p-2 rounded-[6px] bg-yellow-primer'>
                      <img src={Bloglogo} className='w-[22px]' />
-                     <p>Reports</p>
+                     <p className='text-sm'>Reports</p>
                   </a>
                   <a onClick={logout} className='flex items-center gap-2 p-2 absolute bottom-5 cursor-pointer'>
                      <img src={Exitlogo} className='w-[20px]' />
-                     <p>Logout</p>
+                     <p className='text-sm'>Logout</p>
                   </a>
                </div>
             </div>
             <div className="col w-full p-6 bg-[#f5f5f5]">
                <div className='flex items-center justify-between'>
-                  <div className='border flex items-center gap-2 px-4 py-2 rounded-[50px] shadow-md bg-white'>
-                     <img src={Searcglogo} className='w-[17px]' />
-                     <input type="text" name="search" id="search" placeholder='Search' className='w-[350px] outline-none' />
-                  </div>
+                  <form onSubmit={searchData}>
+                     <div className='border flex items-center gap-2 px-4 py-2 rounded-[50px] shadow-md bg-white'>
+                        <img src={Searcglogo} className='w-[17px]' />
+                        <input type="text" placeholder='Search' className='w-[350px] outline-none' value={query} onChange={(e) => setQuery(e.target.value)} />
+                     </div>
+                  </form>
                   <div className='flex items-center gap-3'>
                      <img src={Person} className='w-[40px] rounded-full' />
                      <div>
@@ -151,14 +162,8 @@ const Report = () => {
                      </tbody>
                   </table>
                   {/* Pagination */}
-                  <div className='flex items-center justify-between mt-[30px] text-[14px]'>
-                     <a href="#">Previous</a>
-                     <div className='flex items-center gap-1'>
-                        <a href="#" className='w-[25px] h-[25px] rounded-[3px] flex justify-center items-center bg-yellow-primer'>1</a>
-                        <a href="#" className='w-[25px] h-[25px] rounded-[3px] flex justify-center items-center'>2</a>
-                        <a href="#" className='w-[25px] h-[25px] rounded-[3px] flex justify-center items-center'>3</a>
-                     </div>
-                     <a href="#">Next</a>
+                  <div className='flex items-center justify-center mt-[30px] text-[14px]'>
+                     <Pagination currentPage={page + 1} totalPages={pages} onPageChange={(newPage) => setPage(newPage - 1)} />
                   </div>
                </div>
             </div>

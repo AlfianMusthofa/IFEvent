@@ -66,7 +66,7 @@ const UserDashboard = () => {
                   <thead>
                      <tr>
                         <th className="text-sm text-left py-2 px-3">No</th>
-                        <th className="text-sm text-left py-2 px-3">Event</th>
+                        <th className="text-sm text-left py-2 px-3 w-[500px]">Event</th>
                         <th className="text-sm text-left py-2 px-3">Link</th>
                      </tr>
                   </thead>
