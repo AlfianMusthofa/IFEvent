@@ -6,6 +6,8 @@ import Sponsors from '../../components/Home/Sponsors'
 import { Typewriter } from 'react-simple-typewriter'
 import axios from 'axios'
 
+const API_BASE_URL = import.meta.env.VITE_URL_API
+
 interface HomeProps {
    eventName: string;
    id: number;
@@ -19,7 +21,7 @@ const Home = () => {
 
    useEffect(() => {
       const getAllEvents = async () => {
-         const response = await axios.get('http://localhost:3000/api/v1/public/events?limit=6&status=Active');
+         const response = await axios.get(`${API_BASE_URL}/api/v1/public/events?limit=8&status=Active`);
          setEvents(response.data.result)
       }
       getAllEvents()

@@ -18,6 +18,8 @@ interface ReportDataType {
    id: number
 }
 
+const API_BASE_URL = import.meta.env.VITE_URL_API
+
 const Report = () => {
 
    const [reports, setReports] = useState<ReportDataType[]>([]);
@@ -29,7 +31,7 @@ const Report = () => {
 
    useEffect(() => {
       const getUser = async () => {
-         const response = await axios.get('http://localhost:3000/api/v1/currentUser', { withCredentials: true })
+         const response = await axios.get(`${API_BASE_URL}/api/v1/currentUser`, { withCredentials: true })
          setDataAdmin(response.data)
       }
 
@@ -42,7 +44,7 @@ const Report = () => {
 
    const fetchReports = async (page: number) => {
       try {
-         const response = await axios.get(`http://localhost:3000/api/v1/reports?page=${page}&limit=5&search_query=${keyword}`, { withCredentials: true })
+         const response = await axios.get(`${API_BASE_URL}/api/v1/reports?page=${page}&limit=5&search_query=${keyword}`, { withCredentials: true })
          const formattedReports = response.data.result.map((report) => ({
             ...report,
             createdAt: dayjs(report.createdAt).format('DD-MM-YYYY')
@@ -57,7 +59,7 @@ const Report = () => {
 
    const logout = async () => {
       try {
-         await axios.delete('http://localhost:3000/api/v1/logout', { withCredentials: true })
+         await axios.delete(`${API_BASE_URL}/api/v1/logout`, { withCredentials: true })
          window.location.href = ('/');
       } catch (error) {
          console.log(error);
@@ -66,7 +68,7 @@ const Report = () => {
 
    const deleteReport = async (id) => {
       try {
-         await axios.delete(`http://localhost:3000/api/v1/reports/${id}`, { withCredentials: true })
+         await axios.delete(`${API_BASE_URL}/api/v1/reports/${id}`, { withCredentials: true })
          window.location.reload()
       } catch (error) {
          console.log(error)

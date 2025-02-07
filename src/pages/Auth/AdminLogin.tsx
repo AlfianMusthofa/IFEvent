@@ -5,6 +5,8 @@ import { useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
+const API_BASE_URL = import.meta.env.VITE_URL_API
+
 const AdminLogin = () => {
 
    const [username, setName] = useState('');
@@ -15,7 +17,7 @@ const AdminLogin = () => {
    const onSubmit = async (e) => {
       e.preventDefault();
       try {
-         await axios.post('http://localhost:3000/api/v1/login', { username, password }, { withCredentials: true })
+         await axios.post(`${API_BASE_URL}/api/v1/login`, { username, password }, { withCredentials: true })
          navigate('/dashboard')
       } catch (err: any) {
          setError(err.response?.data?.msg || "Login failed");

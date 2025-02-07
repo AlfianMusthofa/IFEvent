@@ -13,6 +13,8 @@ interface ReportProps {
    id: number
 }
 
+const API_BASE_URL = import.meta.env.VITE_URL_API
+
 const History = () => {
 
    const [reports, setReports] = useState<ReportProps[]>([])
@@ -20,7 +22,7 @@ const History = () => {
    const [pages, setPages] = useState(0)
 
    const getReports = useCallback(async () => {
-      const response = await axios.get(`http://localhost:3000/api/v1/public/reports?limit=6&page=${page}`)
+      const response = await axios.get(`${API_BASE_URL}/api/v1/public/reports?limit=6&page=${page}`)
       setReports(response.data.result)
       setPage(response.data.page);
       setPages(response.data.totalPage)

@@ -17,6 +17,8 @@ interface UserProps {
    email: string
 }
 
+const API_BASE_URL = import.meta.env.VITE_URL_API
+
 const Users = () => {
 
    const [user, setUser] = useState<UserProps[]>([]);
@@ -28,7 +30,7 @@ const Users = () => {
 
    useEffect(() => {
       const getUser = async () => {
-         const response = await axios.get('http://localhost:3000/api/v1/currentUser', { withCredentials: true })
+         const response = await axios.get(`${API_BASE_URL}/api/v1/currentUser`, { withCredentials: true })
          setDataAdmin(response.data)
       }
 
@@ -41,7 +43,7 @@ const Users = () => {
 
    const fetchUser = async (page: number) => {
       try {
-         const response = await axios.get(`http://localhost:3000/api/v1/users?page=${page}&limit=5&search_query=${keyword}`, { withCredentials: true })
+         const response = await axios.get(`${API_BASE_URL}/api/v1/users?page=${page}&limit=5&search_query=${keyword}`, { withCredentials: true })
          setUser(response.data.result)
          setPage(response.data.page);
          setPages(response.data.totalPage)
@@ -52,7 +54,7 @@ const Users = () => {
 
    const logout = async () => {
       try {
-         await axios.delete('http://localhost:3000/api/v1/logout', { withCredentials: true })
+         await axios.delete(`${API_BASE_URL}/api/v1/logout`, { withCredentials: true })
          window.location.href = ('/');
       } catch (error) {
          console.log(error);

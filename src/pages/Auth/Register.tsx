@@ -7,6 +7,8 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 
+const API_BASE_URL = import.meta.env.VITE_URL_API
+
 const Register = () => {
 
    const [name, setUsername] = useState('');
@@ -19,7 +21,7 @@ const Register = () => {
       e.preventDefault();
 
       try {
-         await axios.post(`http://localhost:3000/api/v1/users`, {
+         await axios.post(`${API_BASE_URL}/api/v1/users`, {
             name,
             password,
             email,

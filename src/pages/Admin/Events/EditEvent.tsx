@@ -6,6 +6,8 @@ import DOMPurify from "dompurify";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 
+const API_BASE_URL = import.meta.env.VITE_URL_API
+
 const EditEvent = () => {
 
    const [eventName, setEventName] = useState('');
@@ -73,7 +75,7 @@ const EditEvent = () => {
       formData.append('speakerImage', speakerImage);
 
       try {
-         await axios.patch(`http://localhost:3000/api/v1/events/${id}`, formData, {
+         await axios.patch(`${API_BASE_URL}/api/v1/events/${id}`, formData, {
             headers: { 'Content-Type': 'multipart/form-data' },
             withCredentials: true
          })
@@ -88,7 +90,7 @@ const EditEvent = () => {
 
    useEffect(() => {
       const getThisEvent = async () => {
-         const response = await axios.get(`http://localhost:3000/api/v1/events/${id}`, { withCredentials: true })
+         const response = await axios.get(`${API_BASE_URL}/api/v1/events/${id}`, { withCredentials: true })
          setEventName(response.data.eventName)
          setFile(response.data.eventImage)
          setPlace(response.data.place)
@@ -193,10 +195,11 @@ const EditEvent = () => {
                      <p className="text-[12px] text-light-grey mt-1">Determine Event Status: Select 'Active' if the event is in progress or 'Completed' if it finished.</p>
                   </div>
                   <div className="col w-full">
-                     <select className="w-[320px] border rounded-[3px] ml-[90px] p-2 bg-lighter-grey outline-none text-[13px]" onChange={(e) => setStatus(e.target.value)}>
+                     <select className="w-[320px] border rounded-[3px] ml-[90px] p-2 bg-lighter-grey outline-none text-[13px]" value={status} onChange={(e) => setStatus(e.target.value)}>
                         <option value="Active">Active</option>
                         <option value="Pending">Pending</option>
                         <option value="Completed">Completed</option>
+                        <option value="Cancelled">Cancelled</option>
                      </select>
                   </div>
                </div>

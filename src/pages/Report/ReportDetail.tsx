@@ -7,6 +7,8 @@ import { useEffect, useState } from "react"
 import axios from "axios"
 import dayjs from "dayjs"
 
+const API_BASE_URL = import.meta.env.VITE_URL_API
+
 const HistoryDetail = () => {
 
    const [reportDetail, setReportDetail] = useState([]);
@@ -14,7 +16,7 @@ const HistoryDetail = () => {
 
    useEffect(() => {
       const getReport = async () => {
-         const response = await axios.get(`http://localhost:3000/api/v1/reports/${id}`)
+         const response = await axios.get(`${API_BASE_URL}/api/v1/reports/${id}`)
          setReportDetail(response.data)
       }
       getReport();

@@ -2,6 +2,8 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 
+const API_BASE_URL = import.meta.env.VITE_URL_API
+
 const Audience = () => {
 
    const { id } = useParams()
@@ -9,7 +11,7 @@ const Audience = () => {
 
    useEffect(() => {
       const getAudiences = async () => {
-         const response = await axios.get(`http://localhost:3000/api/v1/events/${id}`, { withCredentials: true })
+         const response = await axios.get(`${API_BASE_URL}/api/v1/events/${id}`, { withCredentials: true })
          setAudience(response.data)
       }
       getAudiences();

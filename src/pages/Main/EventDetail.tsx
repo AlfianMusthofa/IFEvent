@@ -6,6 +6,8 @@ import axios from "axios"
 import EventAgenda from "../../components/EventDetail/EventAgenda"
 import { ToastContainer, toast } from 'react-toastify';
 
+const API_BASE_URL = import.meta.env.VITE_URL_API
+
 const EventDetail = () => {
 
    const { id } = useParams();
@@ -18,7 +20,7 @@ const EventDetail = () => {
 
       const getCurrentUser = async () => {
          try {
-            const response = await axios.get('http://localhost:3000/api/v1/currentUser', { withCredentials: true })
+            const response = await axios.get(`${API_BASE_URL}/api/v1/currentUser`, { withCredentials: true })
             setUser(response.data)
          } catch (error) {
             console.log(error);
@@ -26,7 +28,7 @@ const EventDetail = () => {
       }
 
       const getThisEvent = async () => {
-         const response = await axios.get(`http://localhost:3000/api/v1/public/events/${id}`)
+         const response = await axios.get(`${API_BASE_URL}/api/v1/public/events/${id}`)
          setEvent(response.data)
       }
 
@@ -39,7 +41,7 @@ const EventDetail = () => {
       const checkUserRegistrationToThisEvent = async () => {
 
          try {
-            const response = await axios.post(`http://localhost:3000/api/v1/events/checkRegistered/${user.id}/${id}`, {}, { withCredentials: true })
+            const response = await axios.post(`${API_BASE_URL}/api/v1/events/checkRegistered/${user.id}/${id}`, {}, { withCredentials: true })
 
             if (response.status === 200) {
                setIsRegister(true)
@@ -58,7 +60,7 @@ const EventDetail = () => {
 
    const addUserToEvent = async () => {
       try {
-         const response = await axios.post(`http://localhost:3000/api/v1/events/addUser/${user.id}/${id}`, {}, { withCredentials: true })
+         const response = await axios.post(`${API_BASE_URL}/api/v1/events/addUser/${user.id}/${id}`, {}, { withCredentials: true })
 
          if (response.status === 201) {
 
@@ -97,7 +99,7 @@ const EventDetail = () => {
    const renderButton = () => {
       if (!user) {
          return (
-            <button className="text-sm mt-3 px-5 py-2 rounded-[4px] bg-yellow-primer shadow-md">Login</button>
+            <button className="text-sm mt-3 px-5 py-2 rounded-[4px] bg-yellow-primer shadow-md">Login to Register</button>
          )
       }
 
@@ -131,7 +133,7 @@ const EventDetail = () => {
                      {renderButton()}
                      <ToastContainer />
                   </div>
-                  <img src={event.url} className="w-[240px] object-cover" />
+                  <img src={event.url} className="w-[240px] h-[150px] object-cover" />
                </div>
             </div>
          </div>

@@ -6,6 +6,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import DOMPurify from 'dompurify';
 
+const API_BASE_URL = import.meta.env.VITE_URL_API
+
 const HistoryForm: React.FC = () => {
 
    const [title, setTitle] = useState('');
@@ -17,7 +19,7 @@ const HistoryForm: React.FC = () => {
 
    useEffect(() => {
       const getUser = async () => {
-         const response = await axios.get('http://localhost:3000/api/v1/currentUser', { withCredentials: true })
+         const response = await axios.get(`${API_BASE_URL}/api/v1/currentUser`, { withCredentials: true })
          setDataAdmin(response.data)
       }
 
@@ -44,7 +46,7 @@ const HistoryForm: React.FC = () => {
 
 
       try {
-         await axios.post('http://localhost:3000/api/v1/reports', formData, {
+         await axios.post(`${API_BASE_URL}/api/v1/reports`, formData, {
             headers: {
                'Content-Type': 'multipart/form-data'
             },

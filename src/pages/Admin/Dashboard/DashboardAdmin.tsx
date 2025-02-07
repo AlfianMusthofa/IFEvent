@@ -1,4 +1,4 @@
-import Searcglogo from '../../../assets/icons/search-interface-symbol.png'
+// import Searcglogo from '../../../assets/icons/search-interface-symbol.png'
 import DashboardLogo from '../../../assets/icons/dashboard.png'
 import Person from '../../../assets/person.jpg'
 import Logo from '../../../assets/icons/logo.png'
@@ -9,6 +9,8 @@ import Exitlogo from '../../../assets/icons/exit.png'
 import axios from "axios"
 import { useEffect, useState } from "react"
 
+const API_BASE_URL = import.meta.env.VITE_URL_API
+
 const DashboardAdmin = () => {
 
    const [dataAdmin, setDataAdmin] = useState({ id: null, username: "", email: "" })
@@ -17,13 +19,13 @@ const DashboardAdmin = () => {
    const [pendingEvents, setPendingEvents] = useState(0);
    const [cancelledEvents, setCancelledEvents] = useState(0);
    const [totalParticipants, setTotalParticipants] = useState(0);
-   const [recentlyEvent, setRecentlyEvent] = useState([]);
-   const [recentlyUser, setRecentlyUser] = useState([]);
+   const [recentlyEvent, setRecentlyEvent] = useState<DashboardAdmin[]>([]);
+   const [recentlyUser, setRecentlyUser] = useState<DashboardAdmin[]>([]);
 
    useEffect(() => {
 
       const getUser = async () => {
-         const response = await axios.get('http://localhost:3000/api/v1/currentUser', { withCredentials: true })
+         const response = await axios.get(`${API_BASE_URL}/api/v1/currentUser`, { withCredentials: true })
          setDataAdmin(response.data)
       }
       getUser()
@@ -32,27 +34,27 @@ const DashboardAdmin = () => {
    useEffect(() => {
 
       const getActiveEvents = async () => {
-         const response = await axios.get('http://localhost:3000/api/v1/events?status=Active', { withCredentials: true })
+         const response = await axios.get(`${API_BASE_URL}/api/v1/events?status=Active`, { withCredentials: true })
          setActiveEvents(response.data.totalRows)
       }
 
       const getCompletedEvents = async () => {
-         const response = await axios.get('http://localhost:3000/api/v1/events?status=Completed', { withCredentials: true })
+         const response = await axios.get(`${API_BASE_URL}/api/v1/events?status=Completed`, { withCredentials: true })
          setCompletedEvents(response.data.totalRows)
       }
 
       const getPendingEvents = async () => {
-         const response = await axios.get('http://localhost:3000/api/v1/events?status=Pending', { withCredentials: true })
+         const response = await axios.get(`${API_BASE_URL}/api/v1/events?status=Pending`, { withCredentials: true })
          setPendingEvents(response.data.totalRows)
       }
 
       const getCancelledEvents = async () => {
-         const response = await axios.get('http://localhost:3000/api/v1/events?status=Cancelled', { withCredentials: true })
+         const response = await axios.get(`${API_BASE_URL}/api/v1/events?status=Cancelled`, { withCredentials: true })
          setCancelledEvents(response.data.totalRows)
       }
 
       const getTotalParticipants = async () => {
-         const response = await axios.get('http://localhost:3000/api/v1/getAllParticipants', { withCredentials: true })
+         const response = await axios.get(`${API_BASE_URL}/api/v1/getAllParticipants`, { withCredentials: true })
          setTotalParticipants(response.data)
       }
 
@@ -67,12 +69,12 @@ const DashboardAdmin = () => {
    useEffect(() => {
 
       const getRecentlyEvent = async () => {
-         const response = await axios.get('http://localhost:3000/api/v1/events?limit=1', { withCredentials: true })
+         const response = await axios.get(`${API_BASE_URL}/api/v1/events?limit=1`, { withCredentials: true })
          setRecentlyEvent(response.data.result[0])
       }
 
       const getRecentlyUser = async () => {
-         const response = await axios.get('http://localhost:3000/api/v1/users?limit=1', { withCredentials: true })
+         const response = await axios.get(`${API_BASE_URL}/api/v1/users?limit=1`, { withCredentials: true })
          setRecentlyUser(response.data.result[0])
       }
 
@@ -82,7 +84,7 @@ const DashboardAdmin = () => {
 
    const logout = async () => {
       try {
-         await axios.delete('http://localhost:3000/api/v1/logout', { withCredentials: true })
+         await axios.delete(`${API_BASE_URL}/api/v1/logout`, { withCredentials: true })
          window.location.href = ('/');
       } catch (error) {
          console.log(error);

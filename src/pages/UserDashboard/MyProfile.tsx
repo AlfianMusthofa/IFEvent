@@ -20,6 +20,15 @@ const MyProfile = () => {
       getCurrentUser();
    }, [])
 
+   const logout = async () => {
+      try {
+         await axios.delete('http://localhost:3000/api/v1/logout', { withCredentials: true })
+         window.location.href = ('/');
+      } catch (error) {
+         console.log(error);
+      }
+   }
+
    return (
       <>
          <Navbar />
@@ -31,25 +40,25 @@ const MyProfile = () => {
          <div className="container mx-auto my-9 flex gap-3">
             <div className="col w-[240px] border-t border-b py-5">
                <div className="flex flex-col gap-2">
-                  <a href={`/user/dashboard/${user.id}`} className="p-2 rounded-[5px]">My Events</a>
-                  <a href={`/user/myprofile/${user.id}`} className="p-2 bg-yellow-primer rounded-[5px]">My Profile</a>
-                  <a href="#" className="p-2 rounded-[5px]">Log Out</a>
+                  <a href={`/user/dashboard/${user.id}`} className="p-2 rounded-[5px] text-sm">My Events</a>
+                  <a href={`/user/myprofile/${user.id}`} className="p-2 bg-yellow-primer rounded-[5px] text-sm">My Profile</a>
+                  <button onClick={logout} className="p-2 rounded-[5px] text-start text-sm">Log Out</button>
                </div>
             </div>
             <div className="col w-full border-t border-b py-1">
                <h3 className="font-medium text-[24px]">My Profile</h3>
                <div className="my-3">
                   <div className="flex items-center gap-[100px] bg-yellow-light">
-                     <p className="py-3 px-3">Name</p>
-                     <p className="py-3 px-3">{user.username}</p>
+                     <p className="py-3 px-3 text-sm">Name</p>
+                     <p className="py-3 px-3 text-sm">{user.username}</p>
                   </div>
                   <div className="flex items-center gap-[102px]">
-                     <p className="py-3 px-3">Email</p>
-                     <p className="py-3 px-3">{user.email}</p>
+                     <p className="py-3 px-3 text-sm">Email</p>
+                     <p className="py-3 px-3 text-sm">{user.email}</p>
                   </div>
                   <div className="flex items-center gap-[44px] bg-yellow-light">
-                     <p className="py-3 px-3">Mobile Phone</p>
-                     <p className="py-3 px-3">{user.phone}</p>
+                     <p className="py-3 px-3 text-sm">Mobile Phone</p>
+                     <p className="py-3 px-3 text-sm">{user.phone}</p>
                   </div>
                </div>
             </div>

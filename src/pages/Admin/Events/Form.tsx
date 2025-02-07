@@ -6,6 +6,8 @@ import DOMPurify from "dompurify";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+const API_BASE_URL = import.meta.env.VITE_URL_API
+
 const Form: React.FC = () => {
 
    const [name, setName] = useState('');
@@ -71,7 +73,7 @@ const Form: React.FC = () => {
       formData.append('speakerImage', speakerImage);
 
       try {
-         await axios.post('http://localhost:3000/api/v1/events', formData, { withCredentials: true })
+         await axios.post(`${API_BASE_URL}/api/v1/events`, formData, { withCredentials: true })
          navigate('/dashboard')
       } catch (error) {
          console.log(error)
@@ -187,10 +189,10 @@ const Form: React.FC = () => {
                            <p className="text-[12px] text-light-grey mt-1">Upload a mentor photo with good quality, proportional size, and JPG or PNG file format.</p>
                         </div>
                         <div className="col w-full">
-                           <div className="h-[120px] w-[190px] border-2 border-dashed flex flex-col gap-1 justify-center items-center ml-[90px] object-cover cursor-pointer" onClick={() => document.getElementById("speaker-image-upload-input")?.click()}>
+                           <div className="h-[120px] w-[120px] border-2 border-dashed flex flex-col gap-1 justify-center items-center ml-[90px] object-cover cursor-pointer" onClick={() => document.getElementById("speaker-image-upload-input")?.click()}>
 
                               {speakerImagePreview ? (
-                                 <img src={speakerImagePreview} alt="Preview" className="h-[120px] w-[190px] object-cover" />
+                                 <img src={speakerImagePreview} alt="Preview" className="h-[120px] w-[120px] object-cover" />
                               ) : (
                                  <>
                                     <img src={UploadLogo} className="w-[25px]" alt="Upload Icon" />
@@ -241,7 +243,7 @@ const Form: React.FC = () => {
 
                            <div className="ml-[90px] mt-2">
 
-                              <input type="text" className="w-[320px] border rounded-[3px] outline-none bg-lighter-grey text-[13px] p-2" />
+                              <input type="text" className="w-[320px] border rounded-[3px] outline-none bg-lighter-grey text-[13px] p-2" value={speakerName} onChange={(e) => setSpeakerName(e.target.value)} />
                               <p className="text-[12px] mt-[5px] text-light-grey">If the mentor is not on the list</p>
 
                            </div>
@@ -265,7 +267,7 @@ const Form: React.FC = () => {
                               </select>
 
                               <div className="mt-2">
-                                 <input type="text" className="w-[320px] border rounded-[3px] outline-none bg-lighter-grey text-[13px] p-2" />
+                                 <input type="text" className="w-[320px] border rounded-[3px] outline-none bg-lighter-grey text-[13px] p-2" value={speakerPosition} onChange={(e) => setSpeakerPosition(e.target.value)} />
                                  <p className="text-[12px] mt-[5px] text-light-grey">If the position is not on the list</p>
                               </div>
 
