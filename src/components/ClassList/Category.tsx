@@ -1,33 +1,19 @@
-import React, { useEffect, useState } from "react";
-import Card from "./Card";
+import Card from "../Home/Card";
 
 interface categoryProps {
   name: string;
+  events: EventProps[];
 }
 
-interface validatedPostsVariable {
-  title: string;
+export interface EventProps {
   id: number;
+  title: string;
+  image: string;
+  description: string;
+  slug: string;
 }
 
-const Category: React.FC<categoryProps> = ({ name }) => {
-  const [data, setData] = useState<validatedPostsVariable[]>([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          "https://jsonplaceholder.typicode.com/posts?userId=3",
-        );
-        const result = await response.json();
-        setData(result);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, []);
-
+const Category: React.FC<categoryProps> = ({ name, events }: categoryProps) => {
   return (
     <>
       <div className="bg-yellow-primer">
@@ -35,10 +21,20 @@ const Category: React.FC<categoryProps> = ({ name }) => {
           <h3>{name}</h3>
         </div>
       </div>
-      <div className="max-w-[1029px] mx-auto mt-[30px] flex flex-wrap gap-[13px] justify-center">
-        {data.map((item) => (
-          <Card key={item.id} title={item.title} />
-        ))}
+      <div className="max-w-[1029px] mx-auto my-[30px] flex flex-wrap gap-[13px] ">
+        {events.length === 0 ? (
+          <p className="text-gray-500">No events in this category</p>
+        ) : (
+          events.map((event) => (
+            <Card
+              key={event.id}
+              title={event.title}
+              description={event.description}
+              image={event.image}
+              slug={event.slug}
+            />
+          ))
+        )}
       </div>
     </>
   );

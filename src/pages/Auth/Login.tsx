@@ -120,7 +120,7 @@ const Login = () => {
               Login
             </button>
           </form>
-          <div className="mt-[15px]">
+          {/* <div className="mt-[15px]">
             <div className="flex items-center gap-[10px]">
               <img src={InformationBtn} className="w-[16px]" />
               <p className="text-[13px]">Students use the SALAM account</p>
@@ -134,7 +134,7 @@ const Login = () => {
                 </a>
               </p>
             </div>
-          </div>
+          </div> */}
         </form>
       </div>
     </>

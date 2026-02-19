@@ -3,10 +3,38 @@ import facebook from "../../assets/icons/facebook.png";
 import instagram from "../../assets/icons/instagram.png";
 import youtube from "../../assets/icons/youtube.png";
 import tiktok from "../../assets/icons/tiktok.png";
-import Category from "../../components/ClassList/Category";
 import Footer from "../../components/Footer";
+import { useEffect, useState } from "react";
+import { API_URL } from "../../service/api";
+import Category from "../../components/ClassList/Category";
+
+export interface EventProps {
+  id: number;
+  title: string;
+  image: string;
+  description: string;
+  slug: string;
+}
+
+interface CategoryProps {
+  id: number;
+  name: string;
+  Events: EventProps[];
+}
 
 const ClassList = () => {
+  const [category, setCategory] = useState<CategoryProps[]>([]);
+
+  useEffect(() => {
+    const fetchCategory = async () => {
+      const response = await fetch(`${API_URL}/category/events`);
+      const data = await response.json();
+      setCategory(data);
+    };
+
+    fetchCategory();
+  }, []);
+
   return (
     <>
       <Navbar />
@@ -45,10 +73,10 @@ const ClassList = () => {
           </div>
         </div>
       </div>
-      {/* classlist */}
-      <div>
-        <Category name="Seminar" />
-      </div>
+      {/* EVENT LIST BY CATEGORY */}
+      {category.map((cat) => (
+        <Category key={cat.id} name={cat.name} events={cat.Events} />
+      ))}
       <div className="mt-10">
         <Footer />
       </div>
