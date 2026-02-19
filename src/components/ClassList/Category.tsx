@@ -1,46 +1,47 @@
-import React, { useEffect, useState } from "react"
-import Card from "./Card"
+import React, { useEffect, useState } from "react";
+import Card from "./Card";
 
 interface categoryProps {
-   name: string,
+  name: string;
 }
 
 interface validatedPostsVariable {
-   title: string,
-   id: number
+  title: string;
+  id: number;
 }
 
 const Category: React.FC<categoryProps> = ({ name }) => {
+  const [data, setData] = useState<validatedPostsVariable[]>([]);
 
-   const [data, setData] = useState<validatedPostsVariable[]>([]);
-
-   useEffect(() => {
-      const fetchData = async () => {
-         try {
-            const response = await fetch('https://jsonplaceholder.typicode.com/posts?userId=3')
-            const result = await response.json()
-            setData(result);
-         } catch (error) {
-            console.log(error);
-         }
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "https://jsonplaceholder.typicode.com/posts?userId=3",
+        );
+        const result = await response.json();
+        setData(result);
+      } catch (error) {
+        console.log(error);
       }
-      fetchData();
-   }, []);
+    };
+    fetchData();
+  }, []);
 
-   return (
-      <>
-         <div className="bg-yellow-primer">
-            <div className="container mx-auto text-white text-[28px] font-semibold py-[13px]">
-               <h3>{name}</h3>
-            </div>
-         </div>
-         <div className="container mx-auto py-[20px] grid grid-cols-4 gap-[20px]">
-            {data.map((item) => (
-               <Card key={item.id} title={item.title} />
-            ))}
-         </div>
-      </>
-   )
-}
+  return (
+    <>
+      <div className="bg-yellow-primer">
+        <div className="max-w-[1029px] mx-auto text-white text-[28px] font-semibold py-[13px]">
+          <h3>{name}</h3>
+        </div>
+      </div>
+      <div className="max-w-[1029px] mx-auto mt-[30px] flex flex-wrap gap-[13px] justify-center">
+        {data.map((item) => (
+          <Card key={item.id} title={item.title} />
+        ))}
+      </div>
+    </>
+  );
+};
 
-export default Category
+export default Category;
