@@ -1,14 +1,13 @@
 import Navbar from "../../components/navbar";
-import PP from "../../assets/raw.png";
-import Person from "../../assets/person.jpg";
-// import CardPayment from "../../components/EventDetail/CardPayment"
 import Syllabus from "../../components/Home/Syllabus";
 import Footer from "../../components/Footer";
 import { useEffect, useState } from "react";
 import { API_URL } from "../../service/api";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { Bounce, toast } from "react-toastify";
 
 interface EventProps {
+  id: number;
   title: string;
   location: string;
   description: string;
@@ -22,17 +21,69 @@ interface EventProps {
 const EventDetail = () => {
   const { slug } = useParams();
   const [event, setEvent] = useState<EventProps>();
+  const [joined, setJoined] = useState(false);
+  const accessToken = localStorage.getItem("accessToken");
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if (!slug) return;
     const fetchEvent = async () => {
       const res = await fetch(`${API_URL}/events/slug/${slug}`);
       const data = await res.json();
       console.log(data);
       setEvent(data);
+
+      if (accessToken) {
+        const historyRes = await fetch(`${API_URL}/users/me/history`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+
+        if (historyRes.ok) {
+          const history = await historyRes.json();
+          const alreadyJoined = history.Events?.some(
+            (e: any) => e.id === data.id,
+          );
+
+          setJoined(alreadyJoined);
+        }
+      }
     };
 
     fetchEvent();
   }, [slug]);
+
+  const handleJoin = async () => {
+    try {
+      const res = await fetch(`${API_URL}/events/${event?.id}/join`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      if (!res.ok) {
+        navigate("/login");
+        return;
+      }
+
+      setJoined(true);
+
+      toast.success("Registered Success", {
+        position: "top-right",
+        autoClose: 2000,
+        transition: Bounce,
+      });
+    } catch (err) {
+      toast.warning("Registered Failed", {
+        position: "top-right",
+        autoClose: 2000,
+        transition: Bounce,
+      });
+      console.error(err);
+    }
+  };
 
   return (
     <>
@@ -49,8 +100,16 @@ const EventDetail = () => {
                 <p>3 Pertemuan</p>
                 <p className="my-1.5">26 - 27 December 2024</p>
                 <p>{event?.location}</p>
-                <button className="bg-yellow-primer font-medium text-black px-10 py-2 rounded-md mt-3">
-                  Join
+                <button
+                  disabled={joined}
+                  onClick={handleJoin}
+                  className={`font-medium px-10 py-2 rounded-md mt-3 ${
+                    joined
+                      ? "bg-gray-400 font-medium text-black px-6 py-2 rounded-md mt-3 cursor-not-allowed"
+                      : "bg-yellow-primer font-medium text-black px-6 py-2 rounded-md mt-3"
+                  }`}
+                >
+                  {joined ? "Registered" : "Register"}
                 </button>
               </div>
             </div>

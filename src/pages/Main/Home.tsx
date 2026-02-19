@@ -18,7 +18,7 @@ const Home = () => {
   const [events, setEvents] = useState<EventsProps[]>([]);
 
   useEffect(() => {
-    fetch(`${API_URL}/events`)
+    fetch(`${API_URL}/events?limit=6`)
       .then((res) => res.json())
       .then((result) => {
         setEvents(result.data);
