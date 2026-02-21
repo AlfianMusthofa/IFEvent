@@ -25,7 +25,7 @@ const Card: React.FC<CardProps> = ({ title, description, slug, image }) => {
             {description}
           </p>
           <Link
-            to={`/detail/${slug}`}
+            to={`/events/${slug}`}
             className="bg-yellow-primer rounded-[5px] text-[12px] flex justify-center py-[7px] mt-[7px]"
           >
             More Details

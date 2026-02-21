@@ -25,7 +25,7 @@ const ProtectedRoute = () => {
         });
 
         // 2️⃣ kalau access token expired → refresh
-        if (response.status === 401) {
+        if (response.status === 401 || response.status === 403) {
           const newAccessToken = await refreshToken();
 
           if (!newAccessToken) {
