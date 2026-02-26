@@ -11,6 +11,13 @@ import About from "./pages/About/About";
 import Partners from "./pages/Partners/Partners";
 import UserDashboard from "./pages/UserDashboard/UserDashboard";
 import ProtectedRoute from "./components/PrivateRoute";
+import AdminLayout from "./layouts/AdminLayout";
+import Dashboard from "./pages/Admin/dashboard/Dashboard";
+import Users from "./pages/Admin/users/Users";
+import Events from "./pages/Admin/events/Events";
+import Categories from "./pages/Admin/categories/Categories";
+import Mentors from "./pages/Admin/mentors/Mentors";
+import CreateEvent from "./pages/Admin/events/CreateEvent";
 
 const App = () => {
   return (
@@ -29,6 +36,16 @@ const App = () => {
           <Route path="/me/profile" element={<UserDashboard />} />
           <Route path="/history-detail" element={<HistoryDetail />} />
         </Route>
+
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<Dashboard />} />
+          <Route path="users" element={<Users />} />
+          <Route path="events" element={<Events />} />
+          <Route path="categories" element={<Categories />} />
+          <Route path="mentors" element={<Mentors />} />
+        </Route>
+
+        <Route path="/admin/event-form" element={<CreateEvent />} />
       </Routes>
     </BrowserRouter>
   );

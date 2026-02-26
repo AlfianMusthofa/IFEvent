@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { API_URL } from "../../service/api";
 import { useNavigate, useParams } from "react-router-dom";
 import { Bounce, toast } from "react-toastify";
+import { formatEventDate } from "../../utils/date";
 
 interface EventProps {
   id: number;
@@ -16,6 +17,7 @@ interface EventProps {
   position: string;
   mentor: string;
   mentorImage: string;
+  startAt: string;
 }
 
 const EventDetail = () => {
@@ -97,8 +99,7 @@ const EventDetail = () => {
                 {event?.title}
               </h3>
               <div className="mt-[15px] text-light-grey text-[14px]">
-                <p>3 Pertemuan</p>
-                <p className="my-1.5">26 - 27 December 2024</p>
+                <p className="my-1.5">{formatEventDate(event?.startAt)}</p>
                 <p>{event?.location}</p>
                 <button
                   disabled={joined}
@@ -175,13 +176,15 @@ const EventDetail = () => {
       </div>
       {/* Mentor */}
       <div className="bg-yellow-light flex justify-center py-[30px] gap-[50px] items-center">
-        <img src={event?.mentorImage} className="w-[140px] rounded-full" />
+        <img src={event?.Mentor.image} className="w-[140px] rounded-full" />
         <div className="max-w-[600px] flex flex-col gap-[3px]">
           <h3 className="text-[19px] font-medium text-black">
-            {event?.mentor}
+            {event?.Mentor.name}
           </h3>
-          <p className="text-[14px] text-light-grey">{event?.position}</p>
-          <p className="text-[14px]">{event?.bio}</p>
+          <p className="text-[14px] text-light-grey">
+            {event?.Mentor.position}
+          </p>
+          <p className="text-[14px]">{event?.Mentor.bio}</p>
         </div>
       </div>
       <div className="div mt-[20px] py-[30px]">

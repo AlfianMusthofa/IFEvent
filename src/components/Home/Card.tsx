@@ -1,14 +1,22 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { formatEventDate } from "../../utils/date";
 
 interface CardProps {
   title: string;
   description: string;
   slug: string;
   image: string;
+  startAt: string;
 }
 
-const Card: React.FC<CardProps> = ({ title, description, slug, image }) => {
+const Card: React.FC<CardProps> = ({
+  title,
+  description,
+  slug,
+  image,
+  startAt,
+}) => {
   return (
     <>
       <div className="p-[10px] rounded-[5px] max-w-[235px] shadow-md border">
@@ -19,7 +27,7 @@ const Card: React.FC<CardProps> = ({ title, description, slug, image }) => {
         <div className="content pt-[10px]">
           <p className="line-clamp-1 text-[15px] font-medium">{title}</p>
           <p className="text-[11px] text-lighter-grey-grey ">
-            24 December 2024
+            {formatEventDate(startAt)}
           </p>
           <p className="line-clamp-2 text-[12px] mt-[7px] text-light-grey">
             {description}

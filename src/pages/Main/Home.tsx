@@ -12,6 +12,7 @@ interface EventsProps {
   description: string;
   slug: string;
   image: string;
+  startAt: string;
 }
 
 const Home = () => {
@@ -69,6 +70,7 @@ const Home = () => {
               title={event.title}
               description={event.description}
               slug={event.slug}
+              startAt={event.startAt}
             />
           ))}
         </div>
