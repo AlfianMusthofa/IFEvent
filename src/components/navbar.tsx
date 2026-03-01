@@ -34,7 +34,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="bg-yellow-primer text-white">
+      <div className="bg-yellow-primer text-white shadow-md">
         <div className="max-w-[1029px] mx-auto flex justify-between py-[15px]">
           <div>
             <a href="/">

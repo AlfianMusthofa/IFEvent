@@ -85,15 +85,12 @@ const Events = () => {
           ))}
         </div>
         <div className="flex items-center gap-3">
-          <div>
-            <p className="text-[13px]">Category</p>
-          </div>
           <select
-            className="w-[180px] px-3 py-[7px] text-[13px] rounded-[5px] appearance-none"
+            className="w-[180px] px-3 py-[7px] text-[13px] rounded-[5px] appearance-none cursor-pointer"
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
           >
-            <option value="">All</option>
+            <option value="">All Category</option>
             {categories.map((cat) => (
               <option key={cat.id} value={cat.id}>
                 {cat.name}

@@ -72,9 +72,6 @@ const EventCard = ({
             </div>
           </div>
           <div>
-            {/* <div className="w-full bg-gray-200 rounded-full h-2">
-              <div className="bg-blue-600 h-2 rounded-full w-[50%]" />
-            </div> */}
             <div className="flex items-center gap-1 mt-1">
               <h1 className="font-semibold">
                 {(registered_count / capacity) * 100}%

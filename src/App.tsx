@@ -18,19 +18,21 @@ import Events from "./pages/Admin/events/Events";
 import Categories from "./pages/Admin/categories/Categories";
 import Mentors from "./pages/Admin/mentors/Mentors";
 import CreateEvent from "./pages/Admin/events/CreateEvent";
+import EventDetailNew from "./pages/Main/EventDetailNew";
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/events/:slug" element={<EventDetail />} />
+        <Route path="/events/:slug" element={<EventDetailNew />} />
         <Route path="/events" element={<ClassList />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/about" element={<About />} />
         <Route path="/partners" element={<Partners />} />
         <Route path="/blog" element={<History />} />
+        <Route path="/test" element={<EventDetailNew />} />
 
         <Route element={<ProtectedRoute />}>
           <Route path="/me/profile" element={<UserDashboard />} />

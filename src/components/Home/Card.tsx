@@ -29,9 +29,10 @@ const Card: React.FC<CardProps> = ({
           <p className="text-[11px] text-lighter-grey-grey ">
             {formatEventDate(startAt)}
           </p>
-          <p className="line-clamp-2 text-[12px] mt-[7px] text-light-grey">
-            {description}
-          </p>
+          <p
+            className="line-clamp-2 text-[12px] mt-[7px] text-light-grey"
+            dangerouslySetInnerHTML={{ __html: description }}
+          ></p>
           <Link
             to={`/events/${slug}`}
             className="bg-yellow-primer rounded-[5px] text-[12px] flex justify-center py-[7px] mt-[7px]"

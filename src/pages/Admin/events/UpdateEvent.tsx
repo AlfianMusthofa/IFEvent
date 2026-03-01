@@ -143,7 +143,7 @@ const UpdateEvent = ({ onClose, id }: any) => {
     }
 
     formData.append("title", eventName);
-    formData.append("desc", desc);
+    formData.append("description", desc);
     formData.append("price", price);
     formData.append("locationType", locationType);
     formData.append("priceType", priceType);
