@@ -49,7 +49,7 @@ export default function EventStats() {
         return (
           <div
             key={item.id}
-            className="bg-white rounded-2xl p-6 shadow-sm border"
+            className="bg-white rounded-[5px] p-4 shadow-sm border"
           >
             <div className="flex justify-between items-start">
               <div>

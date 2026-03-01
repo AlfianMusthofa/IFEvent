@@ -1,4 +1,4 @@
-import { CalendarCheck, Eye, MapPin, SquarePen, Trash2 } from "lucide-react";
+import { CalendarCheck, MapPin, SquarePen, Trash2 } from "lucide-react";
 import { formatEventDate } from "../../utils/date";
 import { useState } from "react";
 import UpdateEvent from "../../pages/Admin/events/UpdateEvent";
@@ -14,6 +14,7 @@ interface EventCardProps {
   registered_count: number;
   capacity: number;
   locationType: string;
+  status: string;
 }
 
 const EventCard = ({
@@ -26,6 +27,7 @@ const EventCard = ({
   registered_count,
   capacity,
   locationType,
+  status,
 }: EventCardProps) => {
   const [openModalUpdate, setOpenModalUpdate] = useState(false);
 
@@ -33,11 +35,16 @@ const EventCard = ({
     <>
       <div className="bg-white p-3 rounded-lg flex justify-between items-center">
         <div className="flex gap-3">
-          <img
-            src={image}
-            alt="cover"
-            className="w-[130px] h-[80px] object-cover rounded-lg"
-          />
+          <div className="relative w-[130px] h-[80px]">
+            <img
+              src={image}
+              alt="cover"
+              className=" h-full w-full object-cover rounded-lg"
+            />
+            <div className="absolute top-1 left-1 bg-yellow-primer text-[11px] px-2 py-[2px] rounded-badge tracking-wide">
+              <p>{status}</p>
+            </div>
+          </div>
           <div>
             <p className="text-[11px] flex">{category}</p>
             <div className=" font-medium w-[210px]">

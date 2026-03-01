@@ -5,8 +5,18 @@ import { formatForInput } from "../../../utils/date";
 import ReactQuill from "react-quill";
 import { toast } from "react-toastify";
 
+interface MentorProps {
+  id: number;
+  name: string;
+}
+
+interface CategoryProps {
+  id: number;
+  name: string;
+}
+
 const UpdateEvent = ({ onClose, id }: any) => {
-  const [mentors, setMentors] = useState([]);
+  const [mentors, setMentors] = useState<MentorProps[]>([]);
   const [eventName, setEventName] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
@@ -20,7 +30,7 @@ const UpdateEvent = ({ onClose, id }: any) => {
   const [price, setPrice] = useState("");
   const [mentorId, setMentorId] = useState<number | null>(null);
   const [desc, setDesc] = useState("");
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState<CategoryProps[]>([]);
   const [categoryId, setCategoryId] = useState<number | null>(null);
   const [capacity, setCapacity] = useState<number | null>(null);
 
@@ -29,6 +39,8 @@ const UpdateEvent = ({ onClose, id }: any) => {
   const [existingImage, setExistingImage] = useState<string | null>(null);
 
   const [exisDateTime, setExisDateTime] = useState("");
+  const [statuses, setStatuses] = useState([]);
+  const [statusId, setStatusId] = useState<number | null>(null);
 
   const handleChangeType = (type: "offline" | "online") => {
     setLocationType(type);
@@ -54,10 +66,15 @@ const UpdateEvent = ({ onClose, id }: any) => {
       setCategories(data);
     };
 
+    const fetchStatus = async () => {
+      const response = await fetch(`${API_URL}/status`);
+      const data = await response.json();
+      setStatuses(data);
+    };
+
     const fetchEvent = async () => {
       const response = await fetch(`${API_URL}/events/${id}`);
       const data = await response.json();
-      console.log(data);
 
       setEventName(data.title);
       setLocationType(data.locationType);
@@ -73,6 +90,7 @@ const UpdateEvent = ({ onClose, id }: any) => {
       setExistingImage(data.image);
       setImageFile(null);
       setExisDateTime(data.startAt);
+      setStatusId(data.statusId);
 
       const { date, time } = formatForInput(data.startAt);
       setDate(date);
@@ -82,9 +100,10 @@ const UpdateEvent = ({ onClose, id }: any) => {
     fetchEvent();
     fetchMentors();
     fetchCategory();
+    fetchStatus();
   }, []);
 
-  const handleImageChange = (e) => {
+  const handleImageChange = (e: any) => {
     const file = e.target.files[0];
     if (!file) return;
     const previewUrl = URL.createObjectURL(file);
@@ -133,6 +152,7 @@ const UpdateEvent = ({ onClose, id }: any) => {
     formData.append("capacity", String(capacity ?? ""));
     formData.append("mentorId", String(mentorId ?? ""));
     formData.append("categoryId", String(categoryId ?? ""));
+    formData.append("statusId", String(statusId ?? ""));
 
     const toastId = toast.loading("Creating event...");
 
@@ -143,11 +163,11 @@ const UpdateEvent = ({ onClose, id }: any) => {
       });
 
       if (!res.ok) {
-        throw new Error("Failed to create event");
+        throw new Error("Failed to update event");
       }
 
       toast.update(toastId, {
-        render: "Event Created",
+        render: "Event Updated",
         type: "success",
         isLoading: false,
         autoClose: 1000,
@@ -160,7 +180,7 @@ const UpdateEvent = ({ onClose, id }: any) => {
     } catch (error) {
       console.error(error);
       toast.update(toastId, {
-        render: "Failed to create event",
+        render: "Failed to update event",
         type: "error",
         isLoading: false,
         autoClose: 2000,
@@ -182,15 +202,32 @@ const UpdateEvent = ({ onClose, id }: any) => {
           </div>
           {/* content */}
           <div className="p-4 overflow-y-auto flex-1">
-            <div>
-              <p className="text-[13px]">Event Name</p>
-              <input
-                type="text"
-                className="text-[14px] border border-gray-200 w-full p-2 mt-1 rounded-[6px]"
-                placeholder="Enter event name"
-                value={eventName}
-                onChange={(e) => setEventName(e.target.value)}
-              />
+            <div className="flex justify-between items-center gap-2">
+              <div className="flex-1">
+                <p className="text-[13px]">Event Name</p>
+                <input
+                  type="text"
+                  className="text-[14px] border border-gray-200 w-full p-2 mt-1 rounded-[6px]"
+                  placeholder="Enter event name"
+                  value={eventName}
+                  onChange={(e) => setEventName(e.target.value)}
+                />
+              </div>
+              <div className="flex-1">
+                <p className="text-[13px]">Status</p>
+                <select
+                  onChange={(e) => setStatusId(Number(e.target.value))}
+                  value={String(statusId)}
+                  className="mt-1 w-full p-2 text-[14px] border border-gray-200 rounded-[6px]"
+                >
+                  <option value="">Choose status</option>
+                  {statuses.map((status) => (
+                    <option key={status.id} value={status.id}>
+                      {status.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
 
             {/* Date & Time */}
@@ -272,7 +309,7 @@ const UpdateEvent = ({ onClose, id }: any) => {
                 <p className="text-[13px]">Category</p>
                 <select
                   className="mt-1 w-full p-2 text-[14px] border border-gray-200 rounded-[6px]"
-                  value={categoryId}
+                  value={String(categoryId)}
                   onChange={(e) => setCategoryId(Number(e.target.value))}
                 >
                   <option value="">Choose Category</option>
@@ -287,7 +324,7 @@ const UpdateEvent = ({ onClose, id }: any) => {
                 <p className="text-[13px]">Mentor</p>
                 <select
                   className="mt-1 w-full p-2 text-[14px] border border-gray-200 rounded-[6px]"
-                  value={mentorId}
+                  value={String(mentorId)}
                   onChange={(e) => setMentorId(Number(e.target.value))}
                 >
                   <option value="">Choose mentor</option>
@@ -318,7 +355,7 @@ const UpdateEvent = ({ onClose, id }: any) => {
                 type="number"
                 className="text-[14px] border border-gray-200 w-full p-2 mt-1 rounded-[6px]"
                 placeholder="Enter capacity"
-                value={capacity}
+                value={String(capacity)}
                 onChange={(e) => setCapacity(Number(e.target.value))}
               />
             </div>

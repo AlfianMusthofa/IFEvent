@@ -6,8 +6,18 @@ import { API_URL } from "../../../service/api";
 import DOMPurify from "dompurify";
 import { toast } from "react-toastify";
 
+interface MentorProps {
+  id: number;
+  name: string;
+}
+
+interface CategoryProps {
+  id: number;
+  name: string;
+}
+
 const CreateEvent = ({ onClose }: any) => {
-  const [mentors, setMentors] = useState([]);
+  const [mentors, setMentors] = useState<MentorProps[]>([]);
   const [preview, setPreview] = useState<string | null>(null);
   const [eventName, setEventName] = useState("");
   const [date, setDate] = useState("");
@@ -25,7 +35,7 @@ const CreateEvent = ({ onClose }: any) => {
   const [mentorId, setMentorId] = useState<number | null>(null);
   const [desc, setDesc] = useState("");
   const [image, setImage] = useState<File | null>(null);
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState<CategoryProps[]>([]);
   const [categoryId, setCategoryId] = useState<number | null>(null);
   const [capacity, setCapacity] = useState<number | null>(null);
 
@@ -163,7 +173,7 @@ const CreateEvent = ({ onClose }: any) => {
     fetchCategory();
   }, []);
 
-  const handleImageChange = (e) => {
+  const handleImageChange = (e: any) => {
     const file = e.target.files[0];
     if (!file) return;
     const previewUrl = URL.createObjectURL(file);
@@ -274,7 +284,7 @@ const CreateEvent = ({ onClose }: any) => {
                 <p className="text-[13px]">Category</p>
                 <select
                   className="mt-1 w-full p-2 text-[14px] border border-gray-200 rounded-[6px]"
-                  value={categoryId}
+                  value={String(categoryId)}
                   onChange={(e) => setCategoryId(Number(e.target.value))}
                 >
                   <option value="">Choose Category</option>
@@ -289,7 +299,7 @@ const CreateEvent = ({ onClose }: any) => {
                 <p className="text-[13px]">Mentor</p>
                 <select
                   className="mt-1 w-full p-2 text-[14px] border border-gray-200 rounded-[6px]"
-                  value={mentorId}
+                  value={String(mentorId)}
                   onChange={(e) => setMentorId(Number(e.target.value))}
                 >
                   <option value="">Choose mentor</option>
