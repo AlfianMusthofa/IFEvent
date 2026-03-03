@@ -1,33 +1,5 @@
-import { CalendarCheck, Clock, CalendarX, Ban } from "lucide-react";
 import { useEffect, useState } from "react";
 import { API_URL } from "../../service/api";
-
-const stats = [
-  {
-    title: "Active Events",
-    note: "Ongoing",
-    icon: CalendarCheck,
-    color: "bg-green-100 text-green-600",
-  },
-  {
-    title: "Pending Events",
-    note: "Waiting approval",
-    icon: Clock,
-    color: "bg-yellow-100 text-yellow-600",
-  },
-  {
-    title: "Ended Events",
-    note: "Completed",
-    icon: CalendarX,
-    color: "bg-blue-100 text-blue-600",
-  },
-  {
-    title: "Cancelled Events",
-    note: "Cancelled by admin",
-    icon: Ban,
-    color: "bg-red-100 text-red-600",
-  },
-];
 
 export default function EventStats() {
   const [statuses, setStatuses] = useState([]);

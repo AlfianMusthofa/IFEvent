@@ -19,7 +19,7 @@ const AdminLayout = () => {
   };
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex h-screen overflow-hidden">
       <aside className="w-64 bg-gray-900 text-white p-4">
         <h1 className="text-xl font-bold mb-6">Admin Panel</h1>
 
@@ -40,7 +40,7 @@ const AdminLayout = () => {
         </nav>
       </aside>
 
-      <main className="flex-1 bg-gray-200 p-6">
+      <main className="flex-1 bg-gray-200 p-6 overflow-y-auto">
         <Outlet />
       </main>
     </div>

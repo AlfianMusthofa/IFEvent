@@ -10,11 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "chart.js": "^4.5.1",
     "dompurify": "^3.3.1",
     "example-ts": "file:",
     "flowbite": "^4.0.1",
     "lucide-react": "^0.575.0",
     "react": "^18.3.1",
+    "react-chartjs-2": "^5.3.1",
     "react-dom": "^18.3.1",
     "react-fast-marquee": "^1.6.5",
     "react-quill": "^2.0.0",

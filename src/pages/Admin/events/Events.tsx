@@ -37,23 +37,30 @@ const Events = () => {
   const [openModel, setOpenModel] = useState(false);
   const [categories, setCategories] = useState<CategoryProps[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [search, setSearch] = useState("");
+
+  const getEvent = async (pageNumber = 1, searchValue = search) => {
+    const params = new URLSearchParams({
+      limit: "4",
+      page: String(pageNumber),
+    });
+
+    if (selectedCategory) {
+      params.append("category", selectedCategory);
+    }
+
+    if (searchValue) {
+      params.append("search", searchValue);
+    }
+
+    const resposne = await fetch(`${API_URL}/events?${params.toString()}`);
+    const data = await resposne.json();
+    setEvents(data.data);
+    setPage(data.meta.page);
+    setTotalPages(data.meta.totalPages);
+  };
 
   useEffect(() => {
-    const getEvent = async (pageNumber = 1) => {
-      const params = new URLSearchParams({
-        limit: "4",
-        page: String(pageNumber),
-      });
-      if (selectedCategory) {
-        params.append("category", selectedCategory);
-      }
-      const resposne = await fetch(`${API_URL}/events?${params.toString()}`);
-      const data = await resposne.json();
-      setEvents(data.data);
-      setPage(data.meta.page);
-      setTotalPages(data.meta.totalPages);
-    };
-
     const fetchStats = async () => {
       const response = await fetch(`${API_URL}/events/status/count`);
       const data = await response.json();
@@ -68,8 +75,19 @@ const Events = () => {
 
     fetchCategories();
     fetchStats();
+  }, []);
+
+  useEffect(() => {
     getEvent(page);
-  }, [selectedCategory, page]);
+  }, [page]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      getEvent(1);
+      setPage(1);
+    }, 500);
+    return () => clearTimeout(timeout);
+  }, [search, selectedCategory]);
 
   return (
     <>
@@ -85,6 +103,13 @@ const Events = () => {
           ))}
         </div>
         <div className="flex items-center gap-3">
+          <input
+            type="text"
+            placeholder="Search..."
+            className="text-[14px] py-[6px] px-[10px] rounded-[5px]"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
           <select
             className="w-[180px] px-3 py-[7px] text-[13px] rounded-[5px] appearance-none cursor-pointer"
             value={selectedCategory}
