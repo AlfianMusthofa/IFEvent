@@ -1,7 +1,14 @@
-import { CalendarCheck, MapPin, SquarePen, Trash2 } from "lucide-react";
+import {
+  CalendarCheck,
+  Download,
+  MapPin,
+  SquarePen,
+  Trash2,
+} from "lucide-react";
 import { formatEventDate } from "../../utils/date";
 import { useState } from "react";
 import UpdateEvent from "../../pages/Admin/events/UpdateEvent";
+import { API_URL } from "../../service/api";
 
 interface EventCardProps {
   id: number;
@@ -30,6 +37,16 @@ const EventCard = ({
   status,
 }: EventCardProps) => {
   const [openModalUpdate, setOpenModalUpdate] = useState(false);
+
+  const downloadReport = async () => {
+    const res = await fetch(`${API_URL}/report/${id}/participants/report`);
+    const blob = await res.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "participants.xlsx";
+    a.click();
+  };
 
   return (
     <>
@@ -71,7 +88,7 @@ const EventCard = ({
               <p className="text-[12px]">{formatEventDate(time)} WIB</p>
             </div>
           </div>
-          <div>
+          <div className=" w-[100px]">
             <div className="flex items-center gap-1 mt-1">
               <h1 className="font-semibold">
                 {(registered_count / capacity) * 100}%
@@ -85,6 +102,13 @@ const EventCard = ({
               className="bg-green-400 py-1 px-[8px] rounded-full"
             >
               <SquarePen width={17} color="white" />
+            </button>
+            <button
+              onClick={downloadReport}
+              title="download participants"
+              className="bg-blue py-1 px-[8px] rounded-full cursor-pointer"
+            >
+              <Download width={17} color="white" />
             </button>
             <div className="bg-red-400 py-1 px-[8px] rounded-full cursor-pointer">
               <Trash2 width={17} color="white" />

@@ -20,8 +20,12 @@ const CreateEvent = ({ onClose }: any) => {
   const [mentors, setMentors] = useState<MentorProps[]>([]);
   const [preview, setPreview] = useState<string | null>(null);
   const [eventName, setEventName] = useState("");
+
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
+
+  const [endDate, setEndDate] = useState("");
+  const [endTime, setEndTime] = useState("");
 
   const [location, setLocation] = useState("");
   const [meetingLink, setMeetingLink] = useState("");
@@ -80,13 +84,20 @@ const CreateEvent = ({ onClose }: any) => {
     }
 
     // 2️⃣ AMAN: DATE CONVERSION
-    const localDateTime = new Date(`${date}T${time}:00+07:00`);
-    if (isNaN(localDateTime.getTime())) {
-      toast.error("Invalid date or time");
+    const startAtLocalDateTime = new Date(`${date}T${time}:00+07:00`);
+    if (isNaN(startAtLocalDateTime.getTime())) {
+      toast.error("Invalid StartAt");
       return;
     }
 
-    const isoUTC = localDateTime.toISOString();
+    const endAtLocalDateTime = new Date(`${endDate}T${endTime}:00+07:00`);
+    if (isNaN(endAtLocalDateTime.getTime())) {
+      toast.error("Invalid EndAt");
+      return;
+    }
+
+    const isoUTCStartAt = startAtLocalDateTime.toISOString();
+    const isoUTCEndAt = endAtLocalDateTime.toISOString();
 
     // 3️⃣ SANITIZE
     const sanitizeDesc = DOMPurify.sanitize(desc, {
@@ -100,7 +111,8 @@ const CreateEvent = ({ onClose }: any) => {
     const formData = new FormData();
     formData.append("title", eventName);
     formData.append("description", sanitizeDesc);
-    formData.append("startAt", isoUTC);
+    formData.append("startAt", isoUTCStartAt);
+    formData.append("endAt", isoUTCEndAt);
     formData.append("image", image);
     formData.append("statusId", String(statusId));
     formData.append("categoryId", String(categoryId));
@@ -206,10 +218,10 @@ const CreateEvent = ({ onClose }: any) => {
               />
             </div>
 
-            {/* Date & Time */}
+            {/* DateTime StartAt */}
             <div className="mt-3 flex items-center gap-2 w-full">
               <div className="flex-1">
-                <p className="text-[13px]">Date</p>
+                <p className="text-[13px]">Start Date</p>
                 <input
                   type="date"
                   className="text-[14px] border border-gray-200 p-2 mt-1 rounded-[6px] w-full"
@@ -222,6 +234,25 @@ const CreateEvent = ({ onClose }: any) => {
                   type="time"
                   className="text-[14px] border border-gray-200 p-2 mt-1 rounded-[6px] w-full"
                   onChange={(e) => setTime(e.target.value)}
+                />
+              </div>
+            </div>
+
+            <div className="mt-3 flex items-center gap-2 w-full">
+              <div className="flex-1">
+                <p className="text-[13px]">End Date</p>
+                <input
+                  type="date"
+                  className="text-[14px] border border-gray-200 p-2 mt-1 rounded-[6px] w-full"
+                  onChange={(e) => setEndDate(e.target.value)}
+                />
+              </div>
+              <div className="flex-1">
+                <p className="text-[13px]">Time</p>
+                <input
+                  type="time"
+                  className="text-[14px] border border-gray-200 p-2 mt-1 rounded-[6px] w-full"
+                  onChange={(e) => setEndTime(e.target.value)}
                 />
               </div>
             </div>

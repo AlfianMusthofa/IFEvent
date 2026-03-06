@@ -4,7 +4,7 @@ import { API_URL } from "../../../service/api";
 import EventMonthlyChart from "../../../components/charts/EventMonthlyChart";
 import ParticipantMonthlyChart from "../../../components/charts/ParticipantMonthlyChart";
 import UpcomingEvents from "../../../components/Admin/UpcomingEvents";
-import Active from "../../../components/StatsCount/active";
+import Active from "../../../components/StatsCount/Active";
 import Ended from "../../../components/StatsCount/Ended";
 import Pending from "../../../components/StatsCount/Pending";
 import Cancelled from "../../../components/StatsCount/Cancelled";
@@ -48,7 +48,7 @@ const Dashboard = () => {
 
     const fetchUpcomingEvents = async () => {
       try {
-        const res = await fetch(`${API_URL}/events/upcoming`);
+        const res = await fetch(`${API_URL}/events/upcoming?limit=4`);
         const data = await res.json();
         setUpcomingEvents(data.data);
       } catch (error) {}
@@ -70,7 +70,7 @@ const Dashboard = () => {
       </div>
       <div className="mt-3 bg-white px-5 py-3 rounded-[5px] shadow-sm">
         <h1 className="font-medium tracking-wide">Upcoming Events</h1>
-        <div className="my-3 flex">
+        <div className="my-3 flex items-center gap-3">
           {upcomingEvents.map((event) => (
             <UpcomingEvents
               key={event.id}

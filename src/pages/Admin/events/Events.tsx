@@ -151,7 +151,7 @@ const Events = () => {
         ))}
       </div>
       <div className="text-[14px]">
-        <div className="flex items-center gap-2 mt-4 justify-center">
+        <div className="flex items-center gap-2 mt-2 justify-start">
           <button
             disabled={page === 1}
             onClick={() => setPage((p) => p - 1)}

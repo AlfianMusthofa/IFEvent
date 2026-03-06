@@ -4,10 +4,21 @@ import { Link, useNavigate } from "react-router-dom";
 import { API_URL } from "../../service/api";
 import Avatar from "../../assets/icons/userAvatar.png";
 import Footer from "../../components/Footer";
+import { formatEventDate } from "../../utils/date";
+
+interface EventsProps {
+  id: number;
+  title: string;
+  startAt: string;
+  status: { name: string };
+  locationType: string;
+  meetingLink: string;
+  location: string;
+}
 
 const UserDashboard = () => {
   const navigate = useNavigate();
-  const [history, setHistory] = useState<any>(null);
+  const [events, setEvents] = useState<EventsProps[]>([]);
   const [user, setUser] = useState<any>();
 
   useEffect(() => {
@@ -23,7 +34,8 @@ const UserDashboard = () => {
         },
       });
       const data = await res.json();
-      setHistory(data);
+      console.log(data.data);
+      setEvents(data.data);
     };
 
     const getMe = async () => {
@@ -82,30 +94,66 @@ const UserDashboard = () => {
           </div>
         </div>
         <div className="bg-gray-300 h-[1px] my-5"></div>
-        <div className="overflow-x-auto">
-          <table className="table table-zebra">
-            {/* head */}
-            <thead>
-              <tr>
-                <th></th>
-                <th>Title</th>
-                <th>Location</th>
-                <th>Time</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {history?.Events?.map((event: any, index: any) => (
-                <tr key={index}>
-                  <th>{index + 1}</th>
-                  <td>{event.title}</td>
-                  <td>{event.location}</td>
-                  <td>On going</td>
-                  <td>On going</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div>
+          <div className="bg-white">
+            <h2 className="text-xl font-semibold mb-5">Event History</h2>
+            <div className="overflow-x-auto">
+              <table className="min-w-full border border-gray-200 rounded-lg">
+                <thead className="bg-gray-100 ">
+                  <tr>
+                    <th className="text-left px-6 py-3 text-sm font-semibold">
+                      Event
+                    </th>
+                    <th className="text-left px-6 py-3 text-sm font-semibold">
+                      Date
+                    </th>
+                    <th className="text-left px-6 py-3 text-sm font-semibold">
+                      Status
+                    </th>
+                    <th className="text-left px-6 py-3 text-sm font-semibold">
+                      Location
+                    </th>
+                    <th className="text-left px-6 py-3 text-sm font-semibold">
+                      Certificate
+                    </th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {events.map((event) => (
+                    <tr key={event.id}>
+                      <td className="px-6 py-3 text-sm  w-[290px]">
+                        <p className="line-clamp-2">{event.title}</p>
+                      </td>
+                      <td className="px-6 py-3 text-sm w-[220px]">
+                        <p>{formatEventDate(event.startAt)} WIB</p>
+                      </td>
+                      <td className="px-6 py-3 text-sm">
+                        <p>{event.status.name}</p>
+                      </td>
+                      <td className="px-6 py-3 text-sm  w-[100px]">
+                        <a
+                          className="line-clamp-1"
+                          href={
+                            event.locationType === "online"
+                              ? event.meetingLink
+                              : "null"
+                          }
+                        >
+                          {event.locationType === "online"
+                            ? event.meetingLink
+                            : event.location}
+                        </a>
+                      </td>
+                      <td className="px-6 text-sm">
+                        <button>Download</button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
       <div className="mt-5">

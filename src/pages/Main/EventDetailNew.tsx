@@ -20,6 +20,8 @@ interface EventProps {
   startAt: string;
   locationType: string;
   priceType: string;
+  price: number;
+  Mentor: { name: string; image: string; position: string; bio: string };
 }
 
 const EventDetailNew = () => {
@@ -47,7 +49,7 @@ const EventDetailNew = () => {
 
         if (historyRes.ok) {
           const history = await historyRes.json();
-          const alreadyJoined = history.Events?.some(
+          const alreadyJoined = history.data?.some(
             (e: any) => e.id === data.id,
           );
 
@@ -195,7 +197,7 @@ const EventDetailNew = () => {
           <div>
             <img
               src={event?.image}
-              className="w-[330px] h-[210px] object-cover rounded-[10px]"
+              className="w-[330px] h-[190px] object-cover rounded-[10px]"
             />
             <div className="shadow-md mt-5 px-4 py-3 flex items-center justify-between border rounded-[10px]">
               {event?.priceType == "free" ? (

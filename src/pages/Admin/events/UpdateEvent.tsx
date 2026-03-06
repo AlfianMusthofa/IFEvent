@@ -18,8 +18,12 @@ interface CategoryProps {
 const UpdateEvent = ({ onClose, id }: any) => {
   const [mentors, setMentors] = useState<MentorProps[]>([]);
   const [eventName, setEventName] = useState("");
+
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
+
+  const [endDate, setEndDate] = useState("");
+  const [endTime, setEndTime] = useState("");
 
   const [location, setLocation] = useState("");
   const [meetingLink, setMeetingLink] = useState("");
@@ -39,6 +43,8 @@ const UpdateEvent = ({ onClose, id }: any) => {
   const [existingImage, setExistingImage] = useState<string | null>(null);
 
   const [exisDateTime, setExisDateTime] = useState("");
+  const [existEndDateTime, setExisEndDateTime] = useState("");
+
   const [statuses, setStatuses] = useState([]);
   const [statusId, setStatusId] = useState<number | null>(null);
 
@@ -90,11 +96,16 @@ const UpdateEvent = ({ onClose, id }: any) => {
       setExistingImage(data.image);
       setImageFile(null);
       setExisDateTime(data.startAt);
+      setExisEndDateTime(data.endAt);
       setStatusId(data.statusId);
 
       const { date, time } = formatForInput(data.startAt);
       setDate(date);
       setTime(time);
+
+      const { date: endDate, time: endTime } = formatForInput(data.endAt);
+      setEndDate(endDate);
+      setEndTime(endTime);
     };
 
     fetchEvent();
@@ -115,13 +126,21 @@ const UpdateEvent = ({ onClose, id }: any) => {
     if (!date || !time) {
       return exisDateTime;
     }
-
     const newIso = new Date(`${date}T${time}`).toISOString();
-
     if (newIso === exisDateTime) {
       return exisDateTime;
     }
+    return newIso;
+  };
 
+  const buildEndAt = () => {
+    if (!endDate || !endTime) {
+      return existEndDateTime;
+    }
+    const newIso = new Date(`${endDate}T${endTime}`).toISOString();
+    if (newIso === existEndDateTime) {
+      return existEndDateTime;
+    }
     return newIso;
   };
 
@@ -135,11 +154,18 @@ const UpdateEvent = ({ onClose, id }: any) => {
     }
 
     const startAt = buildStartAt();
+    const endAt = buildEndAt();
 
     if (startAt && startAt !== exisDateTime) {
       formData.append("startAt", startAt);
     } else {
       formData.append("startAt", exisDateTime);
+    }
+
+    if (endAt && endAt !== existEndDateTime) {
+      formData.append("endAt", endAt);
+    } else {
+      formData.append("endAt", existEndDateTime);
     }
 
     formData.append("title", eventName);
@@ -154,7 +180,11 @@ const UpdateEvent = ({ onClose, id }: any) => {
     formData.append("categoryId", String(categoryId ?? ""));
     formData.append("statusId", String(statusId ?? ""));
 
-    const toastId = toast.loading("Creating event...");
+    const toastId = toast.loading("Updating event...");
+
+    for (const [key, value] of formData.entries()) {
+      console.log(key, value);
+    }
 
     try {
       const res = await fetch(`${API_URL}/events/id/${id}`, {
@@ -233,7 +263,7 @@ const UpdateEvent = ({ onClose, id }: any) => {
             {/* Date & Time */}
             <div className="mt-3 flex items-center gap-2 w-full">
               <div className="flex-1">
-                <p className="text-[13px]">Date</p>
+                <p className="text-[13px]">Start Date</p>
                 <input
                   type="date"
                   className="text-[14px] border border-gray-200 p-2 mt-1 rounded-[6px] w-full"
@@ -248,6 +278,27 @@ const UpdateEvent = ({ onClose, id }: any) => {
                   className="text-[14px] border border-gray-200 p-2 mt-1 rounded-[6px] w-full"
                   onChange={(e) => setTime(e.target.value)}
                   value={time}
+                />
+              </div>
+            </div>
+
+            <div className="mt-3 flex items-center gap-2 w-full">
+              <div className="flex-1">
+                <p className="text-[13px]">End Date</p>
+                <input
+                  type="date"
+                  className="text-[14px] border border-gray-200 p-2 mt-1 rounded-[6px] w-full"
+                  onChange={(e) => setEndDate(e.target.value)}
+                  value={endDate}
+                />
+              </div>
+              <div className="flex-1">
+                <p className="text-[13px]">Time</p>
+                <input
+                  type="time"
+                  className="text-[14px] border border-gray-200 p-2 mt-1 rounded-[6px] w-full"
+                  onChange={(e) => setEndTime(e.target.value)}
+                  value={endTime}
                 />
               </div>
             </div>

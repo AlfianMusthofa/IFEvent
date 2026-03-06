@@ -26,8 +26,9 @@ const Card: React.FC<CardProps> = ({
         />
         <div className="content pt-[10px]">
           <p className="line-clamp-1 text-[15px] font-medium">{title}</p>
+
           <p className="text-[11px] text-lighter-grey-grey ">
-            {formatEventDate(startAt)}
+            {formatEventDate(startAt)} WIB
           </p>
           <p
             className="line-clamp-2 text-[12px] mt-[7px] text-light-grey"

@@ -15,15 +15,37 @@ interface Pops {
 
 const Users = () => {
   const [users, setUsers] = useState<Pops[]>([]);
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  const fetchUsers = async (pageNumber = 1, searchValue = search) => {
+    const params = new URLSearchParams({
+      limit: "10",
+      page: String(pageNumber),
+    });
+
+    if (searchValue) {
+      params.append("search", searchValue);
+    }
+
+    const res = await fetch(`${API_URL}/users?${params.toString()}`);
+    const data = await res.json();
+    setUsers(data.data);
+    setPage(data.meta.page);
+    setTotalPages(data.meta.totalPages);
+  };
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      const res = await fetch(`${API_URL}/users?limit=10`);
-      const data = await res.json();
-      setUsers(data.data);
-    };
-    fetchUsers();
-  }, []);
+    fetchUsers(page);
+  }, [page]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      (fetchUsers(1), setPage(1));
+    }, 500);
+    return () => clearTimeout(timeout);
+  }, [search]);
 
   return (
     <>
@@ -56,6 +78,8 @@ const Users = () => {
           type="text"
           placeholder="Search..."
           className="text-[14px] px-4 py-[7px] rounded-[5px]"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
         />
         <button className="bg-green-400 px-5 py-2 rounded-[5px] cursor-pointer">
           <p className="text-[12px] text-white">Add User +</p>
@@ -99,6 +123,31 @@ const Users = () => {
               ))}
             </tbody>
           </table>
+        </div>
+      </div>
+      <div>
+        <div className="text-[14px]">
+          <div className="flex items-center gap-2 mt-2 justify-start">
+            <button
+              disabled={page === 1}
+              onClick={() => setPage((p) => p - 1)}
+              className="px-3 py-1 border rounded disabled:opacity-50"
+            >
+              Prev
+            </button>
+
+            <span className="text-sm">
+              Page {page} of {totalPages}
+            </span>
+
+            <button
+              disabled={page === totalPages}
+              onClick={() => setPage((p) => p + 1)}
+              className="px-3 py-1 border rounded disabled:opacity-50"
+            >
+              Next
+            </button>
+          </div>
         </div>
       </div>
     </>
