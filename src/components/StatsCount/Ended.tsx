@@ -21,12 +21,11 @@ export default function Ended() {
   }, []);
 
   return (
-    <div className="bg-white rounded-[5px] p-4 shadow-sm border flex-1">
+    <div className="bg-white rounded-[5px] p-4 shadow-sm border flex-1 border-b-4 border-b-green-400">
       <div className="flex justify-between items-start">
         <div>
           <p className="text-sm text-gray-500">Ended</p>
-          <h2 className="text-3xl font-bold mt-2">{statuses.total}</h2>
-          <p className="text-xs text-gray-400 mt-1">ya</p>
+          <h2 className="text-[20px] font-bold mt-2">{statuses.total}</h2>
         </div>
         <div className="w-10 h-10 rounded-full flex items-center justify-center bg-green-300">
           <CircleCheck width={20} color="white" />

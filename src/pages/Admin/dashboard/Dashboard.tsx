@@ -48,7 +48,7 @@ const Dashboard = () => {
 
     const fetchUpcomingEvents = async () => {
       try {
-        const res = await fetch(`${API_URL}/events/upcoming?limit=4`);
+        const res = await fetch(`${API_URL}/events/upcoming?limit=2`);
         const data = await res.json();
         setUpcomingEvents(data.data);
       } catch (error) {}
@@ -62,31 +62,38 @@ const Dashboard = () => {
   return (
     <>
       <Navbar path="Dashboard" />
-      <div className="mt-3 flex items-center justify-between gap-3">
-        <Active />
-        <Ended />
-        <Pending />
-        <Cancelled />
-      </div>
-      <div className="mt-3 bg-white px-5 py-3 rounded-[5px] shadow-sm">
-        <h1 className="font-medium tracking-wide">Upcoming Events</h1>
-        <div className="my-3 flex items-center gap-3">
-          {upcomingEvents.map((event) => (
-            <UpcomingEvents
-              key={event.id}
-              image={event?.image}
-              title={event?.title}
-              date={event?.startAt}
-            />
-          ))}
+      <div className="p-5">
+        <div className="flex items-center justify-between gap-3">
+          <Active />
+          <Ended />
+          <Pending />
+          <Cancelled />
         </div>
-      </div>
-      <div className="flex justify-between gap-3">
-        <div className="mt-3 flex-1 bg-white h-[250px] w-[450px] p-3 rounded-[5px] shadow-sm">
-          <EventMonthlyChart apiData={monthlyEvents} />
+        <div className="flex mt-3 gap-3">
+          <div className=" flex-1 bg-white px-5 py-3 rounded-[5px] shadow-sm">
+            <h1 className="font-medium tracking-wide">Upcoming Events</h1>
+            <div className="my-3 flex items-center gap-3">
+              {upcomingEvents.map((event) => (
+                <UpcomingEvents
+                  key={event.id}
+                  image={event?.image}
+                  title={event?.title}
+                  date={event?.startAt}
+                />
+              ))}
+            </div>
+          </div>
+          <div className="bg-white px-5 py-3 rounded-[5px] shadow-sm">
+            asdasd
+          </div>
         </div>
-        <div className="mt-3 flex-1 bg-white h-[250px] w-[450px] p-3 rounded-[5px] shadow-sm">
-          <ParticipantMonthlyChart apiData={participantData} />
+        <div className="flex justify-between gap-3">
+          <div className="mt-3 flex-1 bg-white h-[250px] w-[450px] p-3 rounded-[5px] shadow-sm">
+            <EventMonthlyChart apiData={monthlyEvents} />
+          </div>
+          <div className="mt-3 flex-1 bg-white h-[250px] w-[450px] p-3 rounded-[5px] shadow-sm">
+            <ParticipantMonthlyChart apiData={participantData} />
+          </div>
         </div>
       </div>
     </>

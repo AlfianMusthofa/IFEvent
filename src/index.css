@@ -9,6 +9,11 @@
   transition: all 0.3s ease-in-out;
 }
 
+html,
+body {
+  overflow-x: hidden;
+}
+
 .hero {
   background-image: url("./assets/bg.jpg");
   height: 455px;

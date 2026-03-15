@@ -15,6 +15,11 @@ interface CategoryProps {
   name: string;
 }
 
+interface StatusProps {
+  id: number;
+  name: string;
+}
+
 const UpdateEvent = ({ onClose, id }: any) => {
   const [mentors, setMentors] = useState<MentorProps[]>([]);
   const [eventName, setEventName] = useState("");
@@ -45,8 +50,14 @@ const UpdateEvent = ({ onClose, id }: any) => {
   const [exisDateTime, setExisDateTime] = useState("");
   const [existEndDateTime, setExisEndDateTime] = useState("");
 
-  const [statuses, setStatuses] = useState([]);
+  const [statuses, setStatuses] = useState<StatusProps[]>([]);
   const [statusId, setStatusId] = useState<number | null>(null);
+
+  const [existCertificate, setExisCertificate] = useState<string | null>(null);
+  const [certificateFile, setCertificateFile] = useState<File | null>(null);
+  const [previewCertificate, setPreviewCertificate] = useState<string | null>(
+    null,
+  );
 
   const handleChangeType = (type: "offline" | "online") => {
     setLocationType(type);
@@ -59,55 +70,59 @@ const UpdateEvent = ({ onClose, id }: any) => {
     setPrice("");
   };
 
+  const fetchMentors = async () => {
+    const res = await fetch(`${API_URL}/mentors`);
+    const data = await res.json();
+    setMentors(data.data);
+  };
+
+  const fetchCategory = async () => {
+    const response = await fetch(`${API_URL}/category`);
+    const data = await response.json();
+    setCategories(data.data);
+  };
+
+  const fetchStatus = async () => {
+    const response = await fetch(`${API_URL}/status`);
+    const data = await response.json();
+    setStatuses(data);
+  };
+
+  const fetchEvent = async () => {
+    const response = await fetch(`${API_URL}/events/${id}`);
+    const data = await response.json();
+    console.log(data);
+
+    setEventName(data.title);
+    setLocationType(data.locationType);
+    setLocation(data.location);
+    setMeetingLink(data.meetingLink);
+    setCategoryId(data.categoryId);
+    setMentorId(data.mentorId);
+    setDesc(data.description);
+    setCapacity(data.capacity);
+    setPriceType(data.priceType);
+    setPrice(data.price);
+    setPreview(data.image);
+    setExistingImage(data.image);
+    setImageFile(null);
+    setExisDateTime(data.startAt);
+    setExisEndDateTime(data.endAt);
+    setStatusId(data.statusId);
+    setPreviewCertificate(data.Certificates?.[0]?.templatePath ?? null);
+    setExisCertificate(data.Certificates?.[0]?.templatePath ?? null);
+    setCertificateFile(null);
+
+    const { date, time } = formatForInput(data.startAt);
+    setDate(date);
+    setTime(time);
+
+    const { date: endDate, time: endTime } = formatForInput(data.endAt);
+    setEndDate(endDate);
+    setEndTime(endTime);
+  };
+
   useEffect(() => {
-    const fetchMentors = async () => {
-      const res = await fetch(`${API_URL}/mentors`);
-      const data = await res.json();
-      setMentors(data);
-    };
-
-    const fetchCategory = async () => {
-      const response = await fetch(`${API_URL}/category`);
-      const data = await response.json();
-      setCategories(data);
-    };
-
-    const fetchStatus = async () => {
-      const response = await fetch(`${API_URL}/status`);
-      const data = await response.json();
-      setStatuses(data);
-    };
-
-    const fetchEvent = async () => {
-      const response = await fetch(`${API_URL}/events/${id}`);
-      const data = await response.json();
-
-      setEventName(data.title);
-      setLocationType(data.locationType);
-      setLocation(data.location);
-      setMeetingLink(data.meetingLink);
-      setCategoryId(data.categoryId);
-      setMentorId(data.mentorId);
-      setDesc(data.description);
-      setCapacity(data.capacity);
-      setPriceType(data.priceType);
-      setPrice(data.price);
-      setPreview(data.image);
-      setExistingImage(data.image);
-      setImageFile(null);
-      setExisDateTime(data.startAt);
-      setExisEndDateTime(data.endAt);
-      setStatusId(data.statusId);
-
-      const { date, time } = formatForInput(data.startAt);
-      setDate(date);
-      setTime(time);
-
-      const { date: endDate, time: endTime } = formatForInput(data.endAt);
-      setEndDate(endDate);
-      setEndTime(endTime);
-    };
-
     fetchEvent();
     fetchMentors();
     fetchCategory();
@@ -120,6 +135,14 @@ const UpdateEvent = ({ onClose, id }: any) => {
     const previewUrl = URL.createObjectURL(file);
     setPreview(previewUrl);
     setImageFile(file);
+  };
+
+  const handleCertficicateChange = (e: any) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const previewUrlCertif = URL.createObjectURL(file);
+    setPreviewCertificate(previewUrlCertif);
+    setCertificateFile(file);
   };
 
   const buildStartAt = () => {
@@ -146,6 +169,7 @@ const UpdateEvent = ({ onClose, id }: any) => {
 
   const handleSave = async () => {
     const formData = new FormData();
+    const formDataCertif = new FormData();
 
     if (imageFile) {
       formData.append("image", imageFile);
@@ -188,9 +212,23 @@ const UpdateEvent = ({ onClose, id }: any) => {
 
     try {
       const res = await fetch(`${API_URL}/events/id/${id}`, {
-        method: "PUT",
+        method: "PATCH",
         body: formData,
       });
+
+      if (certificateFile) {
+        formDataCertif.append("template", certificateFile);
+        const resCertificate = await fetch(
+          `${API_URL}/certificate/${id}/update`,
+          {
+            method: "PUT",
+            body: formDataCertif,
+          },
+        );
+        if (!resCertificate.ok) {
+          throw new Error("Failed to update certificate");
+        }
+      }
 
       if (!res.ok) {
         throw new Error("Failed to update event");
@@ -467,6 +505,36 @@ const UpdateEvent = ({ onClose, id }: any) => {
                 {preview ? (
                   <img
                     src={preview}
+                    alt="Preview"
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  <div className="flex flex-col items-center gap-1 text-gray-600">
+                    <CirclePlus />
+                    <p className="text-[12px]">Image</p>
+                  </div>
+                )}
+              </label>
+            </div>
+            <div className="mt-3">
+              <p className="text-[13px]">Event Certificate</p>
+              <label
+                htmlFor="image-upload-certif"
+                className="cursor-pointer h-[150px] w-[240px] mt-2 
+             rounded-md border border-dashed border-black 
+             flex justify-center items-center overflow-hidden"
+              >
+                <input
+                  id="image-upload-certif"
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleCertficicateChange}
+                />
+
+                {previewCertificate ? (
+                  <img
+                    src={previewCertificate}
                     alt="Preview"
                     className="h-full w-full object-cover"
                   />

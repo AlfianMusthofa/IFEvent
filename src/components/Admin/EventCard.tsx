@@ -1,10 +1,4 @@
-import {
-  CalendarCheck,
-  Download,
-  MapPin,
-  SquarePen,
-  Trash2,
-} from "lucide-react";
+import { CalendarCheck, Download, MapPin, SquarePen } from "lucide-react";
 import { formatEventDate } from "../../utils/date";
 import { useState } from "react";
 import UpdateEvent from "../../pages/Admin/events/UpdateEvent";
@@ -21,7 +15,6 @@ interface EventCardProps {
   registered_count: number;
   capacity: number;
   locationType: string;
-  status: string;
 }
 
 const EventCard = ({
@@ -34,7 +27,6 @@ const EventCard = ({
   registered_count,
   capacity,
   locationType,
-  status,
 }: EventCardProps) => {
   const [openModalUpdate, setOpenModalUpdate] = useState(false);
 
@@ -50,7 +42,7 @@ const EventCard = ({
 
   return (
     <>
-      <div className="bg-white p-3 rounded-lg flex justify-between items-center">
+      <div className="bg-white p-3 rounded-lg flex justify-between items-center border">
         <div className="flex gap-3">
           <div className="relative w-[130px] h-[80px]">
             <img
@@ -58,9 +50,9 @@ const EventCard = ({
               alt="cover"
               className=" h-full w-full object-cover rounded-lg"
             />
-            <div className="absolute top-1 left-1 bg-yellow-primer text-[11px] px-2 py-[2px] rounded-badge tracking-wide">
+            {/* <div className="absolute top-1 left-1 bg-yellow-primer text-[11px] px-2 py-[2px] rounded-badge tracking-wide">
               <p>{status}</p>
-            </div>
+            </div> */}
           </div>
           <div>
             <p className="text-[11px] flex">{category}</p>
@@ -75,7 +67,7 @@ const EventCard = ({
             </div>
           </div>
         </div>
-        <div className="flex items-center gap-10">
+        <div className="flex items-center gap-9">
           <div>
             <div className="flex items-center gap-1">
               <MapPin width={13} />
@@ -88,12 +80,12 @@ const EventCard = ({
               <p className="text-[12px]">{formatEventDate(time)} WIB</p>
             </div>
           </div>
-          <div className=" w-[100px]">
+          <div className=" w-[85px] flex justify-center">
             <div className="flex items-center gap-1 mt-1">
               <h1 className="font-semibold">
                 {(registered_count / capacity) * 100}%
               </h1>
-              <p className="text-[10px]">Capacity</p>
+              <p className="text-[10px]">Filled</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -110,9 +102,9 @@ const EventCard = ({
             >
               <Download width={17} color="white" />
             </button>
-            <div className="bg-red-400 py-1 px-[8px] rounded-full cursor-pointer">
+            {/* <div className="bg-red-400 py-1 px-[8px] rounded-full cursor-pointer">
               <Trash2 width={17} color="white" />
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

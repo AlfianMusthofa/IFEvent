@@ -12,6 +12,17 @@ export const formatEventDate = (startAt?: string) => {
   });
 };
 
+export const formatEventDate2 = (startAt?: string) => {
+  if (!startAt) return "-";
+
+  return new Date(startAt).toLocaleString("en-GB", {
+    timeZone: "Asia/Jakarta",
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+};
+
 export const formatDateTime = (isoString: any) => {
   const date = new Date(isoString);
 

@@ -172,13 +172,13 @@ const CreateEvent = ({ onClose }: any) => {
     const fetchMentors = async () => {
       const res = await fetch(`${API_URL}/mentors`);
       const data = await res.json();
-      setMentors(data);
+      setMentors(data.data);
     };
 
     const fetchCategory = async () => {
       const response = await fetch(`${API_URL}/category`);
       const data = await response.json();
-      setCategories(data);
+      setCategories(data.data);
     };
 
     fetchMentors();

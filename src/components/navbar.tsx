@@ -6,7 +6,7 @@ import { API_URL } from "../service/api";
 const Navbar = () => {
   const user = JSON.parse(localStorage.getItem("user") || "null");
 
-  const logout = async (e) => {
+  const logout = async (e: any) => {
     e.preventDefault();
 
     const refreshToken = localStorage.getItem("refreshToken");
@@ -61,7 +61,11 @@ const Navbar = () => {
               <div className="relative group">
                 <Link to="/me/profile">
                   {user.image ? (
-                    user.image
+                    <img
+                      className="w-[25px] h-[25px] rounded-full object-cover cursor-pointer"
+                      src={user.image}
+                      alt="avatar"
+                    />
                   ) : (
                     <img
                       className="w-[25px] cursor-pointer"
