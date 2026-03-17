@@ -19,6 +19,7 @@ import Categories from "./pages/Admin/categories/Categories";
 import Mentors from "./pages/Admin/mentors/Mentors";
 import CreateEvent from "./pages/Admin/events/CreateEvent";
 import EventDetailNew from "./pages/Main/EventDetailNew";
+import CheckInPage from "./pages/Admin/CheckinPage/CheckInPage";
 
 const App = () => {
   return (
@@ -33,6 +34,7 @@ const App = () => {
         <Route path="/partners" element={<Partners />} />
         <Route path="/blog" element={<History />} />
         <Route path="/test" element={<EventDetailNew />} />
+        <Route path="/checkin" element={<CheckInPage />} />
 
         <Route element={<ProtectedRoute />}>
           <Route path="/me/profile" element={<UserDashboard />} />

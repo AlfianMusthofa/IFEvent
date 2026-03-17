@@ -6,6 +6,8 @@ import Avatar from "../../assets/icons/userAvatar.png";
 import Footer from "../../components/Footer";
 import { formatEventDate } from "../../utils/date";
 import { CalendarCheck, Download } from "lucide-react";
+import UpdateUser from "./UpdateUser";
+import QrModal from "./QrModal";
 
 interface EventsProps {
   id: number;
@@ -26,6 +28,9 @@ const UserDashboard = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [search, setSearch] = useState("");
   const [count, setCount] = useState(null);
+  const [modal, setModal] = useState(false);
+  const [qrModal, setQrModal] = useState(false);
+  const [selectedTicket, setSelectedTicket] = useState(null);
 
   const getHistory = async (pageNumber = 1, searchValue = search) => {
     const param = new URLSearchParams({
@@ -43,6 +48,11 @@ const UserDashboard = () => {
       },
     });
     const data = await res.json();
+    console.log(data.data);
+
+    data.data.forEach((event: any) => {
+      console.log(event.EventParticipantModels?.[0]?.ticketCode);
+    });
 
     setEvents(data.data);
     setPage(data.meta.page);
@@ -157,7 +167,10 @@ const UserDashboard = () => {
                     {user?.email}
                   </p>
                   <div className="mt-2">
-                    <button className="bg-yellow-primer text-[13px] px-3 py-[7px] rounded-[7px]">
+                    <button
+                      onClick={() => setModal(true)}
+                      className="bg-yellow-primer text-[13px] px-3 py-[7px] rounded-[7px]"
+                    >
                       Change Profile
                     </button>
                   </div>
@@ -244,7 +257,7 @@ const UserDashboard = () => {
                           <p>{event.status.name}</p>
                         </td>
                         <td className="px-6 py-3 text-sm  w-[100px]">
-                          <a
+                          {/* <a
                             className="line-clamp-1 text-blue"
                             href={
                               event.locationType === "online"
@@ -255,7 +268,32 @@ const UserDashboard = () => {
                             {event.locationType === "online"
                               ? event.meetingLink
                               : event.location}
-                          </a>
+                          </a> */}
+
+                          {event.locationType === "online" ? (
+                            <a
+                              className="line-clamp-1 text-blue"
+                              href={
+                                event.locationType === "online"
+                                  ? event.meetingLink
+                                  : "null"
+                              }
+                            >
+                              {event.meetingLink}
+                            </a>
+                          ) : (
+                            <button
+                              onClick={() => {
+                                setQrModal(true);
+                                setSelectedTicket(
+                                  event.EventParticipantModels?.[0]?.ticketCode,
+                                );
+                              }}
+                              className="bg-green-400 px-3 text-[13px] py-1 rounded-[5px] text-white"
+                            >
+                              QR Code
+                            </button>
+                          )}
                         </td>
                         <td className="px-6 text-sm">
                           {event.Certificates.length > 0 &&
@@ -309,6 +347,13 @@ const UserDashboard = () => {
           <Footer />
         </div>
       </div>
+      {modal && <UpdateUser onClose={() => setModal(false)} id={user?.id} />}
+      {qrModal && (
+        <QrModal
+          onClose={() => setQrModal(false)}
+          ticketCode={selectedTicket}
+        />
+      )}
     </>
   );
 };
