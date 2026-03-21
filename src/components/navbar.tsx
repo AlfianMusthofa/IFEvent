@@ -48,8 +48,8 @@ const Navbar = () => {
             <a href="/events" className="hover:underline">
               Events
             </a>
-            <a href="/blog" className="hover:underline">
-              Blog
+            <a href="/article" className="hover:underline">
+              Article
             </a>
             <a href="/about" className="hover:underline">
               About

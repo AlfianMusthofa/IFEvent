@@ -92,6 +92,10 @@ const EventDetailNew = () => {
     }
   };
 
+  const formatRupiah = (number: any) => {
+    return new Intl.NumberFormat("id-ID").format(number);
+  };
+
   return (
     <>
       <Navbar />
@@ -164,7 +168,12 @@ const EventDetailNew = () => {
                 <div>
                   <p className="text-[16px]">{event?.Mentor.name}</p>
                   <p className="text-[13px]">{event?.Mentor.position}</p>
-                  <p className="text-[13px] font-light">{event?.Mentor.bio}</p>
+                  <p
+                    className="text-[13px] font-light"
+                    dangerouslySetInnerHTML={{
+                      __html: event?.Mentor.bio || "",
+                    }}
+                  />
                 </div>
               </div>
             </div>
@@ -203,7 +212,9 @@ const EventDetailNew = () => {
               {event?.priceType == "free" ? (
                 <h2 className="text-[15px] font-medium">Free</h2>
               ) : (
-                <h2 className="text-[15px] font-medium">IDR {event?.price}</h2>
+                <h2 className="text-[15px] font-medium">
+                  IDR {formatRupiah(event?.price)}
+                </h2>
               )}
 
               <button

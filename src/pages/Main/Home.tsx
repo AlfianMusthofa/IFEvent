@@ -4,7 +4,6 @@ import Card from "../../components/Home/Card";
 import { useEffect, useState } from "react";
 import Sponsors from "../../components/Home/Sponsors";
 import { Typewriter } from "react-simple-typewriter";
-import { API_URL } from "../../service/api";
 
 interface EventsProps {
   title: string;
@@ -15,11 +14,13 @@ interface EventsProps {
   startAt: string;
 }
 
+const ApiUrl = import.meta.env.VITE_API_URL;
+
 const Home = () => {
   const [events, setEvents] = useState<EventsProps[]>([]);
 
   useEffect(() => {
-    fetch(`${API_URL}/events?limit=6&status=active`)
+    fetch(`${ApiUrl}/events?limit=6&status=active`)
       .then((res) => res.json())
       .then((result) => {
         setEvents(result.data);

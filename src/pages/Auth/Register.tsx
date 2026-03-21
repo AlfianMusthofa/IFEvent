@@ -14,17 +14,15 @@ const Register = () => {
   const navigate = useNavigate();
 
   const handleRegister = async () => {
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("email", email);
+    formData.append("password", password);
+
     try {
-      const response = await fetch(`${API_URL}/users`, {
+      const response = await fetch(`${API_URL}/users/register`, {
         method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          password,
-        }),
+        body: formData,
       });
 
       if (response.ok) {

@@ -162,6 +162,7 @@ const Events = () => {
                 <option value="ended">Ended</option>
                 <option value="pending">Pending</option>
                 <option value="cancelled">Cancelled</option>
+                <option value="draft">Draft</option>
               </select>
             </div>
             <div className="flex items-center gap-3">

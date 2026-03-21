@@ -2,7 +2,6 @@ import Navbar from "../../components/navbar";
 import Syllabus from "../../components/Home/Syllabus";
 import Footer from "../../components/Footer";
 import { useEffect, useState } from "react";
-import { API_URL } from "../../service/api";
 import { useNavigate, useParams } from "react-router-dom";
 import { Bounce, toast } from "react-toastify";
 import { formatEventDate } from "../../utils/date";
@@ -20,6 +19,8 @@ interface EventProps {
   startAt: string;
 }
 
+const ApiUrl = import.meta.env.VITE_API_URL;
+
 const EventDetail = () => {
   const { slug } = useParams();
   const [event, setEvent] = useState<EventProps>();
@@ -30,13 +31,13 @@ const EventDetail = () => {
   useEffect(() => {
     if (!slug) return;
     const fetchEvent = async () => {
-      const res = await fetch(`${API_URL}/events/slug/${slug}`);
+      const res = await fetch(`${ApiUrl}/events/slug/${slug}`);
       const data = await res.json();
       console.log(data);
       setEvent(data);
 
       if (accessToken) {
-        const historyRes = await fetch(`${API_URL}/users/me/history`, {
+        const historyRes = await fetch(`${ApiUrl}/users/me/history`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
@@ -58,7 +59,7 @@ const EventDetail = () => {
 
   const handleJoin = async () => {
     try {
-      const res = await fetch(`${API_URL}/events/${event?.id}/join`, {
+      const res = await fetch(`${ApiUrl}/events/${event?.id}/join`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${accessToken}`,

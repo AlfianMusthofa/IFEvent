@@ -83,9 +83,7 @@ const Dashboard = () => {
               ))}
             </div>
           </div>
-          <div className="bg-white px-5 py-3 rounded-[5px] shadow-sm">
-            asdasd
-          </div>
+          <div className="bg-white px-5 py-3 rounded-[5px] shadow-sm">asd</div>
         </div>
         <div className="flex justify-between gap-3">
           <div className="mt-3 flex-1 bg-white h-[250px] w-[450px] p-3 rounded-[5px] shadow-sm">

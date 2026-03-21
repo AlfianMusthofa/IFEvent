@@ -30,12 +30,15 @@ const AddMentor = ({ onClose }: any) => {
     formData.append("image", image);
     const toastId = toast.loading("Loading...");
 
+    for (const [key, value] of formData.entries()) {
+      console.log(key, value);
+    }
+
     try {
       const res = await fetch(`${API_URL}/mentors`, {
         method: "POST",
         body: formData,
       });
-
       if (!res.ok) {
         toast.update(toastId, {
           render: "Failed to add mentor",
@@ -44,14 +47,12 @@ const AddMentor = ({ onClose }: any) => {
           autoClose: 2000,
         });
       }
-
       toast.update(toastId, {
         render: "Mentor Added",
         type: "success",
         isLoading: false,
         autoClose: 1000,
       });
-
       setTimeout(() => {
         onClose();
         window.location.reload();

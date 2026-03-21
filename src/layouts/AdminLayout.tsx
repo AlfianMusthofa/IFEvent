@@ -1,4 +1,10 @@
-import { CalendarCheck, Folder, LayoutDashboard, Users } from "lucide-react";
+import {
+  CalendarCheck,
+  Folder,
+  LayoutDashboard,
+  Newspaper,
+  Users,
+} from "lucide-react";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
 import logo from "../assets/icons/logo.png";
 
@@ -19,6 +25,11 @@ const AdminLayout = () => {
       icon: <Folder width={19} />,
     },
     { name: "Mentors", path: "/admin/mentors", icon: <Users width={19} /> },
+    {
+      name: "Articles",
+      path: "/admin/article",
+      icon: <Newspaper width={19} />,
+    },
   ];
 
   const isActive = (path: any) => {

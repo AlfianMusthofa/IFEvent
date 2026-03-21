@@ -1,10 +1,7 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Main/Home";
-import EventDetail from "./pages/Main/EventDetail";
 import ClassList from "./pages/Main/ClassList";
-import History from "./pages/History/History";
-import HistoryDetail from "./pages/History/HistoryDetail";
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 import About from "./pages/About/About";
@@ -20,6 +17,8 @@ import Mentors from "./pages/Admin/mentors/Mentors";
 import CreateEvent from "./pages/Admin/events/CreateEvent";
 import EventDetailNew from "./pages/Main/EventDetailNew";
 import CheckInPage from "./pages/Admin/CheckinPage/CheckInPage";
+import Article from "./pages/Article/Article";
+import ArticleAdmin from "./pages/Admin/article/ArticleAdmin";
 
 const App = () => {
   return (
@@ -32,13 +31,12 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/about" element={<About />} />
         <Route path="/partners" element={<Partners />} />
-        <Route path="/blog" element={<History />} />
         <Route path="/test" element={<EventDetailNew />} />
         <Route path="/checkin" element={<CheckInPage />} />
+        <Route path="/article" element={<Article />} />
 
         <Route element={<ProtectedRoute />}>
           <Route path="/me/profile" element={<UserDashboard />} />
-          <Route path="/history-detail" element={<HistoryDetail />} />
         </Route>
 
         <Route path="/admin" element={<AdminLayout />}>
@@ -47,6 +45,7 @@ const App = () => {
           <Route path="events" element={<Events />} />
           <Route path="categories" element={<Categories />} />
           <Route path="mentors" element={<Mentors />} />
+          <Route path="article" element={<ArticleAdmin />} />
         </Route>
 
         <Route path="/admin/event-form" element={<CreateEvent />} />

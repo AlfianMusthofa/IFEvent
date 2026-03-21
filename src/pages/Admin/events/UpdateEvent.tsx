@@ -1,4 +1,12 @@
-import { CirclePlus, X } from "lucide-react";
+import {
+  CirclePlus,
+  Clock5,
+  FileImage,
+  Info,
+  MapPin,
+  Video,
+  X,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import { API_URL } from "../../../service/api";
 import { formatForInput } from "../../../utils/date";
@@ -270,12 +278,18 @@ const UpdateEvent = ({ onClose, id }: any) => {
           </div>
           {/* content */}
           <div className="p-4 overflow-y-auto flex-1">
+            <div className="mb-4 flex items-center gap-3">
+              <div className="bg-[#ffdbcb] px-[8px] py-[5px] rounded-[5px]">
+                <Info width={20} color="red" />
+              </div>
+              <h2 className="font-medium tracking-wide">General Information</h2>
+            </div>
             <div className="flex justify-between items-center gap-2">
               <div className="flex-1">
                 <p className="text-[13px]">Event Name</p>
                 <input
                   type="text"
-                  className="text-[14px] border border-gray-200 w-full p-2 mt-1 rounded-[6px]"
+                  className="outline-none bg-[#f3f4f5] text-[14px] border border-gray-200 w-full p-2 mt-1 rounded-[6px]"
                   placeholder="Enter event name"
                   value={eventName}
                   onChange={(e) => setEventName(e.target.value)}
@@ -286,7 +300,7 @@ const UpdateEvent = ({ onClose, id }: any) => {
                 <select
                   onChange={(e) => setStatusId(Number(e.target.value))}
                   value={String(statusId)}
-                  className="mt-1 w-full p-2 text-[14px] border border-gray-200 rounded-[6px]"
+                  className="outline-none bg-[#f3f4f5] mt-1 w-full p-2 text-[14px] border border-gray-200 rounded-[6px]"
                 >
                   <option value="">Choose status</option>
                   {statuses.map((status) => (
@@ -298,106 +312,11 @@ const UpdateEvent = ({ onClose, id }: any) => {
               </div>
             </div>
 
-            {/* Date & Time */}
-            <div className="mt-3 flex items-center gap-2 w-full">
-              <div className="flex-1">
-                <p className="text-[13px]">Start Date</p>
-                <input
-                  type="date"
-                  className="text-[14px] border border-gray-200 p-2 mt-1 rounded-[6px] w-full"
-                  onChange={(e) => setDate(e.target.value)}
-                  value={date}
-                />
-              </div>
-              <div className="flex-1">
-                <p className="text-[13px]">Time</p>
-                <input
-                  type="time"
-                  className="text-[14px] border border-gray-200 p-2 mt-1 rounded-[6px] w-full"
-                  onChange={(e) => setTime(e.target.value)}
-                  value={time}
-                />
-              </div>
-            </div>
-
-            <div className="mt-3 flex items-center gap-2 w-full">
-              <div className="flex-1">
-                <p className="text-[13px]">End Date</p>
-                <input
-                  type="date"
-                  className="text-[14px] border border-gray-200 p-2 mt-1 rounded-[6px] w-full"
-                  onChange={(e) => setEndDate(e.target.value)}
-                  value={endDate}
-                />
-              </div>
-              <div className="flex-1">
-                <p className="text-[13px]">Time</p>
-                <input
-                  type="time"
-                  className="text-[14px] border border-gray-200 p-2 mt-1 rounded-[6px] w-full"
-                  onChange={(e) => setEndTime(e.target.value)}
-                  value={endTime}
-                />
-              </div>
-            </div>
-
-            <div className="mt-3">
-              <div>
-                <p className="text-[13px] mb-1">Location</p>
-                {/* Radio Button */}
-                <div className="flex gap-4 text-[14px]">
-                  <label className="flex items-center gap-1">
-                    <input
-                      type="radio"
-                      name="locationType"
-                      value="offline"
-                      checked={locationType === "offline"}
-                      onChange={() => handleChangeType("offline")}
-                    />
-                    Offline
-                  </label>
-
-                  <label className="flex items-center gap-1">
-                    <input
-                      type="radio"
-                      name="locationType"
-                      value="online"
-                      checked={locationType === "online"}
-                      onChange={() => setLocationType("online")}
-                    />
-                    Online
-                  </label>
-                </div>
-
-                {/* OFFLINE */}
-                {locationType === "offline" && (
-                  <input
-                    type="text"
-                    className="text-[14px] border border-gray-200 w-full p-2 mt-2 rounded-[6px]"
-                    placeholder="Enter event location"
-                    value={location}
-                    onChange={(e) => setLocation(e.target.value)}
-                  />
-                )}
-
-                {/* ONLINE */}
-                {locationType === "online" && (
-                  <input
-                    type="text"
-                    className="text-[14px] border border-gray-200 w-full p-2 mt-2 rounded-[6px]"
-                    placeholder="Enter meeting link (Zoom, Google Meet, etc)"
-                    value={meetingLink}
-                    onChange={(e) => setMeetingLink(e.target.value)}
-                  />
-                )}
-              </div>
-            </div>
-
             <div className="mt-3 flex items-center justify-between gap-2">
               <div className="flex-1">
-                <p className="text-[13px]">Category</p>
+                <p className="text-[13px] mb-[5px]">Category</p>
                 <select
-                  className="mt-1 w-full p-2 text-[14px] border border-gray-200 rounded-[6px]"
+                  className="outline-none bg-[#f3f4f5] mt-1 w-full p-2 text-[14px] border border-gray-200 rounded-[6px]"
                   value={String(categoryId)}
                   onChange={(e) => setCategoryId(Number(e.target.value))}
                 >
@@ -410,9 +329,9 @@ const UpdateEvent = ({ onClose, id }: any) => {
                 </select>
               </div>
               <div className="flex-1">
-                <p className="text-[13px]">Mentor</p>
+                <p className="text-[13px] mb-[5px]">Mentor</p>
                 <select
-                  className="mt-1 w-full p-2 text-[14px] border border-gray-200 rounded-[6px]"
+                  className="outline-none bg-[#f3f4f5] mt-1 w-full p-2 text-[14px] border border-gray-200 rounded-[6px]"
                   value={String(mentorId)}
                   onChange={(e) => setMentorId(Number(e.target.value))}
                 >
@@ -427,22 +346,170 @@ const UpdateEvent = ({ onClose, id }: any) => {
             </div>
 
             <div className="mt-3">
-              <p className="text-[13px]">Description</p>
+              <p className="text-[13px] mb-3">Description</p>
               <ReactQuill
                 theme="snow"
                 value={desc}
-                className="mt-1 [&_.ql-editor]:h-[120px] [&_.ql-editor]:overflow-y-auto"
+                className="bg-[#f3f4f5] mt-1 [&_.ql-editor]:h-[180px] [&_.ql-editor]:overflow-y-auto"
                 onChange={(e) => {
                   setDesc(e);
                 }}
               />
             </div>
 
+            <div className="border h-[1px] my-8"></div>
+
+            <div className="mb-4 flex items-center gap-3">
+              <div className="bg-[#e0e0ff] px-[8px] py-[5px] rounded-[5px]">
+                <Clock5 width={20} color="#343d96" />
+              </div>
+              <h2 className="font-medium tracking-wide">Time & Location</h2>
+            </div>
+
+            {/* Date & Time */}
+            <div className="mt-3 flex items-center gap-2 w-full">
+              <div className="flex-1">
+                <p className="text-[13px]">Start Date</p>
+                <input
+                  type="date"
+                  className="outline-none bg-[#f3f4f5] text-[14px] border border-gray-200 p-2 mt-1 rounded-[6px] w-full"
+                  onChange={(e) => setDate(e.target.value)}
+                  value={date}
+                />
+              </div>
+              <div className="flex-1">
+                <p className="text-[13px]">Time</p>
+                <input
+                  type="time"
+                  className="outline-none bg-[#f3f4f5] text-[14px] border border-gray-200 p-2 mt-1 rounded-[6px] w-full"
+                  onChange={(e) => setTime(e.target.value)}
+                  value={time}
+                />
+              </div>
+            </div>
+
+            <div className="mt-3 flex items-center gap-2 w-full">
+              <div className="flex-1">
+                <p className="text-[13px]">End Date</p>
+                <input
+                  type="date"
+                  className="outline-none bg-[#f3f4f5] text-[14px] border border-gray-200 p-2 mt-1 rounded-[6px] w-full"
+                  onChange={(e) => setEndDate(e.target.value)}
+                  value={endDate}
+                />
+              </div>
+              <div className="flex-1">
+                <p className="text-[13px]">Time</p>
+                <input
+                  type="time"
+                  className="outline-none bg-[#f3f4f5] text-[14px] border border-gray-200 p-2 mt-1 rounded-[6px] w-full"
+                  onChange={(e) => setEndTime(e.target.value)}
+                  value={endTime}
+                />
+              </div>
+            </div>
+
+            <div className="mt-3">
+              <div>
+                <p className="text-[13px] mb-1">Location</p>
+                <div className="flex gap-3 text-[14px]">
+                  {/* OFFLINE */}
+                  <label
+                    className={`bg-[#f3f4f5] flex justify-center items-start gap-3 p-4 border rounded-[5px] cursor-pointer w-full transition shadow-sm
+                              ${
+                                locationType === "offline"
+                                  ? "border-blue-500 bg-blue-50 ring-2 ring-blue-200"
+                                  : "border-gray-300 hover:border-gray-400"
+                              }
+                           `}
+                  >
+                    <input
+                      type="radio"
+                      name="locationType"
+                      value="offline"
+                      checked={locationType === "offline"}
+                      onChange={() => setLocationType("offline")}
+                      className="hidden"
+                    />
+
+                    <div className="flex flex-col items-center">
+                      <MapPin width={20} />
+                      <p className="text-gray-500 text-[13px] font-medium">
+                        In-Person Meet
+                      </p>
+                    </div>
+                  </label>
+
+                  {/* ONLINE */}
+                  <label
+                    className={`bg-[#f3f4f5] flex justify-center items-start gap-3 p-4 border rounded-[5px] cursor-pointer w-full transition shadow-sm
+                                 ${
+                                   locationType === "online"
+                                     ? "border-blue-500 bg-blue-50 ring-2 ring-blue-200"
+                                     : "border-gray-300 hover:border-gray-400"
+                                 }
+                              `}
+                  >
+                    <input
+                      type="radio"
+                      name="locationType"
+                      value="online"
+                      checked={locationType === "online"}
+                      onChange={() => setLocationType("online")}
+                      className="hidden"
+                    />
+
+                    <div className="flex flex-col items-center">
+                      <Video width={20} />
+                      <p className="text-gray-500 text-[13px] font-medium">
+                        Online Session
+                      </p>
+                    </div>
+                  </label>
+                </div>
+
+                <p className="text-[13px] mt-3">
+                  Platform Link or Physical Address
+                </p>
+
+                {/* OFFLINE */}
+                {locationType === "offline" && (
+                  <input
+                    type="text"
+                    className="outline-none bg-[#f3f4f5] text-[14px] border border-gray-200 w-full p-2 mt-2 rounded-[6px]"
+                    placeholder="Enter event location"
+                    value={location}
+                    onChange={(e) => setLocation(e.target.value)}
+                  />
+                )}
+
+                {/* ONLINE */}
+                {locationType === "online" && (
+                  <input
+                    type="text"
+                    className="outline-none bg-[#f3f4f5] text-[14px] border border-gray-200 w-full p-2 mt-2 rounded-[6px]"
+                    placeholder="Enter meeting link (Zoom, Google Meet, etc)"
+                    value={meetingLink}
+                    onChange={(e) => setMeetingLink(e.target.value)}
+                  />
+                )}
+              </div>
+            </div>
+
+            <div className="border h-[1px] my-8"></div>
+
+            <div className="mb-4 flex items-center gap-3">
+              <div className="bg-[#ffdbcb] px-[8px] py-[5px] rounded-[5px]">
+                <Info width={20} color="red" />
+              </div>
+              <h2 className="font-medium tracking-wide">Logistic</h2>
+            </div>
+
             <div className="mt-3">
               <p className="text-[13px]">Event Capacity</p>
               <input
                 type="number"
-                className="text-[14px] border border-gray-200 w-full p-2 mt-1 rounded-[6px]"
+                className="outline-none text-[14px] border border-gray-200 w-full p-2 mt-1 rounded-[6px]"
                 placeholder="Enter capacity"
                 value={String(capacity)}
                 onChange={(e) => setCapacity(Number(e.target.value))}
@@ -451,28 +518,57 @@ const UpdateEvent = ({ onClose, id }: any) => {
 
             <div className="mt-3">
               <p className="text-[13px] mb-1">Event Price</p>
-              {/* Radio Button */}
-              <div className="flex gap-4 text-[14px]">
-                <label className="flex items-center gap-1">
+              <div className="flex gap-3 text-[14px]">
+                {/* FREE */}
+                <label
+                  className={`bg-[#f3f4f5] flex items-center gap-3 p-4 border rounded-[5px] cursor-pointer w-full transition shadow-sm
+                              ${
+                                priceType === "free"
+                                  ? "border-blue-500 bg-blue-50 ring-2 ring-blue-200"
+                                  : "border-gray-300 hover:border-gray-400"
+                              }
+                           `}
+                >
                   <input
                     type="radio"
                     name="priceType"
                     value="free"
                     checked={priceType === "free"}
                     onChange={() => handleChangeTypePaid("free")}
+                    className="hidden"
                   />
-                  Free
+
+                  <div>
+                    <p className="font-semibold">Free</p>
+                    <p className="text-gray-500 text-sm">
+                      Free event without any fees
+                    </p>
+                  </div>
                 </label>
 
-                <label className="flex items-center gap-1">
+                {/* PAID */}
+                <label
+                  className={`bg-[#f3f4f5] flex items-center gap-3 p-4 border rounded-[5px] cursor-pointer w-full transition shadow-sm
+                              ${
+                                priceType === "paid"
+                                  ? "border-blue-500 bg-blue-50 ring-2 ring-blue-200"
+                                  : "border-gray-300 hover:border-gray-400"
+                              }
+                           `}
+                >
                   <input
                     type="radio"
                     name="priceType"
                     value="paid"
                     checked={priceType === "paid"}
                     onChange={() => setPriceType("paid")}
+                    className="hidden"
                   />
-                  Paid
+
+                  <div>
+                    <p className="font-semibold">Paid</p>
+                    <p className="text-gray-500 text-sm">Paid Event</p>
+                  </div>
                 </label>
               </div>
               {priceType === "paid" && (
@@ -486,11 +582,19 @@ const UpdateEvent = ({ onClose, id }: any) => {
               )}
             </div>
 
+            <div className="border h-[1px] my-8"></div>
+
+            <div className="mb-4 flex items-center gap-3">
+              <div className="bg-[#e0e0ff] px-[8px] py-[5px] rounded-[5px]">
+                <FileImage width={20} color="#343d96" />
+              </div>
+              <h2 className="font-medium tracking-wide">Event Banner</h2>
+            </div>
+
             <div className="mt-3">
-              <p className="text-[13px]">Event Image</p>
               <label
                 htmlFor="image-upload"
-                className="cursor-pointer h-[150px] w-[240px] mt-2 
+                className="cursor-pointer h-[150px] w-[275px] mt-2 
              rounded-md border border-dashed border-black 
              flex justify-center items-center overflow-hidden"
               >
@@ -520,7 +624,7 @@ const UpdateEvent = ({ onClose, id }: any) => {
               <p className="text-[13px]">Event Certificate</p>
               <label
                 htmlFor="image-upload-certif"
-                className="cursor-pointer h-[150px] w-[240px] mt-2 
+                className="cursor-pointer h-[150px] w-[275px] mt-2 
              rounded-md border border-dashed border-black 
              flex justify-center items-center overflow-hidden"
               >
