@@ -62,7 +62,7 @@ const CreateEvent = ({ onClose }: any) => {
     setPrice("");
   };
 
-  const handleSave = async (statusId: number) => {
+  const handleSave = async () => {
     // 1️⃣ VALIDASI DULU
     const isDescEmpty = !desc || desc === "<p><br></p>" || desc === "<p></p>";
 
@@ -113,7 +113,7 @@ const CreateEvent = ({ onClose }: any) => {
       ALLOWED_ATTR: ["href", "target", "rel"],
     });
 
-    //  const statusId = 1;
+    const statusId = 1;
 
     // 4️⃣ FORM DATA
     const formData = new FormData();
@@ -510,14 +510,17 @@ const CreateEvent = ({ onClose }: any) => {
               </div>
               {priceType === "paid" && (
                 <div>
-                  <p className="text-[13px] mt-3 mb-2">Price (IDR)</p>
-                  <input
-                    type="text"
-                    className="outline-none bg-[#f3f4f5] text-[14px] border border-gray-200 w-full p-2  rounded-[6px]"
-                    placeholder="Enter price"
-                    value={price}
-                    onChange={handleChangePrice}
-                  />
+                  <div>
+                    <p className="text-[13px] mt-3 mb-2">Price (IDR)</p>
+                    <input
+                      type="text"
+                      className="outline-none bg-[#f3f4f5] text-[14px] border border-gray-200 w-full p-2  rounded-[6px]"
+                      placeholder="Enter price"
+                      value={price}
+                      onChange={handleChangePrice}
+                    />
+                  </div>
+                  <h1>ya</h1>
                 </div>
               )}
             </div>
@@ -568,7 +571,7 @@ const CreateEvent = ({ onClose }: any) => {
             </div>
             <div className="flex items-center gap-2">
               <button
-                onClick={() => handleSave(1)}
+                onClick={handleSave}
                 className="text-[14px] text-white mt-3 w-full bg-[#ec5b13] text-center py-2 rounded-[5px]"
               >
                 Publish Event

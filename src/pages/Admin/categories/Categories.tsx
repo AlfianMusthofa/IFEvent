@@ -23,7 +23,7 @@ const Categories = () => {
         <h1 className="text-[20px] font-medium">Categories Management</h1>
         <button
           onClick={() => setOpenModal(true)}
-          className="bg-[#ec5b13] px-3 py-2 rounded-[5px] cursor-pointer shadow-sm"
+          className="bg-gradient-to-r from-[#EC5B13] to-[#CF4D58] px-3 py-2 rounded-[5px] cursor-pointer shadow-sm"
         >
           <p className="text-[12px] text-white">Create New Category +</p>
         </button>

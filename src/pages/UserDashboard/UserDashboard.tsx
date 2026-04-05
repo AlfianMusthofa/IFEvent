@@ -5,7 +5,7 @@ import { API_URL } from "../../service/api";
 import Avatar from "../../assets/icons/userAvatar.png";
 import Footer from "../../components/Footer";
 import { formatEventDate } from "../../utils/date";
-import { CalendarCheck, Download } from "lucide-react";
+import { CalendarCheck, Download, Video } from "lucide-react";
 import UpdateUser from "./UpdateUser";
 import QrModal from "./QrModal";
 

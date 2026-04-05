@@ -59,7 +59,7 @@ const Mentors = () => {
         <h1 className="text-[20px] font-medium">Mentors Management</h1>
         <button
           onClick={() => setModal(true)}
-          className="bg-[#ec5b13] px-3 py-2 rounded-[5px] cursor-pointer shadow-sm"
+          className="bg-gradient-to-r from-[#EC5B13] to-[#CF4D58] px-3 py-2 rounded-[5px] cursor-pointer shadow-sm"
         >
           <p className="text-[12px] text-white">Add New Mentor +</p>
         </button>

@@ -19,6 +19,7 @@ import EventDetailNew from "./pages/Main/EventDetailNew";
 import CheckInPage from "./pages/Admin/CheckinPage/CheckInPage";
 import Article from "./pages/Article/Article";
 import ArticleAdmin from "./pages/Admin/article/ArticleAdmin";
+import ArticleDetail from "./pages/Article/ArticleDetail";
 
 const App = () => {
   return (
@@ -34,6 +35,7 @@ const App = () => {
         <Route path="/test" element={<EventDetailNew />} />
         <Route path="/checkin" element={<CheckInPage />} />
         <Route path="/article" element={<Article />} />
+        <Route path="/article/:slug" element={<ArticleDetail />} />
 
         <Route element={<ProtectedRoute />}>
           <Route path="/me/profile" element={<UserDashboard />} />

@@ -64,7 +64,7 @@ const Users = () => {
     <>
       <div className="flex justify-between items-center bg-white py-3 px-5 border-b">
         <h1 className="text-[20px] font-medium">Users Management</h1>
-        <button className="bg-[#ec5b13] px-3 py-2 rounded-[5px] cursor-pointer shadow-sm">
+        <button className="bg-gradient-to-r from-[#EC5B13] to-[#CF4D58] px-3 py-2 rounded-[5px] cursor-pointer shadow-sm">
           <p className="text-[12px] text-white">Add New User +</p>
         </button>
       </div>

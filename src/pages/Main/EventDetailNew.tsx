@@ -6,6 +6,7 @@ import { Bounce, toast } from "react-toastify";
 import { CalendarClock, MapPin } from "lucide-react";
 import { formatEventDate } from "../../utils/date";
 import Footer from "../../components/Footer";
+import EventLocationModal from "../../components/EventDetail/EventLocationModal";
 
 interface EventProps {
   id: number;
@@ -31,6 +32,7 @@ const EventDetailNew = () => {
   const accessToken = localStorage.getItem("accessToken");
   const navigate = useNavigate();
   const [expanded, setExpanded] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
     if (!slug) return;
@@ -112,31 +114,41 @@ const EventDetailNew = () => {
                 </li>
               </ul>
             </div>
-            <h1 className="text-[25px] font-medium tracking-wide line-clamp-2">
+            <h1 className="text-[25px] font-medium tracking-wide line-clamp-2 border p-3 rounded-[10px]">
               {event?.title}
             </h1>
-            <div className="my-3">
-              <div className="flex items-center gap-1">
-                <MapPin width={15} />
+            <div className="my-3 border p-3 rounded-[10px]">
+              <div className="flex gap-3">
+                <MapPin width={17} />
                 {event?.locationType == "offline" ? (
-                  <div className="text-[14px] tracking-wide">
-                    {event?.location}
+                  <div>
+                    <div className="text-[14px] tracking-wide">
+                      {event?.location}
+                    </div>
+                    <button
+                      onClick={() => setOpenModal(true)}
+                      className="text-[13px] font-medium underline tracking-wide"
+                    >
+                      See detail location
+                    </button>
+                    <EventLocationModal
+                      open={openModal}
+                      onClose={() => setOpenModal(false)}
+                      location={event?.location}
+                    />
                   </div>
                 ) : (
                   <div className="tracking-wide">{event?.locationType}</div>
                 )}
               </div>
-              <div className="flex items-center gap-1 mt-2">
+              <div className="flex items-center gap-3 mt-2">
                 <CalendarClock width={15} />
                 <div className="text-[14px]">
                   {formatEventDate(event?.startAt)} WIB
                 </div>
               </div>
             </div>
-            <div>
-              <p className="text-[13px]">Share it on</p>
-            </div>
-            <div className="mt-5">
+            <div className=" border p-3 rounded-[10px]">
               <p className="tracking-wide font-medium">About this event</p>
               <p
                 className={`
@@ -159,7 +171,7 @@ const EventDetailNew = () => {
             </div>
             <div className="border my-5"></div>
             <div>
-              <h1 className="tracking-wide font-medium">Mentor</h1>
+              <h1 className="tracking-wide font-medium">About Mentor</h1>
               <div className="mt-1 flex gap-4 items-center">
                 <img
                   src={event?.Mentor.image}
@@ -232,6 +244,12 @@ const EventDetailNew = () => {
                   {joined ? "Registered" : "Register"}
                 </h2>
               </button>
+            </div>
+            <div className="border my-5"></div>
+            <div>
+              <p className="text-[12px]">
+                Share it with the people you're going to invite!
+              </p>
             </div>
           </div>
         </div>

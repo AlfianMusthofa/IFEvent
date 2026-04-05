@@ -8,16 +8,21 @@ import { Bounce, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const Register = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  //   const [name, setName] = useState("");
+  //   const [email, setEmail] = useState("");
+  //   const [password, setPassword] = useState("");
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
   const navigate = useNavigate();
 
   const handleRegister = async () => {
     const formData = new FormData();
-    formData.append("name", name);
-    formData.append("email", email);
-    formData.append("password", password);
+    formData.append("name", form.name);
+    formData.append("email", form.email);
+    formData.append("password", form.password);
 
     try {
       const response = await fetch(`${API_URL}/users/register`, {
@@ -67,7 +72,9 @@ const Register = () => {
                 id="username"
                 className="w-full text-[15px] outline-none"
                 placeholder="Username"
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) =>
+                  setForm((prev) => ({ ...prev, name: e.target.value }))
+                }
               />
             </div>
 
@@ -78,7 +85,9 @@ const Register = () => {
                 id="phone"
                 className="w-full text-[15px] outline-none"
                 placeholder="Email"
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) =>
+                  setForm((prev) => ({ ...prev, email: e.target.value }))
+                }
               />
             </div>
             <div className="border flex w-[310px] gap-2 p-[7px] rounded-[5px] border-yellow">
@@ -89,7 +98,9 @@ const Register = () => {
                 id="password"
                 className="w-full text-[15px] outline-none"
                 placeholder="Password"
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) =>
+                  setForm((prev) => ({ ...prev, password: e.target.value }))
+                }
               />
             </div>
             <button

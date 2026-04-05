@@ -49,6 +49,7 @@ const EventCard = ({
               src={image}
               alt="cover"
               className=" h-full w-full object-cover rounded-lg"
+              loading="lazy"
             />
             {/* <div className="absolute top-1 left-1 bg-yellow-primer text-[11px] px-2 py-[2px] rounded-badge tracking-wide">
               <p>{status}</p>

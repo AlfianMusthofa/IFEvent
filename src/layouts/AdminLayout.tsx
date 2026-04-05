@@ -41,7 +41,7 @@ const AdminLayout = () => {
 
   return (
     <div className="flex h-screen overflow-hidden">
-      <aside className="w-64 bg-gray-900 text-white p-4">
+      <aside className="w-64  text-black p-4 border-r">
         <div className="flex items-center mb-7 px-4 gap-3">
           <img src={logo} className="w-[45px]" />
           <h1 className="text-xl font-bold ">ElevateHub</h1>
@@ -54,11 +54,11 @@ const AdminLayout = () => {
               to={item.path}
               className={`block px-4 py-2 rounded transition ${
                 isActive(item.path)
-                  ? "bg-blue-600 text-white bg-[#ec5b13]"
-                  : "text-gray-300 hover:bg-gray-800"
+                  ? "text-[#ec5b13] bg-gray-100 border border-[#ec5b13] tracking-wide"
+                  : "text-black hover:bg-gray-200 tracking-wide"
               }`}
             >
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 text-[14px]">
                 {item.icon}
                 {item.name}
               </div>

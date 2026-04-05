@@ -23,6 +23,7 @@ const Card: React.FC<CardProps> = ({
         <img
           src={image}
           className="w-full h-[125px] object-cover rounded-[5px]"
+          loading="lazy"
         />
         <div className="content pt-[10px]">
           <p className="line-clamp-1 text-[15px] font-medium">{title}</p>

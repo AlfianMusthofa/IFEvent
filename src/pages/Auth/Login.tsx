@@ -1,19 +1,17 @@
 import Logo from "../../assets/icons/logo.png";
 import Person from "../../assets/icons/profile.png";
 import Lock from "../../assets/icons/padlock.png";
-import InformationBtn from "../../assets/icons/information-button.png";
 import { useState } from "react";
 import { Bounce, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { API_URL } from "../../service/api";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [form, setForm] = useState({ email: "", password: "" });
 
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+  const handleLogin = async (e: any) => {
     e.preventDefault();
     try {
       const response = await fetch(`${API_URL}/auth/login`, {
@@ -21,10 +19,7 @@ const Login = () => {
         headers: {
           "Content-type": "application/json",
         },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
+        body: JSON.stringify(form),
       });
 
       const data = await response.json();
@@ -99,7 +94,9 @@ const Login = () => {
                 id="Email"
                 className="w-full text-[15px] outline-none"
                 placeholder="Email"
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) =>
+                  setForm((prev) => ({ ...prev, email: e.target.value }))
+                }
               />
             </div>
             <div className="border flex w-[310px] gap-2 p-[7px] rounded-[5px] border-yellow">
@@ -110,7 +107,9 @@ const Login = () => {
                 id="password"
                 className="w-full text-[15px] outline-none"
                 placeholder="Password"
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) =>
+                  setForm((prev) => ({ ...prev, password: e.target.value }))
+                }
               />
             </div>
             <button
