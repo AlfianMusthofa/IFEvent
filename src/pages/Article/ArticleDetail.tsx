@@ -6,6 +6,10 @@ import Footer from "../../components/Footer";
 import logo from "../../assets/icons/logo.png";
 import avatar from "../../assets/icons/userAvatar.png";
 import { Heart } from "lucide-react";
+import { useComment } from "./hooks/useComment";
+import Pagination from "../../components/Pagination";
+import { useLikeFunction } from "./hooks/useLikeFunction";
+import { usePostFunction } from "./hooks/usePostFunction";
 
 interface Props {
   id: number;
@@ -15,27 +19,18 @@ interface Props {
   createdAt: string;
 }
 
-interface PropsComment {
-  id: number;
-  content: string;
-  createdAt: string;
-  User: {
-    id: number;
-    name: string;
-  };
-}
-
 const ArticleDetail = () => {
   const { slug } = useParams();
   const [items, setItems] = useState<Props | null>(null);
-  const [content, setContent] = useState("");
-  const [comments, setComments] = useState<PropsComment[]>([]);
-  const [liked, setLiked] = useState(false);
-  const navigate = useNavigate();
+  const [totalLikes, setTotalLikes] = useState(0);
 
   const ApiUrl = import.meta.env.VITE_API_URL;
-
   const token = localStorage.getItem("accessToken");
+
+  const { comments, page, totalPages, getComments } = useComment(items?.id!);
+  const { handleLike, liked, setLiked } = useLikeFunction();
+  const { content, handlePostComment, replyTo, setContent, setReplyTo } =
+    usePostFunction(token, items?.id!);
 
   const getData = async () => {
     const res = await fetch(`${ApiUrl}/articles/${slug}`, {
@@ -47,74 +42,19 @@ const ArticleDetail = () => {
     console.log(data);
     setItems(data.article);
     setLiked(data.liked);
+    setTotalLikes(data.totalLikes);
   };
-
-  const id = items?.id;
 
   useEffect(() => {
     getData();
-    console.log("id this article:", id);
   }, [slug]);
 
-  useEffect(() => {
-    const getAllComments = async () => {
-      const res = await fetch(`http://127.0.0.1:3000/comments/${id}`);
-      const data = await res.json();
-      setComments(data);
-    };
-    getAllComments();
-  }, [id]);
-
-  const handlePostComment = async () => {
-    if (!token) {
-      navigate("/login");
-      return;
-    }
-
-    if (!content.trim()) return;
-
-    try {
-      const res = await fetch(`${ApiUrl}/comments/${id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ content }),
-      });
-
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.message);
-      }
-
-      setContent("");
-      window.location.reload();
-    } catch (error) {
-      console.error(error);
-    }
+  const handlePrev = () => {
+    if (page > 1) getComments(page - 1);
   };
 
-  const handleLikeButton = async () => {
-    if (!token) {
-      navigate("/login");
-      return;
-    }
-
-    try {
-      const res = await fetch(`${ApiUrl}/articles/${id}/like`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const data = await res.json();
-      setLiked(data.liked);
-      console.log("Like button clicked");
-    } catch (error) {
-      console.log(error);
-    }
+  const handleNext = () => {
+    if (page < totalPages) getComments(page + 1);
   };
 
   return (
@@ -141,21 +81,25 @@ const ArticleDetail = () => {
         />
         <div className="mt-8 w-[750px] mx-auto">
           <p
-            dangerouslySetInnerHTML={{ __html: items?.content }}
+            dangerouslySetInnerHTML={{ __html: items?.content || "" }}
             className={`
                               text-[17px]  tracking-wide font-light leading-7
                               [&_ul]:list-disc [&_ul]:pl-5 [&_li]:mb-1
                            `}
           ></p>
         </div>
-        <div className="w-[750px] mx-auto flex items-center gap-5 mt-4">
-          <button onClick={handleLikeButton} className="flex items-center">
+        <div className="w-[750px] mx-auto flex items-center gap-2 mt-4 ">
+          <button
+            onClick={() => handleLike(token, items?.id!)}
+            className="flex items-center "
+          >
             <Heart
               width={19}
               fill={liked ? "red" : "none"}
               stroke={liked ? "red" : "black"}
             />
           </button>
+          <span className="text-[14px]">{totalLikes}</span>
         </div>
         <div className="flex items-center gap-3 my-5 w-[750px] mx-auto">
           <div className="flex-1 h-px bg-gray-200" />
@@ -175,9 +119,13 @@ const ArticleDetail = () => {
           <div className="flex-1 h-px bg-gray-200" />
         </div>
         {/* Content */}
+
         <div className="w-[750px] mx-auto flex flex-col gap-3">
           {comments.map((item) => (
-            <div className="flex gap-5 border p-3 rounded-[5px]" key={item.id}>
+            <div
+              className="flex gap-5 border p-3 rounded-[5px] bg-white"
+              key={item.id}
+            >
               <img src={avatar} className="w-[50px] h-[50px] rounded-full" />
               <div>
                 <h1>{item.User.name}</h1>
@@ -185,18 +133,49 @@ const ArticleDetail = () => {
                   {formatEventDate(item.createdAt)}
                 </p>
                 <p className="text-[15px] mt-3">{item.content}</p>
+                <div className="mt-2">
+                  <button
+                    onClick={() =>
+                      setReplyTo({ id: item.id, name: item.User.name })
+                    }
+                    className="text-[12px] font-medium"
+                  >
+                    Reply
+                  </button>
+                </div>
               </div>
             </div>
           ))}
         </div>
-        <div className="flex items-center gap-3 my-5 w-[750px] mx-auto">
+        <div className="flex items-center gap-3 my-3 w-[750px] mx-auto">
           <div className="flex-1 h-px bg-gray-200" />
           <div className=" px-4 py-1.5 ">
             <h1 className="font-medium tracking-wide">Write A Comment</h1>
           </div>
           <div className="flex-1 h-px bg-gray-200" />
         </div>
+        <div className="w-[750px] mx-auto flex items-center  mb-5 gap-2">
+          <Pagination
+            page={page}
+            totalPages={totalPages}
+            onPrev={handlePrev}
+            onNext={handleNext}
+          />
+        </div>
         <div className="w-[750px] mx-auto mb-5">
+          {replyTo && (
+            <div className="flex items-center gap-2 mb-2 text-[12px] text-gray-500 bg-gray-100 px-3 py-2 rounded-[5px]">
+              <span>
+                Membalas komentar <strong>{replyTo.name}</strong>
+              </span>
+              <button
+                onClick={() => setReplyTo(null)}
+                className="ml-auto text-red-400 font-medium"
+              >
+                ✕ Cancell
+              </button>
+            </div>
+          )}
           <textarea
             className="bg-white w-full border resize-none p-3 rounded-[5px] outline-none h-[160px]"
             placeholder="Enter your comment here..."

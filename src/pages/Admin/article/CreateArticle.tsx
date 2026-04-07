@@ -164,6 +164,11 @@ const CreateArticle = ({ onClose }: any) => {
               <ReactQuill
                 theme="snow"
                 className="mt-1 [&_.ql-editor]:h-[250px] [&_.ql-editor]:overflow-y-auto"
+                modules={{
+                  clipboard: {
+                    matchVisual: false,
+                  },
+                }}
                 onChange={(value) =>
                   setForm((prev) => ({ ...prev, content: value }))
                 }

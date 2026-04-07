@@ -28,10 +28,10 @@ const UpdateArticle = ({ onClose, slug }: any) => {
     const res = await fetch(`${ApiUrl}/articles/${slug}`);
     const data = await res.json();
     console.log(data);
-    setTitle(data.title);
-    setContent(data.content);
-    setCategoriesId(data.categoryId);
-    setPreview(data.image);
+    setTitle(data.article.title);
+    setContent(data.article.content);
+    setCategoriesId(data.article.categoryId);
+    setPreview(data.article.image);
     setImageFile(null);
     setExistingImage(data.image);
   };

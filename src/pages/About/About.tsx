@@ -2,26 +2,7 @@ import Navbar from "../../components/navbar";
 import Bg from "../../assets/about-image.jpg";
 import Gr from "../../assets/icons/education.png";
 import Exp from "../../assets/icons/reputation.png";
-import Marquee from "react-fast-marquee";
-import Lecturer from "../../components/About/Lecturer";
-import dosen from "../../assets/dosen/dosen.jpg";
-import dosen2 from "../../assets/dosen/dosen2.jpg";
-import dosen3 from "../../assets/dosen/dosen3.jpg";
-import dosen4 from "../../assets/dosen/dosen4.jpg";
-import dosen5 from "../../assets/dosen/dosen5.jpg";
-import dosen6 from "../../assets/dosen/dosen6.jpg";
-import dosen7 from "../../assets/dosen/dosen7.jpg";
-import dosen8 from "../../assets/dosen/dosen8.jpg";
-import dosen9 from "../../assets/dosen/dosen9.jpg";
-import dosen10 from "../../assets/dosen/dosen10.jpg";
-import dosen11 from "../../assets/dosen/dosen11.jpg";
-import dosen12 from "../../assets/dosen/dosen12.jpg";
-import dosen13 from "../../assets/dosen/dosen13.jpg";
-import dosen14 from "../../assets/dosen/dosen14.jpg";
-import dosen15 from "../../assets/dosen/dosen15.jpg";
-import dosen16 from "../../assets/dosen/dosen16.jpg";
-import dosen17 from "../../assets/dosen/dosen17.jpg";
-import dosen18 from "../../assets/dosen/dosen18.jpg";
+
 import Footer from "../../components/Footer";
 
 const About = () => {

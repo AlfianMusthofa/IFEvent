@@ -2,6 +2,7 @@ import {
   CalendarCheck,
   Folder,
   LayoutDashboard,
+  MessagesSquare,
   Newspaper,
   Users,
 } from "lucide-react";
@@ -30,6 +31,11 @@ const AdminLayout = () => {
       path: "/admin/article",
       icon: <Newspaper width={19} />,
     },
+    {
+      name: "Comments",
+      path: "/admin/comments",
+      icon: <MessagesSquare width={19} />,
+    },
   ];
 
   const isActive = (path: any) => {
@@ -40,7 +46,7 @@ const AdminLayout = () => {
   };
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-screen overflow-hidden ">
       <aside className="w-64  text-black p-4 border-r">
         <div className="flex items-center mb-7 px-4 gap-3">
           <img src={logo} className="w-[45px]" />

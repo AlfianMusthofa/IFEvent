@@ -20,6 +20,7 @@ import CheckInPage from "./pages/Admin/CheckinPage/CheckInPage";
 import Article from "./pages/Article/Article";
 import ArticleAdmin from "./pages/Admin/article/ArticleAdmin";
 import ArticleDetail from "./pages/Article/ArticleDetail";
+import CommentsDash from "./pages/Admin/comments/CommentsDash";
 
 const App = () => {
   return (
@@ -48,6 +49,7 @@ const App = () => {
           <Route path="categories" element={<Categories />} />
           <Route path="mentors" element={<Mentors />} />
           <Route path="article" element={<ArticleAdmin />} />
+          <Route path="comments" element={<CommentsDash />} />
         </Route>
 
         <Route path="/admin/event-form" element={<CreateEvent />} />

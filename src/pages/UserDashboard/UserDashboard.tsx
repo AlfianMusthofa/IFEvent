@@ -146,33 +146,35 @@ const UserDashboard = () => {
             </ul>
           </div>
           <div>
-            <div className="bg-white shadow-sm p-5 rounded-[10px] border">
-              <div className="flex items-center gap-6">
-                {user?.image ? (
-                  <img
-                    src={user.image}
-                    className="w-[100px] h-[100px] rounded-full object-cover"
-                  />
-                ) : (
-                  <img
-                    src={Avatar}
-                    className="w-[100px] rounded-xl object-cover"
-                  />
-                )}
-                <div>
-                  <h2 className="text-[25px] tracking-wide font-medium">
-                    {user?.name}
-                  </h2>
-                  <p className="text-[13px] tracking-wider text-gray-400">
-                    {user?.email}
-                  </p>
-                  <div className="mt-2">
-                    <button
-                      onClick={() => setModal(true)}
-                      className="bg-yellow-primer text-[13px] px-3 py-[7px] rounded-[7px]"
-                    >
-                      Change Profile
-                    </button>
+            <div className="flex gap-3">
+              <div className="flex-1 bg-white shadow-sm p-5 rounded-[10px] border">
+                <div className="flex items-center gap-6">
+                  {user?.image ? (
+                    <img
+                      src={user.image}
+                      className="w-[100px] h-[100px] rounded-full object-cover"
+                    />
+                  ) : (
+                    <img
+                      src={Avatar}
+                      className="w-[100px] rounded-xl object-cover"
+                    />
+                  )}
+                  <div>
+                    <h2 className="text-[25px] tracking-wide font-medium">
+                      {user?.name}
+                    </h2>
+                    <p className="text-[13px] tracking-wider text-gray-400">
+                      {user?.email}
+                    </p>
+                    <div className="mt-2">
+                      <button
+                        onClick={() => setModal(true)}
+                        className="bg-yellow-primer text-[13px] px-3 py-[7px] rounded-[7px]"
+                      >
+                        Change Profile
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -180,15 +182,6 @@ const UserDashboard = () => {
           </div>
           <div className="bg-gray-300 h-[1px] my-5"></div>
           <div className="mb-5 flex gap-3">
-            <div className="flex-1 flex items-center justify-between bg-white rounded-[10px] p-4 shadow-sm border border-b-4 border-b-green-400 border-green-400">
-              <div className="flex items-center gap-3">
-                <div className="bg-green-300 px-[6px] py-[3px] rounded-[5px]">
-                  <CalendarCheck width={18} color="green" />
-                </div>
-                <p className="text-[14px]">Event Joined</p>
-              </div>
-              <p className="font-medium">{count}</p>
-            </div>
             <div className="flex-1 flex items-center justify-between bg-white rounded-[10px] p-4 shadow-sm border border-b-4 border-b-green-400 border-green-400">
               <div className="flex items-center gap-3">
                 <div className="bg-green-300 px-[6px] py-[3px] rounded-[5px]">

@@ -2,17 +2,11 @@ import Navbar from "../../components/navbar";
 import { useEffect, useState } from "react";
 import { formatEventDate2 } from "../../utils/date";
 import { Link } from "react-router-dom";
+import { useArticle } from "./hooks/useArticle";
+import Footer from "../../components/Footer";
+import Pagination from "../../components/Pagination";
 
 const ApiUrl = import.meta.env.VITE_API_URL;
-
-interface Props {
-  id: number;
-  title: string;
-  content: string;
-  slug: string;
-  image: string;
-  createdAt: string;
-}
 
 interface Category {
   id: number;
@@ -20,15 +14,10 @@ interface Category {
 }
 
 const Article = () => {
-  const [articles, setArticles] = useState<Props[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [activeCategory, setActiveCategory] = useState(null);
 
-  const getArticles = async () => {
-    const res = await fetch(`${ApiUrl}/articles`);
-    const data = await res.json();
-    setArticles(data.data);
-  };
+  const { articles, page, totalPages, getArticles } = useArticle(6);
 
   const getCategories = async () => {
     const res = await fetch(`${ApiUrl}/category`);
@@ -37,12 +26,16 @@ const Article = () => {
   };
 
   useEffect(() => {
-    getArticles();
-  }, []);
-
-  useEffect(() => {
     getCategories();
   }, []);
+
+  const handlePrev = () => {
+    if (page > 1) getArticles(page - 1);
+  };
+
+  const handleNext = () => {
+    if (page < totalPages) getArticles(page + 1);
+  };
 
   return (
     <>
@@ -73,7 +66,7 @@ const Article = () => {
               </button>
             ))}
           </div>
-          <div className="mt-3 grid grid-cols-3 gap-3">
+          <div className="my-5 grid grid-cols-3 gap-3">
             {articles.map((article) => (
               <Link to={`/article/${article.slug}`} key={article.id}>
                 <div>
@@ -98,7 +91,18 @@ const Article = () => {
               </Link>
             ))}
           </div>
+          <div className="my-5 flex justify-center">
+            <Pagination
+              page={page}
+              totalPages={totalPages}
+              onNext={handleNext}
+              onPrev={handlePrev}
+            />
+          </div>
         </div>
+      </div>
+      <div>
+        <Footer />
       </div>
     </>
   );

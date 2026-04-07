@@ -52,3 +52,36 @@ export const formatForInput = (isoString: any) => {
 
   return { date, time };
 };
+
+export const formatCommentTime = (dateString: string) => {
+  const now = new Date();
+  const date = new Date(dateString);
+
+  const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+
+  const minutes = Math.floor(diffInSeconds / 60);
+  const hours = Math.floor(diffInSeconds / 3600);
+  const days = Math.floor(diffInSeconds / 86400);
+
+  if (diffInSeconds < 60) {
+    return "just now";
+  }
+
+  if (minutes < 60) {
+    return `${minutes}m ago`;
+  }
+
+  if (hours < 24) {
+    return `${hours}h ago`;
+  }
+
+  if (days < 7) {
+    return `${days}d ago`;
+  }
+
+  return date.toLocaleDateString("id-ID", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+};
