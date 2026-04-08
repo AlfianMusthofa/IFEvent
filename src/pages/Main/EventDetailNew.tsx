@@ -7,6 +7,9 @@ import { CalendarClock, MapPin } from "lucide-react";
 import { formatEventDate } from "../../utils/date";
 import Footer from "../../components/Footer";
 import EventLocationModal from "../../components/EventDetail/EventLocationModal";
+import Instagram from "../../assets/icons/instagram.png";
+import Facebook from "../../assets/icons/facebook.png";
+import Link from "../../assets/icons/link.png";
 
 interface EventProps {
   id: number;
@@ -102,8 +105,8 @@ const EventDetailNew = () => {
     <>
       <Navbar />
       <div className="max-w-[1029px] mx-auto">
-        <div className="flex justify-between my-4">
-          <div className="max-w-[650px]">
+        <div className="flex justify-between my-4 gap-3">
+          <div className="max-w-[640px]">
             <div className="breadcrumbs text-sm">
               <ul>
                 <li>
@@ -218,7 +221,7 @@ const EventDetailNew = () => {
           <div>
             <img
               src={event?.image}
-              className="w-[330px] h-[190px] object-cover rounded-[10px]"
+              className="w-[450px] h-[200px] object-cover rounded-[10px]"
             />
             <div className="shadow-md mt-5 px-4 py-3 flex items-center justify-between border rounded-[10px]">
               {event?.priceType == "free" ? (
@@ -250,6 +253,32 @@ const EventDetailNew = () => {
               <p className="text-[12px]">
                 Share it with the people you're going to invite!
               </p>
+              <div className="mt-3 flex items-center gap-3">
+                <a href="#">
+                  <img
+                    src={Instagram}
+                    alt="instagram"
+                    className="w-[35px]"
+                    loading="lazy"
+                  />
+                </a>
+                <a href="#">
+                  <img
+                    src={Facebook}
+                    alt="instagram"
+                    className="w-[35px]"
+                    loading="lazy"
+                  />
+                </a>
+                <a href="#">
+                  <img
+                    src={Link}
+                    alt="instagram"
+                    className="w-[45px]"
+                    loading="lazy"
+                  />
+                </a>
+              </div>
             </div>
           </div>
         </div>

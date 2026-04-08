@@ -80,13 +80,13 @@ const ArticleDetail = () => {
           className="h-[550px] w-full object-cover"
         />
         <div className="mt-8 w-[750px] mx-auto">
-          <p
+          <div
             dangerouslySetInnerHTML={{ __html: items?.content || "" }}
             className={`
-                              text-[17px]  tracking-wide font-light leading-7
-                              [&_ul]:list-disc [&_ul]:pl-5 [&_li]:mb-1
-                           `}
-          ></p>
+      text-[17px] tracking-wide font-light leading-7
+      [&_ul]:list-disc [&_ul]:pl-5 [&_li]:mb-1 prose max-w-none
+    `}
+          />
         </div>
         <div className="w-[750px] mx-auto flex items-center gap-2 mt-4 ">
           <button

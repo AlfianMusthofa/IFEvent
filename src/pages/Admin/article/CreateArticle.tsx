@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import { API_URL } from "../../../service/api";
 import { toast } from "react-toastify";
+import RichTextEditor from "../../../Tiptap";
 
 const CreateArticle = ({ onClose }: any) => {
   const [preview, setPreview] = useState<string | null>(null);
@@ -161,7 +162,7 @@ const CreateArticle = ({ onClose }: any) => {
               <p className="text-[13px] tracking-wider mb-2">
                 3. CONTENT NARRATIVE
               </p>
-              <ReactQuill
+              {/* <ReactQuill
                 theme="snow"
                 className="mt-1 [&_.ql-editor]:h-[250px] [&_.ql-editor]:overflow-y-auto"
                 modules={{
@@ -171,6 +172,12 @@ const CreateArticle = ({ onClose }: any) => {
                 }}
                 onChange={(value) =>
                   setForm((prev) => ({ ...prev, content: value }))
+                }
+              /> */}
+              <RichTextEditor
+                value={form.content}
+                onChange={(val: any) =>
+                  setForm((prev) => ({ ...prev, content: val }))
                 }
               />
             </div>

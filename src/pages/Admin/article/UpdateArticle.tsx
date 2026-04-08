@@ -2,6 +2,7 @@ import { CirclePlus, FileImage, Info, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import { toast } from "react-toastify";
+import RichTextEditor from "../../../Tiptap";
 
 const UpdateArticle = ({ onClose, slug }: any) => {
   const [preview, setPreview] = useState<string | null>(null);
@@ -185,13 +186,8 @@ const UpdateArticle = ({ onClose, slug }: any) => {
               </div>
               <h2 className="font-medium tracking-wide">Narrative Content</h2>
             </div>
-            <div>
-              <ReactQuill
-                theme="snow"
-                value={content}
-                className="mt-1 [&_.ql-editor]:h-[250px] w-[600px] [&_.ql-editor]:overflow-y-auto"
-                onChange={(e) => setContent(e)}
-              />
+            <div className="w-[700px]">
+              <RichTextEditor value={content} onChange={setContent} />
             </div>
             <div className="my-3 flex items-center gap-2">
               <button
