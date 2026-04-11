@@ -63,9 +63,9 @@ const ArticleAdmin = () => {
               <div className="bg-[#fdeee7] px-[10px] py-[6px] rounded-[5px]">
                 <Newspaper width={17} color="red" />
               </div>
-              <p className="text-[12px]">Total Articles</p>
+              <p className="text-[12px]">Publish</p>
             </div>
-            <h1 className="font-semibold">10</h1>
+            <h1 className="font-semibold">{articles.length}</h1>
           </div>
 
           <div className="flex justify-between items-center flex-1 bg-white px-[12px] py-[12px] gap-3 rounded-[5px] border">
@@ -73,9 +73,9 @@ const ArticleAdmin = () => {
               <div className="bg-[#fdeee7] px-[10px] py-[6px] rounded-[5px]">
                 <CalendarCheck width={17} color="red" />
               </div>
-              <p className="text-[12px]">Total Events</p>
+              <p className="text-[12px]">Draft</p>
             </div>
-            <h1 className="font-semibold">10</h1>
+            <h1 className="font-semibold">0</h1>
           </div>
         </div>
         <div className=" py-[12px] px-[12px] mb-2 rounded-[8px] bg-white border">

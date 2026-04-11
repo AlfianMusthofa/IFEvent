@@ -1,6 +1,5 @@
 import { CirclePlus, X } from "lucide-react";
 import { useEffect, useState } from "react";
-import ReactQuill from "react-quill";
 import { API_URL } from "../../../service/api";
 import { toast } from "react-toastify";
 import RichTextEditor from "../../../Tiptap";
@@ -94,8 +93,7 @@ const CreateArticle = ({ onClose }: any) => {
           </div>
 
           <div className="p-4 flex-grow overflow-y-auto">
-            {/* Isi form mentor kamu */}
-            <div className="">
+            <div>
               <p className="text-[13px] tracking-wider">1. COVER IMAGE</p>
               <label
                 htmlFor="image-mentor"
@@ -162,18 +160,6 @@ const CreateArticle = ({ onClose }: any) => {
               <p className="text-[13px] tracking-wider mb-2">
                 3. CONTENT NARRATIVE
               </p>
-              {/* <ReactQuill
-                theme="snow"
-                className="mt-1 [&_.ql-editor]:h-[250px] [&_.ql-editor]:overflow-y-auto"
-                modules={{
-                  clipboard: {
-                    matchVisual: false,
-                  },
-                }}
-                onChange={(value) =>
-                  setForm((prev) => ({ ...prev, content: value }))
-                }
-              /> */}
               <RichTextEditor
                 value={form.content}
                 onChange={(val: any) =>

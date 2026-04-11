@@ -1,119 +1,32 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Navbar from "../../components/navbar";
-import { Link, useNavigate } from "react-router-dom";
-import { API_URL } from "../../service/api";
+import { Link } from "react-router-dom";
 import Avatar from "../../assets/icons/userAvatar.png";
 import Footer from "../../components/Footer";
 import { formatEventDate } from "../../utils/date";
-import { CalendarCheck, Download, Video } from "lucide-react";
+import { CalendarCheck, Download } from "lucide-react";
 import UpdateUser from "./UpdateUser";
 import QrModal from "./QrModal";
-
-interface EventsProps {
-  id: number;
-  title: string;
-  startAt: string;
-  status: { name: string };
-  locationType: string;
-  meetingLink: string;
-  location: string;
-  Certificates: {};
-}
+import ReviewFormModal from "./ReviewFormModal";
+import { useCertificate } from "./hook/useCertificate";
+import Pagination from "../../components/Pagination";
+import { useCheckMyReview } from "./hook/useReview";
+import { useHistory } from "./hook/useHistory";
+import { useGetMe } from "./hook/useGetMe";
 
 const UserDashboard = () => {
-  const navigate = useNavigate();
-  const [events, setEvents] = useState<EventsProps[]>([]);
-  const [user, setUser] = useState<any>();
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [search, setSearch] = useState("");
-  const [count, setCount] = useState(null);
   const [modal, setModal] = useState(false);
   const [qrModal, setQrModal] = useState(false);
   const [selectedTicket, setSelectedTicket] = useState(null);
+  const [modalReview, setModalReview] = useState(false);
+  const [selectedEventId, setSelectedEventId] = useState<number | null>(null);
 
-  const getHistory = async (pageNumber = 1, searchValue = search) => {
-    const param = new URLSearchParams({
-      limit: "5",
-      page: String(pageNumber),
-    });
+  const { events, page, setPage, totalPages, count, search, setSearch } =
+    useHistory();
 
-    if (searchValue) {
-      param.append("search", searchValue);
-    }
+  const { user } = useGetMe();
 
-    const res = await fetch(`${API_URL}/users/me/history?${param.toString()}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-      },
-    });
-    const data = await res.json();
-    console.log(data.data);
-
-    data.data.forEach((event: any) => {
-      console.log(event.EventParticipantModels?.[0]?.ticketCode);
-    });
-
-    setEvents(data.data);
-    setPage(data.meta.page);
-    setTotalPages(data.meta.totalPage);
-    setCount(data.meta.total);
-  };
-
-  useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    if (!token) {
-      navigate("/login");
-    }
-
-    const getMe = async () => {
-      const res = await fetch(`${API_URL}/auth/me`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const data = await res.json();
-      setUser(data);
-    };
-
-    getMe();
-  }, []);
-
-  useEffect(() => {
-    getHistory(page);
-  }, [search, page]);
-
-  const handleCertificateDownload = async (eventId: number) => {
-    try {
-      const res = await fetch(`${API_URL}/certificate/${eventId}/download`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      });
-
-      if (!res.ok) {
-        alert("Certificate not available");
-        return;
-      }
-
-      const blob = await res.blob();
-
-      const url = window.URL.createObjectURL(blob);
-
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `certificate-${eventId}.pdf`;
-
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error(error);
-      alert("Failed to download certificate");
-    }
-  };
+  const { handleCertificateDownload } = useCertificate();
 
   const handlePrev = () => {
     if (page > 1) setPage(page - 1);
@@ -123,9 +36,7 @@ const UserDashboard = () => {
     if (page < totalPages) setPage(page + 1);
   };
 
-  const formatNumber = (num: any) => {
-    return num.toString().padStart(2, "0");
-  };
+  const { reviews } = useCheckMyReview(events);
 
   return (
     <>
@@ -232,6 +143,9 @@ const UserDashboard = () => {
                       <th className="text-left px-6 py-3 text-[11px] font-normal tracking-wider">
                         CERTIFICATE
                       </th>
+                      <th className="text-left px-6 py-3 text-[11px] font-normal tracking-wider">
+                        REVIEW
+                      </th>
                     </tr>
                   </thead>
 
@@ -250,19 +164,6 @@ const UserDashboard = () => {
                           <p>{event.status.name}</p>
                         </td>
                         <td className="px-6 py-3 text-sm  w-[100px]">
-                          {/* <a
-                            className="line-clamp-1 text-blue"
-                            href={
-                              event.locationType === "online"
-                                ? event.meetingLink
-                                : "null"
-                            }
-                          >
-                            {event.locationType === "online"
-                              ? event.meetingLink
-                              : event.location}
-                          </a> */}
-
                           {event.locationType === "online" ? (
                             <a
                               className="line-clamp-1 text-blue"
@@ -272,7 +173,12 @@ const UserDashboard = () => {
                                   : "null"
                               }
                             >
-                              {event.meetingLink}
+                              {/* {event.meetingLink} */}
+                              <button className="bg-green-400 px-3 text-[13px] py-1 rounded-[5px] text-white">
+                                <a href={event.meetingLink} target="_blank">
+                                  Video
+                                </a>
+                              </button>
                             </a>
                           ) : (
                             <button
@@ -284,7 +190,7 @@ const UserDashboard = () => {
                               }}
                               className="bg-green-400 px-3 text-[13px] py-1 rounded-[5px] text-white"
                             >
-                              QR Code
+                              Ticket
                             </button>
                           )}
                         </td>
@@ -296,10 +202,31 @@ const UserDashboard = () => {
                                 handleCertificateDownload(event.id)
                               }
                             >
-                              <Download width={20} />
+                              <Download width={19} />
                             </button>
                           ) : (
                             "-"
+                          )}
+                        </td>
+                        <td>
+                          {event.status.name !== "Active" ? (
+                            <button
+                              onClick={() => {
+                                setSelectedEventId(event.id);
+                                setModalReview(true);
+                              }}
+                              className={
+                                reviews[event.id]
+                                  ? "bg-green-400 px-3 py-1 rounded text-white"
+                                  : "border border-green-400 px-3 py-1 rounded text-green-400"
+                              }
+                            >
+                              <p className="text-sm">
+                                {reviews[event.id] ? "Reviewed" : "Review"}
+                              </p>
+                            </button>
+                          ) : (
+                            <span className="text-gray-400">-</span>
                           )}
                         </td>
                       </tr>
@@ -310,30 +237,12 @@ const UserDashboard = () => {
             </div>
           </div>
           <div className="flex justify-center pt-2 text-[14px]">
-            <div className="flex bg-white items-center rounded-[5px] w-fit overflow-hidden border">
-              {/* Prev */}
-              <button
-                onClick={handlePrev}
-                disabled={page === 1}
-                className="px-4 py-2 border-r hover:bg-gray-100 disabled:opacity-40"
-              >
-                Prev
-              </button>
-
-              {/* Page Info */}
-              <div className="px-6 py-2 text-[14px]">
-                {formatNumber(page)} - {formatNumber(totalPages)}
-              </div>
-
-              {/* Next */}
-              <button
-                onClick={handleNext}
-                disabled={page === totalPages}
-                className="px-4 py-2 border-l hover:bg-gray-100 disabled:opacity-40"
-              >
-                Next
-              </button>
-            </div>
+            <Pagination
+              onNext={handleNext}
+              onPrev={handlePrev}
+              page={page}
+              totalPages={totalPages}
+            />
           </div>
         </div>
         <div className="pt-6">
@@ -345,6 +254,12 @@ const UserDashboard = () => {
         <QrModal
           onClose={() => setQrModal(false)}
           ticketCode={selectedTicket}
+        />
+      )}
+      {modalReview && (
+        <ReviewFormModal
+          onClose={() => setModalReview(false)}
+          eventId={selectedEventId}
         />
       )}
     </>
