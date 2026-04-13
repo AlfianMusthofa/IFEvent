@@ -37,6 +37,8 @@ export const usePostReview = (eventId: number) => {
 
 export const useCheckMyReview = (events: any) => {
   const [reviews, setReviews] = useState<Record<number, any>>({});
+  const [totalReviews, setTotalReviews] = useState(null);
+
   const checkMyReview = async (eventId: number) => {
     const res = await fetch(`${ApiUrl}/events/${eventId}/my-review`, {
       headers: {
@@ -62,5 +64,20 @@ export const useCheckMyReview = (events: any) => {
     }
   }, [events]);
 
-  return { reviews };
+  useEffect(() => {
+    const getTotalReview = async () => {
+      const res = await fetch(`${ApiUrl}/reviews/total`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      });
+      const data = await res.json();
+      setTotalReviews(data);
+    };
+
+    getTotalReview();
+  }, []);
+
+  return { reviews, totalReviews };
 };

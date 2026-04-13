@@ -37,14 +37,11 @@ export const useHistory = () => {
     });
     const data = await res.json();
 
-    data.data.forEach((event: any) => {
-      console.log(event.EventParticipantModels?.[0]?.ticketCode);
-    });
-
     setEvents(data.data);
     setPage(data.meta.page);
     setTotalPages(data.meta.totalPage);
     setCount(data.meta.total);
+    console.log(data.data);
   };
 
   useEffect(() => {

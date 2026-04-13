@@ -32,5 +32,6 @@ export const useCertificate = () => {
       alert("Failed to download certificate");
     }
   };
+
   return { handleCertificateDownload };
 };

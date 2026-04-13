@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Avatar from "../../assets/icons/userAvatar.png";
 import Footer from "../../components/Footer";
 import { formatEventDate } from "../../utils/date";
-import { CalendarCheck, Download } from "lucide-react";
+import { Download } from "lucide-react";
 import UpdateUser from "./UpdateUser";
 import QrModal from "./QrModal";
 import ReviewFormModal from "./ReviewFormModal";
@@ -36,7 +36,7 @@ const UserDashboard = () => {
     if (page < totalPages) setPage(page + 1);
   };
 
-  const { reviews } = useCheckMyReview(events);
+  const { reviews, totalReviews } = useCheckMyReview(events);
 
   return (
     <>
@@ -92,24 +92,22 @@ const UserDashboard = () => {
             </div>
           </div>
           <div className="bg-gray-300 h-[1px] my-5"></div>
-          <div className="mb-5 flex gap-3">
-            <div className="flex-1 flex items-center justify-between bg-white rounded-[10px] p-4 shadow-sm border border-b-4 border-b-green-400 border-green-400">
-              <div className="flex items-center gap-3">
-                <div className="bg-green-300 px-[6px] py-[3px] rounded-[5px]">
-                  <CalendarCheck width={18} color="green" />
-                </div>
-                <p className="text-[14px]">Event Joined</p>
-              </div>
-              <p className="font-medium">{count}</p>
+          <div className="mb-5 grid grid-cols-4 gap-2">
+            <div className="border p-3 rounded-[8px] bg-gradient-to-r from-amber-200 to-yellow-400 border-yellow-primer">
+              <span className="text-[14px]">Total Points</span>
+              <h2 className="text-[25px] font-medium">100</h2>
             </div>
-            <div className="flex-1 flex items-center justify-between bg-white rounded-[10px] p-4 shadow-sm border border-b-4 border-b-green-400 border-green-400">
-              <div className="flex items-center gap-3">
-                <div className="bg-green-300 px-[6px] py-[3px] rounded-[5px]">
-                  <CalendarCheck width={18} color="green" />
-                </div>
-                <p className="text-[14px]">Event Joined</p>
-              </div>
-              <p className="font-medium">{count}</p>
+            <div className="border p-3 rounded-[8px] bg-gradient-to-r from-amber-200 to-yellow-400 border-yellow-primer">
+              <span className="text-[14px]">Event Joined</span>
+              <h2 className="text-[25px] font-medium">{count}</h2>
+            </div>
+            <div className="border p-3 rounded-[8px] bg-gradient-to-r from-amber-200 to-yellow-400 border-yellow-primer">
+              <span className="text-[14px]">Event Reviewed</span>
+              <h2 className="text-[25px] font-medium">{totalReviews || 0}</h2>
+            </div>
+            <div className="border p-3 rounded-[8px] bg-gradient-to-r from-amber-200 to-yellow-400 border-yellow-primer">
+              <span className="text-[14px]">Certificates</span>
+              <h1 className="text-[25px] font-medium">3</h1>
             </div>
           </div>
           <div>
@@ -173,7 +171,6 @@ const UserDashboard = () => {
                                   : "null"
                               }
                             >
-                              {/* {event.meetingLink} */}
                               <button className="bg-green-400 px-3 text-[13px] py-1 rounded-[5px] text-white">
                                 <a href={event.meetingLink} target="_blank">
                                   Video
