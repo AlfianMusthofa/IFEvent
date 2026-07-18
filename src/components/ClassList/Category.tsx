@@ -11,6 +11,7 @@ export interface EventProps {
   image: string;
   description: string;
   slug: string;
+  startAt: string;
 }
 
 const Category: React.FC<categoryProps> = ({ name, events }: categoryProps) => {
@@ -28,10 +29,11 @@ const Category: React.FC<categoryProps> = ({ name, events }: categoryProps) => {
           events.map((event) => (
             <Card
               key={event.id}
+              image={event.image}
               title={event.title}
               description={event.description}
-              image={event.image}
               slug={event.slug}
+              startAt={event.startAt}
             />
           ))
         )}

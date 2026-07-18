@@ -35,10 +35,10 @@ const Navbar = () => {
   return (
     <>
       <div className="bg-yellow-primer text-white shadow-md">
-        <div className="max-w-[1029px] mx-auto flex justify-between py-[15px]">
+        <div className="max-w-[1029px] mx-auto flex justify-between py-[9px]">
           <div>
             <a href="/">
-              <img src={Logo} className="w-[65px]" />
+              <img src={Logo} className="w-[55px]" />
             </a>
           </div>
           <div className="flex items-center gap-[14px] text-[15px] text-black font-medium">
@@ -77,7 +77,7 @@ const Navbar = () => {
 
                 {/* Dropdown */}
                 <div
-                  className="absolute left-0 mt-2 w-36 bg-white border rounded-md shadow-md 
+                  className="absolute left-0 mt-2 w-36 bg-white border rounded-md shadow-md
                     opacity-0 invisible group-hover:opacity-100 group-hover:visible
                     transition-all duration-150"
                 >

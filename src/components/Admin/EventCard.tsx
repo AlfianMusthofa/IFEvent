@@ -15,6 +15,7 @@ interface EventCardProps {
   registered_count: number;
   capacity: number;
   locationType: string;
+  status: string;
 }
 
 const EventCard = ({
@@ -27,6 +28,7 @@ const EventCard = ({
   registered_count,
   capacity,
   locationType,
+  status,
 }: EventCardProps) => {
   const [openModalUpdate, setOpenModalUpdate] = useState(false);
 
@@ -51,12 +53,11 @@ const EventCard = ({
               className=" h-full w-full object-cover rounded-lg"
               loading="lazy"
             />
-            {/* <div className="absolute top-1 left-1 bg-yellow-primer text-[11px] px-2 py-[2px] rounded-badge tracking-wide">
-              <p>{status}</p>
-            </div> */}
           </div>
           <div>
-            <p className="text-[11px] flex">{category}</p>
+            <p className="text-[11px] flex">
+              {category} - {status}
+            </p>
             <div className=" font-medium w-[210px]">
               <h3 className="line-clamp-1">{title}</h3>
             </div>
@@ -83,10 +84,10 @@ const EventCard = ({
           </div>
           <div className=" w-[85px] flex justify-center">
             <div className="flex items-center gap-1 mt-1">
-              <h1 className="font-semibold">
-                {(registered_count / capacity) * 100}%
+              <h1 className="font-semibold text-[14px]">
+                {registered_count} / {capacity}
               </h1>
-              <p className="text-[10px]">Filled</p>
+              {/*<p className="text-[10px]"></p>*/}
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -103,9 +104,6 @@ const EventCard = ({
             >
               <Download width={17} color="white" />
             </button>
-            {/* <div className="bg-red-400 py-1 px-[8px] rounded-full cursor-pointer">
-              <Trash2 width={17} color="white" />
-            </div> */}
           </div>
         </div>
       </div>

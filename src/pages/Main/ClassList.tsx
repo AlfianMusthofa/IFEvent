@@ -14,6 +14,7 @@ export interface EventProps {
   image: string;
   description: string;
   slug: string;
+  startAt: string;
 }
 
 interface CategoryProps {
@@ -30,6 +31,7 @@ const ClassList = () => {
       const response = await fetch(`${API_URL}/category/events`);
       const data = await response.json();
       setCategory(data);
+      console.log(data);
     };
 
     fetchCategory();
@@ -74,9 +76,10 @@ const ClassList = () => {
         </div>
       </div>
       {/* EVENT LIST BY CATEGORY */}
-      {category.map((cat) => (
-        <Category key={cat.id} name={cat.name} events={cat.Events} />
-      ))}
+      {category.map((cat) => {
+        if (cat.Events.length === 0) return null;
+        return <Category key={cat.id} name={cat.name} events={cat.Events} />;
+      })}
       <div className="mt-10">
         <Footer />
       </div>

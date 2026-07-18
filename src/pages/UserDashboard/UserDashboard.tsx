@@ -13,6 +13,7 @@ import Pagination from "../../components/Pagination";
 import { useCheckMyReview } from "./hook/useReview";
 import { useHistory } from "./hook/useHistory";
 import { useGetMe } from "./hook/useGetMe";
+import ranking from "../../assets/icons/rank1.png";
 
 const UserDashboard = () => {
   const [modal, setModal] = useState(false);
@@ -58,36 +59,45 @@ const UserDashboard = () => {
           </div>
           <div>
             <div className="flex gap-3">
-              <div className="flex-1 bg-white shadow-sm p-5 rounded-[10px] border">
-                <div className="flex items-center gap-6">
-                  {user?.image ? (
-                    <img
-                      src={user.image}
-                      className="w-[100px] h-[100px] rounded-full object-cover"
-                    />
-                  ) : (
-                    <img
-                      src={Avatar}
-                      className="w-[100px] rounded-xl object-cover"
-                    />
-                  )}
-                  <div>
-                    <h2 className="text-[25px] tracking-wide font-medium">
-                      {user?.name}
-                    </h2>
-                    <p className="text-[13px] tracking-wider text-gray-400">
-                      {user?.email}
-                    </p>
-                    <div className="mt-2">
-                      <button
-                        onClick={() => setModal(true)}
-                        className="bg-yellow-primer text-[13px] px-3 py-[7px] rounded-[7px]"
-                      >
-                        Change Profile
-                      </button>
+              <div className="w-full flex justify-between items-center bg-white shadow-sm p-5 rounded-[10px] border">
+                <div className="profile">
+                  <div className="flex items-center gap-6">
+                    {user?.image ? (
+                      <img
+                        src={user.image}
+                        className="w-[100px] h-[100px] rounded-full object-cover"
+                      />
+                    ) : (
+                      <img
+                        src={Avatar}
+                        className="w-[100px] rounded-xl object-cover"
+                      />
+                    )}
+                    <div>
+                      <h2 className="text-[25px] tracking-wide font-medium">
+                        {user?.name}
+                      </h2>
+                      <p className="text-[13px] tracking-wider text-gray-400">
+                        {user?.email}
+                      </p>
+                      <div className="mt-2">
+                        <button
+                          onClick={() => setModal(true)}
+                          className="bg-yellow-primer text-[13px] px-3 py-[7px] rounded-[7px]"
+                        >
+                          Change Profile
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
+                {/* <div className="rank bg-gray-200 p-2 rounded-[8px] flex flex-col items-center">
+                  <img
+                    src={ranking}
+                    alt=""
+                    className="w-[70px] h-[70px] object-cover"
+                  />
+                </div> */}
               </div>
             </div>
           </div>

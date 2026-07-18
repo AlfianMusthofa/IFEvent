@@ -41,7 +41,7 @@ export const useHistory = () => {
     setPage(data.meta.page);
     setTotalPages(data.meta.totalPage);
     setCount(data.meta.total);
-    console.log(data.data);
+    console.log(data);
   };
 
   useEffect(() => {

@@ -149,6 +149,7 @@ const Events = () => {
                 capacity={event.capacity}
                 locationType={event.locationType}
                 id={event.id}
+                status={event.status.name}
               />
             ))
           )}

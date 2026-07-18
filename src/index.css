@@ -15,9 +15,9 @@ body {
 }
 
 .hero {
-  background-image: url("./assets/bg.jpg");
+  background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url("./assets/hero.jpg");
   height: 455px;
-  background-position: center;
+  background-position: center 65%;
   background-size: cover;
   background-repeat: no-repeat;
   display: flex;

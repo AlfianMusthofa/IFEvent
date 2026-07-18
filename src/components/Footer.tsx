@@ -45,7 +45,7 @@ const Footer = () => {
             </div>
           </div>
           <div>
-            <h2 className="mb-3">Site Map</h2>
+            <h2 className="mb-3 text-[15px]">Site Map</h2>
             <div className="text-[15px] col flex flex-col gap-[7px]">
               <a href="#" className="underline">
                 Homepages
@@ -65,7 +65,7 @@ const Footer = () => {
             </div>
           </div>
           <div>
-            <h2 className="mb-3">Legal</h2>
+            <h2 className="mb-3 text-[15px]">Legal</h2>
             <div className="text-[15px] col flex flex-col gap-[7px]">
               <a href="#" className="underline">
                 Privacy Policy
