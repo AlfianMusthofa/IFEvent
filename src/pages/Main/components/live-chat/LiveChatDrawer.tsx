@@ -16,7 +16,7 @@ const LiveChatDrawer = ({ open, onClose }: LiveChatDrawerProps) => {
     {
       id: crypto.randomUUID(),
       role: "assistant",
-      content: "Halo 👋 Saya AI Assistant. Ada yang bisa saya bantu hari ini?",
+      content: "Halo 👋 Saya MinHub. Ada yang bisa saya bantu hari ini?",
       createdAt: new Date(),
     },
   ]);

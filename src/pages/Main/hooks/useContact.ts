@@ -1,80 +1,50 @@
-import { useState } from "react";
 import { toast } from "react-toastify";
+import { API_URL } from "../../../service/api";
 
-interface ContactForm {
+interface ContactPayload {
   name: string;
-  phone: string;
   email: string;
   message: string;
 }
 
 export const useContact = () => {
-  const [form, setForm] = useState<ContactForm>({
-    name: "",
-    phone: "",
-    email: "",
-    message: "",
-  });
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    const { name, value } = e.target;
-
-    setForm((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const sendMessage = async () => {
-    e.preventDefault();
-
+  const sendButton = async (payload: ContactPayload) => {
     const toastId = toast.loading("Loading...");
 
     try {
-      const response = await fetch("http://localhost:3000/email/contact", {
+      const response = await fetch(`${API_URL}/email/contact`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(form),
+        body: JSON.stringify(payload),
       });
 
-      const data = await response.json();
-
       if (!response.ok) {
-        throw new Error(data.message || "Failed to send message!");
+        throw new Error("Failed to send message");
       }
 
       toast.update(toastId, {
-        render: data.message,
+        render: "Message success!",
         type: "success",
         isLoading: false,
         autoClose: 3000,
+        closeButton: true,
       });
 
-      setForm({
-        name: "",
-        phone: "",
-        email: "",
-        message: "",
-      });
+      return await response.json();
     } catch (error) {
+      console.error(error);
       toast.update(toastId, {
-        render: error instanceof Error ? error.message : "Something wrong.",
+        render: "Failed to deliver",
         type: "error",
         isLoading: false,
         autoClose: 3000,
+        closeButton: true,
       });
-
-      console.error(error);
+      throw error;
     }
   };
 
-  return {
-    form,
-    handleChange,
-    sendMessage,
-  };
+  return { sendButton };
 };

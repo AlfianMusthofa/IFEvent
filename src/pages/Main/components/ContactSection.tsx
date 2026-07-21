@@ -1,13 +1,21 @@
 import { Locate, Mail, Phone } from "lucide-react";
+import { useState } from "react";
 import { useContact } from "../hooks/useContact";
 
 const ContactSection = () => {
-  const { form, handleChange, sendMessage } = useContact();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+
+  const { sendButton } = useContact();
+
+  const handleSend = async () => {
+    await sendButton({ name, email, message });
+  };
 
   return (
     <>
       <div className="max-w-[1029px] mx-auto my-[60px] flex">
-        {/*LEFT*/}
         <div className="flex-1">
           <h1 className="text-[13px]">Contact</h1>
           <h1 className="text-[26px] font-medium">
@@ -43,17 +51,15 @@ const ContactSection = () => {
             </div>
           </div>
         </div>
-        {/*RIGHT*/}
         <div className="flex-1">
-          {/*Form*/}
           <div className="border border-gray-200 p-5 rounded-lg bg-gray-50">
-            {/*firstname lastname*/}
             <div className="flex items-center gap-3">
               <div className="flex-1">
                 <p className="text-[14px]">Name</p>
                 <input
                   type="text"
                   className="border p-[7px] text-[14px] w-full rounded-[6px] mt-[7px]"
+                  onChange={(e) => setName(e.target.value)}
                 />
               </div>
               <div className="flex-1">
@@ -69,6 +75,7 @@ const ContactSection = () => {
               <input
                 type="text"
                 className="border p-[7px] text-[14px] w-full rounded-[6px] mt-[7px]"
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div className="mt-3">
@@ -76,10 +83,11 @@ const ContactSection = () => {
               <textarea
                 placeholder="Enter a question, feedback, or suggestion..."
                 className="rounded-[6px] border w-full resize-none text-[14px] p-[7px] mt-[7px] h-[100px]"
+                onChange={(e) => setMessage(e.target.value)}
               ></textarea>
             </div>
             <button
-              // onClick={sendMessage}
+              onClick={handleSend}
               className="rounded-[6px] text-[14px] bg-yellow-primer w-full py-2 mt-3 tracking-wide font-medium"
             >
               Send

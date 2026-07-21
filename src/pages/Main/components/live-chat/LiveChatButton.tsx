@@ -3,6 +3,8 @@ import { MessageCircle, X } from "lucide-react";
 
 interface LiveChatButtonProps {
   onClick: () => void;
+  mode?: "home" | "event";
+  eventSlug?: string;
 }
 
 const LiveChatButton = ({ onClick }: LiveChatButtonProps) => {
