@@ -3,9 +3,7 @@ import Person from "../../assets/icons/profile.png";
 import Lock from "../../assets/icons/padlock.png";
 import Email from "../../assets/icons/email.png";
 import { useState } from "react";
-import { API_URL } from "../../service/api";
-import { Bounce, toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useRegister } from "./hook/useRegister";
 
 const Register = () => {
   const [form, setForm] = useState({
@@ -13,38 +11,8 @@ const Register = () => {
     email: "",
     password: "",
   });
-  const navigate = useNavigate();
 
-  const handleRegister = async () => {
-    const formData = new FormData();
-    formData.append("name", form.name);
-    formData.append("email", form.email);
-    formData.append("password", form.password);
-
-    try {
-      const response = await fetch(`${API_URL}/users/register`, {
-        method: "POST",
-        body: formData,
-      });
-
-      if (response.ok) {
-        toast.success("Register berhasil!", {
-          position: "top-right",
-          autoClose: 2000,
-          transition: Bounce,
-        });
-      }
-
-      navigate("/login");
-    } catch (error) {
-      console.log(error);
-      toast.warning("Register failed!", {
-        position: "top-right",
-        autoClose: 2000,
-        transition: Bounce,
-      });
-    }
-  };
+  const { handleRegister, loading } = useRegister(form);
 
   return (
     <>
@@ -102,9 +70,10 @@ const Register = () => {
             </div>
             <button
               onClick={handleRegister}
+              disabled={loading}
               className="bg-yellow-primer text-[14px] text-white py-[8px] rounded-[5px]"
             >
-              Register
+              {loading ? "Loading.." : "Register"}
             </button>
           </div>
         </div>

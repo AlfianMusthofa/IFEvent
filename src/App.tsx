@@ -21,6 +21,7 @@ import Article from "./pages/Article/Article";
 import ArticleAdmin from "./pages/Admin/article/ArticleAdmin";
 import ArticleDetail from "./pages/Article/ArticleDetail";
 import CommentsDash from "./pages/Admin/comments/CommentsDash";
+import VerifyOtp from "./pages/Auth/VerifyOtp";
 
 const App = () => {
   return (
@@ -53,6 +54,7 @@ const App = () => {
         </Route>
 
         <Route path="/admin/event-form" element={<CreateEvent />} />
+        <Route path="/verify-otp" element={<VerifyOtp />} />
       </Routes>
     </BrowserRouter>
   );

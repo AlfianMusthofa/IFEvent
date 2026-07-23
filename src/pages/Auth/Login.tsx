@@ -2,67 +2,12 @@ import Logo from "../../assets/icons/logo.png";
 import Person from "../../assets/icons/profile.png";
 import Lock from "../../assets/icons/padlock.png";
 import { useState } from "react";
-import { Bounce, toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-import { API_URL } from "../../service/api";
+import { useLogin } from "./hook/useLogin";
 
 const Login = () => {
   const [form, setForm] = useState({ email: "", password: "" });
 
-  const navigate = useNavigate();
-
-  const handleLogin = async (e: any) => {
-    e.preventDefault();
-    try {
-      const response = await fetch(`${API_URL}/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(form),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Login Failed");
-      }
-
-      localStorage.setItem(
-        "user",
-        JSON.stringify({
-          id: data.user.id,
-          name: data.user.name,
-          email: data.user.email,
-          image: data.user.image,
-        }),
-      );
-
-      localStorage.setItem("accessToken", data.accessToken);
-      localStorage.setItem("refreshToken", data.refreshToken);
-
-      toast.success("Login berhasil!", {
-        position: "top-right",
-        autoClose: 2000,
-        transition: Bounce,
-      });
-
-      navigate("/");
-    } catch (error) {
-      console.error("Terjadi kesalahan jaringan:", error);
-      toast.warning("Invalid email or password!", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Bounce,
-      });
-    }
-  };
+  const { handleLogin, loading } = useLogin(form);
 
   return (
     <>
@@ -115,26 +60,12 @@ const Login = () => {
             <button
               type="submit"
               onClick={handleLogin}
+              disabled={loading}
               className="bg-yellow-primer text-[14px] text-white py-[8px] rounded-[5px]"
             >
-              Login
+              {loading ? "Loading..." : "Login"}
             </button>
           </form>
-          {/* <div className="mt-[15px]">
-            <div className="flex items-center gap-[10px]">
-              <img src={InformationBtn} className="w-[16px]" />
-              <p className="text-[13px]">Students use the SALAM account</p>
-            </div>
-            <div className="flex items-center gap-[10px] mt-[8px]">
-              <img src={InformationBtn} className="w-[16px]" />
-              <p className="text-[13px]">
-                Admin login{" "}
-                <a href="/admin-login" className="underline">
-                  here
-                </a>
-              </p>
-            </div>
-          </div> */}
         </form>
       </div>
     </>
