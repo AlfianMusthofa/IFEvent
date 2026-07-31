@@ -1,105 +1,57 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Navbar from "../../components/navbar";
-import { useEffect, useState } from "react";
-import { API_URL } from "../../service/api";
-import { Bounce, toast } from "react-toastify";
-import { CalendarClock, MapPin } from "lucide-react";
+import { CalendarClock, MapPin, Bookmark } from "lucide-react";
 import { formatEventDate } from "../../utils/date";
 import Footer from "../../components/Footer";
 import EventLocationModal from "../../components/EventDetail/EventLocationModal";
 import Instagram from "../../assets/icons/instagram.png";
 import Facebook from "../../assets/icons/facebook.png";
 import Link from "../../assets/icons/link.png";
+import { useEventDetail } from "./hooks/useEventDetail";
+import { useState } from "react";
+import CapacityBar from "./components/CapacityBar";
+import { useCountdown } from "./hooks/useCountdown";
+import CountdownItem from "./components/CountdownItem";
+import Logo from "../../assets/icons/logo.png";
+import FAQAccordion from "./components/ FAQAccordion";
+import { NavLink } from "react-router-dom";
 
-interface EventProps {
-  id: number;
-  title: string;
-  location: string;
-  description: string;
-  image: string;
-  bio: string;
-  position: string;
-  mentor: string;
-  mentorImage: string;
-  startAt: string;
-  locationType: string;
-  priceType: string;
-  price: number;
-  Mentor: { name: string; image: string; position: string; bio: string };
-}
+const faqs = [
+  {
+    id: 1,
+    question: "Apakah saya mendapatkan sertifikat?",
+    answer:
+      "Ya. Semua peserta yang mengikuti event hingga selesai akan mendapatkan e-certificate.",
+  },
+  {
+    id: 2,
+    question: "Apakah ada recording?",
+    answer: "Ya. Recording akan dikirim maksimal H+2 setelah event selesai.",
+  },
+  {
+    id: 3,
+    question: "Bagaimana cara mengikuti event?",
+    answer: "Link Zoom akan dikirim melalui email setelah registrasi berhasil.",
+  },
+  {
+    id: 4,
+    question: "Apakah bisa refund?",
+    answer: "Refund mengikuti kebijakan masing-masing event.",
+  },
+];
 
 const EventDetailNew = () => {
   const { slug } = useParams();
-  const [event, setEvent] = useState<EventProps>();
-  const [joined, setJoined] = useState(false);
-  const accessToken = localStorage.getItem("accessToken");
-  const navigate = useNavigate();
   const [expanded, setExpanded] = useState(false);
   const [openModal, setOpenModal] = useState(false);
 
-  useEffect(() => {
-    if (!slug) return;
-    const fetchEvent = async () => {
-      const res = await fetch(`${API_URL}/events/slug/${slug}`);
-      const data = await res.json();
-      console.log(data);
-      setEvent(data);
+  const { handleJoin, joined, event } = useEventDetail(slug ?? "");
 
-      if (accessToken) {
-        const historyRes = await fetch(`${API_URL}/users/me/history`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-
-        if (historyRes.ok) {
-          const history = await historyRes.json();
-          const alreadyJoined = history.data?.some(
-            (e: any) => e.id === data.id,
-          );
-
-          setJoined(alreadyJoined);
-        }
-      }
-    };
-
-    fetchEvent();
-  }, [slug]);
-
-  const handleJoin = async () => {
-    try {
-      const res = await fetch(`${API_URL}/events/${event?.id}/join`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-
-      if (!res.ok) {
-        navigate("/login");
-        return;
-      }
-
-      setJoined(true);
-
-      toast.success("Registered Success", {
-        position: "top-right",
-        autoClose: 2000,
-        transition: Bounce,
-      });
-    } catch (err) {
-      toast.warning("Registered Failed", {
-        position: "top-right",
-        autoClose: 2000,
-        transition: Bounce,
-      });
-      console.error(err);
-    }
-  };
-
-  const formatRupiah = (number: any) => {
+  const formatRupiah = (number: number) => {
     return new Intl.NumberFormat("id-ID").format(number);
   };
+
+  const { days, hours, minutes, seconds } = useCountdown(event?.startAt);
 
   return (
     <>
@@ -113,6 +65,9 @@ const EventDetailNew = () => {
                   <a>Home</a>
                 </li>
                 <li>
+                  <a>Events</a>
+                </li>
+                <li>
                   <li>{event?.title}</li>
                 </li>
               </ul>
@@ -121,8 +76,8 @@ const EventDetailNew = () => {
               {event?.title}
             </h1>
             <div className="my-3 border p-3 rounded-[10px]">
-              <div className="flex gap-3">
-                <MapPin width={17} />
+              <div className="flex gap-2">
+                <MapPin width={16} />
                 {event?.locationType == "offline" ? (
                   <div>
                     <div className="text-[14px] tracking-wide">
@@ -141,14 +96,20 @@ const EventDetailNew = () => {
                     />
                   </div>
                 ) : (
-                  <div className="tracking-wide">{event?.locationType}</div>
+                  <div className="tracking-wide text-[15px] mt-[1px]">
+                    {event?.locationType} via zoom
+                  </div>
                 )}
               </div>
-              <div className="flex items-center gap-3 mt-2">
+              <div className="flex items-center gap-2 mt-2">
                 <CalendarClock width={15} />
-                <div className="text-[14px]">
+                <div className="text-[14px] mt-[3px]">
                   {formatEventDate(event?.startAt)} WIB
                 </div>
+              </div>
+              <div className="flex gap-2 mt-2">
+                <Bookmark width={16} />
+                <p className="text-[14px] mt-[2px]">Add to calendar</p>
               </div>
             </div>
             <div className=" border p-3 rounded-[10px]">
@@ -178,7 +139,7 @@ const EventDetailNew = () => {
               <div className="mt-1 flex gap-4 items-center">
                 <img
                   src={event?.Mentor.image}
-                  className="w-[130px] h-[130px] rounded-[13px]"
+                  className="w-[100px] h-[100px] rounded-[13px]"
                 />
                 <div>
                   <p className="text-[16px]">{event?.Mentor.name}</p>
@@ -192,6 +153,25 @@ const EventDetailNew = () => {
                 </div>
               </div>
             </div>
+            <div className="border my-5"></div>
+            <div>
+              <h1 className="tracking-wide font-medium ">Organized by</h1>
+              <div className="bg-gray-100 px-4 py-3 mt-3 flex items-center justify-between  rounded-[10px]">
+                <div className="flex items-center gap-3">
+                  <img src={Logo} alt="logo" className="w-[50px]" />
+                  <NavLink to={`/organizer/${event?.Organizer.slug}`}>
+                    <p className="text-[15px] tracking-wide mt-1 font-medium">
+                      {event?.Organizer.name ?? "Not added yet!"}
+                    </p>
+                  </NavLink>
+                </div>
+                <div className="bg-yellow-primer px-5 py-1.5 rounded-[6px]">
+                  <p className="text-[13px]">+ Follow</p>
+                </div>
+              </div>
+            </div>
+            <div className="border my-5"></div>
+            <FAQAccordion faqs={faqs} />
             <div className="border my-5"></div>
             <div>
               <h1 className="tracking-wide font-medium">
@@ -223,12 +203,14 @@ const EventDetailNew = () => {
               src={event?.image}
               className="w-[450px] h-[200px] object-cover rounded-[10px]"
             />
-            <div className="shadow-md mt-5 px-4 py-3 flex items-center justify-between border rounded-[10px]">
+            <div className="mt-5 px-4 py-3 flex items-center justify-between border rounded-[10px]">
               {event?.priceType == "free" ? (
-                <h2 className="text-[15px] font-medium">Free</h2>
+                <h2 className="text-[16px] font-semibold tracking-wide">
+                  Free
+                </h2>
               ) : (
                 <h2 className="text-[15px] font-medium">
-                  IDR {formatRupiah(event?.price)}
+                  IDR {formatRupiah(event?.price ?? 0)}
                 </h2>
               )}
 
@@ -243,10 +225,27 @@ const EventDetailNew = () => {
                   }
                `}
               >
-                <h2 className="text-[15px] tracking-wide font-medium">
-                  {joined ? "Registered" : "Register"}
+                <h2 className="text-[15px] font-medium">
+                  {joined ? "Registered" : "Register Now"}
                 </h2>
               </button>
+            </div>
+            <div className="px-4 py-3 border rounded-[10px] mt-3">
+              <CapacityBar
+                registered={event?.registered_count ?? 0}
+                capacity={event?.capacity ?? 0}
+              />
+            </div>
+            <div className="px-4 py-3 border rounded-[10px] mt-3">
+              <h2 className="text-[15px] font-semibold tracking-wide">
+                Event start in
+              </h2>
+              <div className="flex items-center gap-3.5 mt-3">
+                <CountdownItem value={days} label="Days" />
+                <CountdownItem value={hours} label="Hours" />
+                <CountdownItem value={minutes} label="Minutes" />
+                <CountdownItem value={seconds} label="Seconds" />
+              </div>
             </div>
             <div className="border my-5"></div>
             <div>

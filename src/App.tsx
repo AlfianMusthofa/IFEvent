@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Main/Home";
 import ClassList from "./pages/Main/ClassList";
 import Login from "./pages/Auth/Login";
@@ -22,6 +22,11 @@ import ArticleAdmin from "./pages/Admin/article/ArticleAdmin";
 import ArticleDetail from "./pages/Article/ArticleDetail";
 import CommentsDash from "./pages/Admin/comments/CommentsDash";
 import VerifyOtp from "./pages/Auth/VerifyOtp";
+import OrganizerPage from "./pages/Organizer/Organizer";
+import AboutOrg from "./pages/Organizer/components/About";
+import EventsOrg from "./pages/Organizer/components/Events";
+import OrganizerSignUp from "./pages/Auth/OrganizerSignUp";
+import LoginPage from "./pages/Auth/LoginPage";
 
 const App = () => {
   return (
@@ -32,6 +37,7 @@ const App = () => {
         <Route path="/events" element={<ClassList />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/register-organizer" element={<OrganizerSignUp />} />
         <Route path="/about" element={<About />} />
         <Route path="/partners" element={<Partners />} />
         <Route path="/test" element={<EventDetailNew />} />
@@ -41,6 +47,12 @@ const App = () => {
 
         <Route element={<ProtectedRoute />}>
           <Route path="/me/profile" element={<UserDashboard />} />
+        </Route>
+
+        <Route path="/organizer/:slug" element={<OrganizerPage />}>
+          <Route index element={<Navigate to="about" replace />} />
+          <Route path="about" element={<AboutOrg />} />
+          <Route path="events" element={<EventsOrg />} />
         </Route>
 
         <Route path="/admin" element={<AdminLayout />}>
