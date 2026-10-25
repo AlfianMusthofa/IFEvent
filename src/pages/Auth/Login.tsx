@@ -3,9 +3,12 @@ import Person from "../../assets/icons/profile.png";
 import Lock from "../../assets/icons/padlock.png";
 import { useState } from "react";
 import { useLogin } from "./hook/useLogin";
+import { ScanFace } from "lucide-react";
+import FaceLogin from "./components/FaceLogin";
 
 const Login = () => {
   const [form, setForm] = useState({ email: "", password: "" });
+  const [showFaceLogin, setShowFaceLogin] = useState(false);
 
   const { handleLogin, loading } = useLogin(form);
 
@@ -66,8 +69,24 @@ const Login = () => {
               {loading ? "Loading..." : "Login"}
             </button>
           </form>
+          <button
+            type="button"
+            onClick={() => setShowFaceLogin(true)}
+            className="text-[13px] rounded-[5px] mt-2 flex w-full items-center justify-center gap-2  border border-gray-300 px-4 py-2 font-medium text-gray-700 transition hover:bg-gray-50"
+          >
+            <ScanFace size={20} />
+            Login dengan Wajah
+          </button>
         </form>
       </div>
+      {showFaceLogin && (
+        <FaceLogin
+          onClose={() => setShowFaceLogin(false)}
+          onSuccess={() => {
+            setShowFaceLogin(false);
+          }}
+        />
+      )}
     </>
   );
 };
