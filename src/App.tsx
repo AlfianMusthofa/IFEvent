@@ -26,7 +26,7 @@ import OrganizerPage from "./pages/Organizer/Organizer";
 import AboutOrg from "./pages/Organizer/components/About";
 import EventsOrg from "./pages/Organizer/components/Events";
 import OrganizerSignUp from "./pages/Auth/OrganizerSignUp";
-import LoginPage from "./pages/Auth/LoginPage";
+import TestDashboard from "./pages/UserDashboard/test_dashboard";
 
 const App = () => {
   return (
@@ -40,10 +40,13 @@ const App = () => {
         <Route path="/register-organizer" element={<OrganizerSignUp />} />
         <Route path="/about" element={<About />} />
         <Route path="/partners" element={<Partners />} />
-        <Route path="/test" element={<EventDetailNew />} />
         <Route path="/checkin" element={<CheckInPage />} />
         <Route path="/article" element={<Article />} />
         <Route path="/article/:slug" element={<ArticleDetail />} />
+
+        {/*TESTING ROUTE*/}
+        <Route path="/new" element={<TestDashboard />} />
+        {/*TESTING ROUTE*/}
 
         <Route element={<ProtectedRoute />}>
           <Route path="/me/profile" element={<UserDashboard />} />
