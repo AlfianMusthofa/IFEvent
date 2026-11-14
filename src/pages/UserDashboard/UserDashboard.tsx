@@ -17,7 +17,9 @@ const UserDashboard = () => {
       <div className="bg-[#F9FAFB]">
         <div className="mx-auto max-w-[1440px] px-5 py-7 sm:px-8 sm:py-9 lg:px-12 lg:py-10">
           <ProfileCard />
+
           <div className="bg-gray-300 h-[1px] my-5"></div>
+
           <Statistic
             certificates={0}
             eventJoined={count || 0}

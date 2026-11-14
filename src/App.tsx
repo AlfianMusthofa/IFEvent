@@ -15,7 +15,6 @@ import Events from "./pages/Admin/events/Events";
 import Categories from "./pages/Admin/categories/Categories";
 import Mentors from "./pages/Admin/mentors/Mentors";
 import CreateEvent from "./pages/Admin/events/CreateEvent";
-import EventDetailNew from "./pages/Main/EventDetailNew";
 import CheckInPage from "./pages/Admin/CheckinPage/CheckInPage";
 import Article from "./pages/Article/Article";
 import ArticleAdmin from "./pages/Admin/article/ArticleAdmin";
@@ -26,7 +25,7 @@ import OrganizerPage from "./pages/Organizer/Organizer";
 import AboutOrg from "./pages/Organizer/components/About";
 import EventsOrg from "./pages/Organizer/components/Events";
 import OrganizerSignUp from "./pages/Auth/OrganizerSignUp";
-import TestDashboard from "./pages/UserDashboard/test_dashboard";
+import EventDetailNew from "./pages/Main/EventDetail/EventDetailNew";
 
 const App = () => {
   return (
@@ -43,10 +42,6 @@ const App = () => {
         <Route path="/checkin" element={<CheckInPage />} />
         <Route path="/article" element={<Article />} />
         <Route path="/article/:slug" element={<ArticleDetail />} />
-
-        {/*TESTING ROUTE*/}
-        <Route path="/new" element={<TestDashboard />} />
-        {/*TESTING ROUTE*/}
 
         <Route element={<ProtectedRoute />}>
           <Route path="/me/profile" element={<UserDashboard />} />

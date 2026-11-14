@@ -9,7 +9,6 @@ import {
   Video,
 } from "lucide-react";
 import { useMemo, useState } from "react";
-import { useHistory } from "../hook/useHistory";
 
 const events = [
   {

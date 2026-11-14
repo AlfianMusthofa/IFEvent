@@ -21,10 +21,11 @@ interface EventProps {
     slug: string;
     name: string;
     image: string;
-  };
+  } | null;
   registered_count: number;
   capacity: number;
   Mentor: { name: string; image: string; position: string; bio: string };
+  Category: { name: string };
 }
 
 export const useEventDetail = (slug: string) => {
