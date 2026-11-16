@@ -11,11 +11,13 @@
 
 html,
 body {
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 .hero {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url("./assets/hero.jpg");
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+    url("./assets/hero.jpg");
   height: 455px;
   background-position: center 65%;
   background-size: cover;
@@ -26,9 +28,11 @@ body {
 }
 
 .organizer-hero-bg {
-    background-image: linear-gradient(to right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 95%), url("./assets/hero.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
+  background-image:
+    linear-gradient(to right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 95%),
+    url("./assets/hero.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 /* .heroContent {

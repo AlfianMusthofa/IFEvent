@@ -1,62 +1,60 @@
+import { CalendarDays, CalendarPlus, MapPin } from "lucide-react";
 import { useParams } from "react-router-dom";
-import { useEventDetail } from "../../hooks/useEventDetail";
 import { formatEventDate } from "../../../../utils/date";
-import EventLocationModal from "../../../../components/EventDetail/EventLocationModal";
-import { useState } from "react";
+import { useEventDetail } from "../../hooks/useEventDetail";
 
 const Metadata = () => {
   const { slug } = useParams();
   const { event } = useEventDetail(slug ?? "");
-  const [openModal, setOpenModal] = useState(false);
+
+  const isOffline = event?.locationType?.toLowerCase() === "offline";
 
   return (
-    <>
-      <div className="my-3 border p-3 rounded-[10px] shadow-md border-yellow-primer">
-        <div className="flex gap-2">
-          <div className="bg-gray-200 rounded-[10px] w-[45px] flex items-center justify-center">
-            <p>📍</p>
-          </div>
-          {event?.locationType == "offline" ? (
-            <div>
-              <div className="text-[14px] tracking-wide">{event?.location}</div>
-              <button
-                onClick={() => setOpenModal(true)}
-                className="text-[13px] font-medium underline tracking-wide"
-              >
-                See detail location
-              </button>
-              <EventLocationModal
-                open={openModal}
-                onClose={() => setOpenModal(false)}
-                location={event?.location}
-              />
-            </div>
-          ) : (
-            <div className="tracking-wide text-[15px] mt-[1px]">
-              {event?.locationType} via zoom
-            </div>
-          )}
-        </div>
-        <div className="flex items-center gap-2 mt-2">
-          {/* <CalendarClock width={15} /> */}
-          <div className="bg-gray-200 w-[45px] h-[45px] flex items-center justify-center rounded-[10px]">
-            <p>📆</p>
-          </div>
-          <div className="text-[14px] mt-[3px]">
-            {formatEventDate(event?.startAt)} WIB
+    <section className="my-3 rounded-xl border border-yellow-primer  border-yellow-primer/60 bg-white p-4 shadow-md sm:p-5">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-0">
+        <div className="flex min-w-0 flex-1 items-start gap-3 sm:pr-5">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-yellow-light text-yellow-secondary">
+            <MapPin size={19} strokeWidth={2} />
+          </span>
+          <div className="min-w-0 pt-0.5">
+            <p className="text-[11px] font-medium uppercase tracking-wider text-gray-500">
+              Location
+            </p>
+            <p className="mt-1 break-words text-sm font-medium text-gray-900">
+              {isOffline
+                ? event?.location || "Location to be announced"
+                : "Online event"}
+            </p>
           </div>
         </div>
-        <div className="flex gap-2 mt-2 items-center">
-          {/* <Bookmark width={16} /> */}
-          <div className="bg-gray-200 w-[45px] h-[45px] flex items-center justify-center rounded-[10px]">
-            <p>🔖</p>
+
+        <div className="hidden h-12 w-px bg-gray-200 sm:block" />
+
+        <div className="flex min-w-0 flex-1 items-start gap-3 sm:px-5">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-yellow-light text-yellow-secondary">
+            <CalendarDays size={19} strokeWidth={2} />
+          </span>
+          <div className="min-w-0 pt-0.5">
+            <p className="text-[11px] font-medium uppercase tracking-wider text-gray-500">
+              Date &amp; time
+            </p>
+            <p className="mt-1 text-sm font-medium text-gray-900">
+              {formatEventDate(event?.startAt)}
+            </p>
           </div>
-          <button className="bg-yellow-primer px-3 py-[4px] rounded-[7px]">
-            <p className="text-[14px] mt-[2px]">Add to calendar</p>
+        </div>
+
+        <div className="border-t border-gray-100 pt-3 sm:border-0 sm:pl-5 sm:pt-0">
+          <button
+            type="button"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-yellow-primer px-4 py-2.5 text-sm font-semibold text-gray-900 transition-colors hover:bg-yellow-secondary sm:w-auto"
+          >
+            <CalendarPlus size={17} />
+            Add to calendar
           </button>
         </div>
       </div>
-    </>
+    </section>
   );
 };
 

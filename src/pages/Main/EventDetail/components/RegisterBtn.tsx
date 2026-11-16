@@ -10,7 +10,7 @@ const RegisterBtn = () => {
   };
 
   return (
-    <div className="mt-5 px-4 py-3 flex items-center justify-between border rounded-[10px] bg-yellow-primer shadow-md">
+    <div className="mt-3 px-4 py-3 flex items-center justify-between border rounded-[10px] bg-yellow-primer shadow-md">
       {event?.priceType == "free" ? (
         <h2 className="text-[16px] font-semibold tracking-wide">Free</h2>
       ) : (

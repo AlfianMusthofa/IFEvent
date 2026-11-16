@@ -1,12 +1,18 @@
-import Logo from "../assets/icons/logo.png";
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { Menu, X } from "lucide-react";
+
+import Logo from "../assets/icons/logo.png";
 import Avatar from "../assets/icons/userAvatar.png";
 import { API_URL } from "../service/api";
 
 const Navbar = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
   const user = JSON.parse(localStorage.getItem("user") || "null");
 
-  const logout = async (e: any) => {
+  const closeMenu = () => setMenuOpen(false);
+
+  const logout = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     const refreshToken = localStorage.getItem("refreshToken");
@@ -32,76 +38,115 @@ const Navbar = () => {
     window.location.href = "/";
   };
 
-  return (
-    <>
-      <div className="bg-yellow-primer text-white shadow-md">
-        <div className="max-w-[1029px] mx-auto flex justify-between py-[9px]">
-          <div>
-            <a href="/">
-              <img src={Logo} className="w-[55px]" />
-            </a>
-          </div>
-          <div className="flex items-center gap-[14px] text-[15px] text-black font-medium">
-            <a href="/" className="hover:underline">
-              Home
-            </a>
-            <a href="/events" className="hover:underline">
-              Events
-            </a>
-            <a href="/article" className="hover:underline">
-              Article
-            </a>
-            <a href="/about" className="hover:underline">
-              About
-            </a>
-            <a href="/partners" className="hover:underline">
-              Partner
-            </a>
-            {user ? (
-              <div className="relative group">
-                <Link to="/me/profile">
-                  {user.image ? (
-                    <img
-                      className="w-[25px] h-[25px] rounded-full object-cover cursor-pointer"
-                      src={user.image}
-                      alt="avatar"
-                    />
-                  ) : (
-                    <img
-                      className="w-[25px] cursor-pointer"
-                      src={Avatar}
-                      alt="avatar"
-                    />
-                  )}
-                </Link>
+  const navLinks = [
+    { label: "Home", to: "/" },
+    { label: "Events", to: "/events" },
+    { label: "Article", to: "/article" },
+    { label: "About", to: "/about" },
+    { label: "Partner", to: "/partners" },
+  ];
 
-                {/* Dropdown */}
-                <div
-                  className="absolute left-0 mt-2 w-36 bg-white border rounded-md shadow-md
-                    opacity-0 invisible group-hover:opacity-100 group-hover:visible
-                    transition-all duration-150"
+  return (
+    <header className="bg-yellow-primer text-white shadow-md">
+      <div className="mx-auto flex max-w-[1029px] items-center justify-between px-4 py-2 md:px-0">
+        <Link to="/" onClick={closeMenu} aria-label="Home">
+          <img src={Logo} alt="Logo" className="w-[55px]" />
+        </Link>
+
+        {/* Navigasi desktop */}
+        <nav className="hidden items-center gap-[14px] text-[15px] font-medium text-black md:flex">
+          {navLinks.map((item) => (
+            <Link key={item.to} to={item.to} className="hover:underline">
+              {item.label}
+            </Link>
+          ))}
+
+          {user ? (
+            <div className="group relative">
+              <Link to="/me/profile" aria-label="Buka profil">
+                <img
+                  className="h-[25px] w-[25px] cursor-pointer rounded-full object-cover"
+                  src={user.image || Avatar}
+                  alt="Avatar"
+                />
+              </Link>
+
+              <div className="invisible absolute right-0 top-full z-50 mt-2 w-36 rounded-md border bg-white text-black opacity-0 shadow-md transition-all duration-150 group-hover:visible group-hover:opacity-100">
+                <Link
+                  to="/me/profile"
+                  className="block px-4 py-2 text-sm hover:bg-gray-100"
                 >
-                  <Link
-                    to="/me/profile"
-                    className="block px-4 py-2 text-sm hover:bg-gray-100"
-                  >
-                    Profile
-                  </Link>
-                  <button
-                    onClick={logout}
-                    className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
-                  >
-                    Logout
-                  </button>
-                </div>
+                  Profile
+                </Link>
+                <button
+                  onClick={logout}
+                  className="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-gray-100"
+                >
+                  Logout
+                </button>
               </div>
+            </div>
+          ) : (
+            <Link to="/login">Login</Link>
+          )}
+        </nav>
+
+        {/* Tombol hamburger mobile */}
+        <button
+          type="button"
+          onClick={() => setMenuOpen((open) => !open)}
+          className="text-black md:hidden"
+          aria-label={menuOpen ? "Tutup menu" : "Buka menu"}
+          aria-expanded={menuOpen}
+        >
+          {menuOpen ? <X size={26} /> : <Menu size={26} />}
+        </button>
+      </div>
+
+      {/* Menu mobile */}
+      {menuOpen && (
+        <nav className="border-t border-black/10 px-4 pb-4 text-black md:hidden">
+          <div className="mx-auto flex max-w-[1029px] flex-col">
+            {navLinks.map((item) => (
+              <Link
+                key={item.to}
+                to={item.to}
+                onClick={closeMenu}
+                className="py-2 font-medium hover:underline"
+              >
+                {item.label}
+              </Link>
+            ))}
+
+            {user ? (
+              <>
+                <Link
+                  to="/me/profile"
+                  onClick={closeMenu}
+                  className="py-2 font-medium hover:underline"
+                >
+                  Profile
+                </Link>
+                <button
+                  onClick={logout}
+                  className="py-2 text-left font-medium text-red-700"
+                >
+                  Logout
+                </button>
+              </>
             ) : (
-              <Link to="/login">Login</Link>
+              <Link
+                to="/login"
+                onClick={closeMenu}
+                className="py-2 font-medium hover:underline"
+              >
+                Login
+              </Link>
             )}
           </div>
-        </div>
-      </div>
-    </>
+        </nav>
+      )}
+    </header>
   );
 };
 
